@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/app/[locale]/ThemeProvider";
 import { useTranslations } from "@/app/[locale]/TranslationsProvider";
@@ -13,18 +13,22 @@ import { getNewPathWithLocale } from "@/utils/helpers/helpers";
 
 export default function Header() {
   const pathname = usePathname();
+  const params = useParams<{ locale: "es" | "en" }>();
+  const currentLocale = params?.locale ?? "es";
   const router = useRouter();
   const { isDarkMode } = useTheme();
   const t = useTranslations();
 
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const firstFocusRef = useRef<HTMLButtonElement>(null); // primer foco dentro del menú
+  const firstFocusRef = useRef<HTMLButtonElement>(null); 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
 
   const handleLanguageChange = (newLocale: "es" | "en") => {
+    if (newLocale === currentLocale) return;
     const newPath = getNewPathWithLocale(pathname, newLocale);
-    router.push(newPath);
+    router.push(newPath);       
+    setIsLangMenuOpen(false);
     closeMenu();
   };
 
@@ -32,9 +36,7 @@ export default function Header() {
     if (!dialogRef.current) return;
     dialogRef.current.showModal();
     setIsMenuOpen(true);
-    // evita scroll del body (Safari/Firefox)
     document.documentElement.style.overflow = "hidden";
-    // foco inicial
     setTimeout(() => firstFocusRef.current?.focus(), 0);
   }
 
@@ -46,7 +48,6 @@ export default function Header() {
     document.documentElement.style.overflow = "";
   }
 
-  // Sincroniza al cerrar por ESC o clic en backdrop
   useEffect(() => {
     const dlg = dialogRef.current;
     if (!dlg) return;
@@ -71,7 +72,7 @@ export default function Header() {
       </a>
 
       <header className="p-5 flex justify-between items-center fixed inset-x-0 top-0 h-20 bg-white/85 dark:bg-gray-800/60 backdrop-blur-[5px] z-20 transition-all duration-200">
-        <Link href="/" aria-label={t.header.index_img} className="inline-flex items-center">
+        <Link href={`/${currentLocale}`} aria-label={t.header.index_img} className="inline-flex items-center">
           <Image
             src={isDarkMode ? "/assets/images/MR-white.png" : "/assets/images/MR-dark.png"}
             alt=""
@@ -95,7 +96,7 @@ export default function Header() {
           <ul className="hidden lg:flex items-center gap-6 xl:gap-10">
             <NavMenu pathname={pathname} />
             <LanguageSelector
-              currentLocale={pathname.split("/")[1] as "es" | "en"}
+              currentLocale={currentLocale}
               isLangMenuOpen={isLangMenuOpen}
               setIsLangMenuOpen={setIsLangMenuOpen}
               handleLanguageChange={handleLanguageChange}

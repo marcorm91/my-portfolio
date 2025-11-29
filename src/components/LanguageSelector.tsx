@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useTranslations } from "@/app/[locale]/TranslationsProvider";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useCallback } from "react";
-import { getValidLocale } from "@/utils/helpers/helpers";
 
 interface LanguageSelectorProps {
   currentLocale: "es" | "en";
@@ -29,14 +28,7 @@ export default function LanguageSelector({
   const containerRef = useRef<HTMLLIElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const firstItemRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    const localeFromUrl = pathname.split("/")[1];
-    const validLocale = getValidLocale(localeFromUrl);
-    if (validLocale && validLocale !== currentLocale) {
-      handleLanguageChange(validLocale as "es" | "en");
-    }
-  }, [pathname, currentLocale, handleLanguageChange]);
+  const menuRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (!isLangMenuOpen) return;
@@ -49,6 +41,17 @@ export default function LanguageSelector({
     return () => document.removeEventListener("click", onDocClick);
   }, [isLangMenuOpen, setIsLangMenuOpen]);
 
+
+  useEffect(() => {
+    if (!isLangMenuOpen) return;
+    const selected =
+      menuRef.current?.querySelector<HTMLButtonElement>(
+        '[role="menuitemradio"][aria-checked="true"]'
+      );
+    (selected ?? menuRef.current?.querySelector('[role="menuitemradio"]'))?.focus();
+  }, [isLangMenuOpen]);
+
+
   useEffect(() => {
     if (!isLangMenuOpen) return;
     const onFocusOut = (e: FocusEvent) => {
@@ -60,10 +63,6 @@ export default function LanguageSelector({
     node?.addEventListener("focusout", onFocusOut);
     return () => node?.removeEventListener("focusout", onFocusOut);
   }, [isLangMenuOpen, setIsLangMenuOpen]);
-
-  useEffect(() => {
-    if (isLangMenuOpen) firstItemRef.current?.focus();
-  }, [isLangMenuOpen]);
 
   const toggle = useCallback(
     () => setIsLangMenuOpen(!isLangMenuOpen),
@@ -167,6 +166,7 @@ export default function LanguageSelector({
 
       {isLangMenuOpen && (
         <ul
+          ref={menuRef}
           id={menuId}
           role="menu"
           aria-labelledby={buttonId}
