@@ -48,7 +48,7 @@ export default function HomeClient() {
               href="https://www.linkedin.com/in/marcorm91/"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-custom px-3 py-1 text-sm md:text-xl"
+              className="btn-custom px-3 py-1 text-sm md:text-xl min-h-12"
               aria-label="Abrir perfil de LinkedIn de Marco en una nueva pestaña"
             >
               <Image src="/assets/images/linkedin.svg" alt="" width={20} height={20} aria-hidden="true" />
@@ -56,7 +56,7 @@ export default function HomeClient() {
             </a>
             <a
               href="mailto:marco_antonio88_9@hotmail.com"
-              className="btn-custom px-3 py-1 text-sm md:text-xl"
+              className="btn-custom px-3 py-1 text-sm md:text-xl min-h-12"
               aria-label="Enviar correo electrónico a Marco"
             >
               <Image src="/assets/images/email.svg" alt="" width={20} height={20} aria-hidden="true" />

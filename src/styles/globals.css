@@ -41,7 +41,7 @@ body {
 }
 
 .btn-custom{
-  @apply flex flex-wrap justify-center items-center gap-y-2 gap-x-1 bg-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#7f7f7f] text-black font-semibold border-3 border-black tracking-widest cursor-pointer transition-colors duration-300 ease-in-out;
+  @apply flex flex-wrap justify-center items-center gap-y-2 gap-x-2 bg-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#7f7f7f] text-black font-semibold border-3 border-black tracking-widest cursor-pointer transition-colors duration-300 ease-in-out;
   @apply hover:bg-gray-300;
 }
 
