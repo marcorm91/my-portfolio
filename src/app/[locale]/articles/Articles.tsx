@@ -158,7 +158,6 @@ export default function ArticlesSection() {
           >
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-sm font-semibold">
-                <span aria-hidden="true">📅</span>
                 <span>{t.articles.filterTitle}</span>
               </div>
               {selectedMonthKey && (

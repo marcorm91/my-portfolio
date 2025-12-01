@@ -25,7 +25,10 @@ const NavMenu: React.FC<NavMenuProps> = ({ pathname, closeMenu }) => {
     <>
       {navItems.map(({ path, label }) => {
         const fullPath = buildLocalizedPath(path);
-        const isActive = pathname === fullPath;
+        const isActive =
+          path === "/"
+            ? pathname === fullPath
+            : pathname === fullPath || pathname.startsWith(`${fullPath}/`);
 
         return (
           <li key={path} onClick={closeMenu}>
