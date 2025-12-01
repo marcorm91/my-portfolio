@@ -24,3 +24,17 @@ jest.mock("next/navigation", () => {
     useParams: () => ({}),
   };
 });
+
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: (query: string) => ({
+    matches: query.includes("min-width: 1024px") ? true : false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }),
+});

@@ -172,7 +172,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
             <button
               type="button"
               onClick={() => setIsFilterOpen((v) => !v)}
-              className="lg:hidden inline-flex items-center justify-center bg-white dark:bg-slate-900 p-2 text-sky-700 dark:text-sky-100"
+              className="lg:hidden inline-flex items-center justify-center bg-white dark:bg-slate-900 p-2 dark:text-sky-100"
               aria-expanded={isFilterOpen}
               aria-controls="filters-panel"
               aria-label={t.articles.filterTitle}
@@ -211,7 +211,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
                   type="button"
                   onClick={() => setIsFilterOpen(false)}
                   className="lg:hidden inline-flex items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm text-slate-700 dark:text-slate-100"
-                  aria-label="Cerrar filtros"
+                  aria-label={t.articles.filterTitle}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                     <path d="M6 18 18 6M6 6l12 12" />
@@ -280,7 +280,11 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
                       }`}
                     >
                       {isRead && (
-                        <span className="absolute -right-2 -bottom-2 inline-flex items-center justify-center text-emerald-800 dark:text-emerald-200 bg-emerald-100 dark:bg-emerald-900 rounded-full shadow-sm p-2 transition-colors group-hover:text-sky-600 dark:group-hover:text-sky-300 group-hover:bg-sky-100 dark:group-hover:bg-sky-900">
+                        <span
+                          role="img"
+                          aria-label={`${t.articles.readBadge} badge`}
+                          className="absolute -right-2 -bottom-2 inline-flex items-center justify-center text-emerald-800 dark:text-emerald-200 bg-emerald-100 dark:bg-emerald-900 rounded-full shadow-sm p-2 transition-colors group-hover:text-sky-600 dark:group-hover:text-sky-300 group-hover:bg-sky-100 dark:group-hover:bg-sky-900"
+                        >
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
                             <path d="M12 4.5c-4.97 0-9.12 3.11-10.5 7.5 1.38 4.39 5.53 7.5 10.5 7.5s9.12-3.11 10.5-7.5C21.12 7.61 16.97 4.5 12 4.5Zm0 12a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-2.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" />
                           </svg>
