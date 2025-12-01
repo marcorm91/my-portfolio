@@ -152,7 +152,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
         <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
           <aside
             aria-label="Filtro por fecha"
-            className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 p-4 sticky top-21 h-fit space-y-4 shadow-lg"
+            className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 p-4 sticky top-21 h-fit space-y-4 shadow-lg z-10"
           >
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-sm font-semibold">
@@ -221,12 +221,19 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
                 return (
                   <li key={article.slug}>
                     <article
-                      className={`rounded-xl border h-full transition hover:border-sky-400/80 shadow-sm p-4 ${
+                      className={`group relative rounded-xl border h-full transition hover:border-sky-400/80 shadow-sm p-4 ${
                         isRead
                           ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-700 ring-1 ring-emerald-200/60 dark:ring-emerald-800/60"
                           : "bg-white dark:bg-white/5 border-black dark:border-white/10"
                       }`}
                     >
+                      {isRead && (
+                        <span className="absolute -right-2 -bottom-2 inline-flex items-center justify-center text-emerald-800 dark:text-emerald-200 bg-emerald-100 dark:bg-emerald-900 rounded-full shadow-sm p-2 transition-colors group-hover:text-sky-600 dark:group-hover:text-sky-300 group-hover:bg-sky-100 dark:group-hover:bg-sky-900">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
+                            <path d="M12 4.5c-4.97 0-9.12 3.11-10.5 7.5 1.38 4.39 5.53 7.5 10.5 7.5s9.12-3.11 10.5-7.5C21.12 7.61 16.97 4.5 12 4.5Zm0 12a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-2.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" />
+                          </svg>
+                        </span>
+                      )}
                       <header className="mb-3">
                         <div className="flex items-start flex-wrap justify-between gap-3">
                           <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
@@ -256,27 +263,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
                             <span>{isRead ? t.articles.markUnread : t.articles.markRead}</span>
                           </label>
                         </div>
-                        <div className="flex items-center gap-2 mt-1 flex-wrap">
-                          <h3 className="text-lg font-bold">{article.title}</h3>
-                          {isRead && (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-100 dark:bg-emerald-900/60 rounded-full px-2 py-0.5">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                className="h-3.5 w-3.5"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M9 12.75 6.75 10.5l-.75.75L9 14.25l9-9-.75-.75z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                              {t.articles.readBadge}
-                            </span>
-                          )}
-                        </div>
+                        <h3 className="text-lg font-bold mt-1">{article.title}</h3>
                       </header>
 
                       <p className="text-sm dark:text-gray-200 text-gray-900 leading-relaxed">
@@ -343,3 +330,4 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
     </>
   );
 }
+
