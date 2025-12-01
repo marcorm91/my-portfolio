@@ -53,6 +53,8 @@ const es = {
     back: "Volver al blog",
     noLink: "Enlace en camino",
     loadMore: "Cargando más entradas...",
+    collaborator: "Colaborador",
+    linkedin: "LinkedIn",
     readBadge: "Leído",
     markRead: "Marcar como leído",
     markUnread: "Quitar leído",

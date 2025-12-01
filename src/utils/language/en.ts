@@ -53,6 +53,8 @@ const en = {
     back: "Back to blog",
     noLink: "Link coming soon",
     loadMore: "Loading more posts...",
+    collaborator: "Collaborator",
+    linkedin: "LinkedIn",
     readBadge: "Read",
     markRead: "Mark as read",
     markUnread: "Mark as unread",
