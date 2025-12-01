@@ -159,13 +159,13 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
   return (
     <>
         <section aria-labelledby="articles-title" className="min-h-dvh relative z-10">
-        <header className="mb-0 sticky top-20 z-20 pt-3 pb-6 mb-md-6 pb-md-0 pt-md-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur lg:static lg:top-auto lg:z-auto lg:bg-transparent lg:backdrop-blur-0">
-          <div className="flex items-start justify-between gap-3">
+        <header className="mb-0 sticky top-20 z-20 pb-3 md:pb-6 mb-md-6 bg-white/90 dark:bg-gray-900/90 backdrop-blur lg:static lg:top-auto lg:z-auto lg:bg-transparent lg:backdrop-blur-0">
+          <div className="flex items-center md:items-start justify-between gap-3">
             <div>
               <h2 id="articles-title" className="text-2xl md:text-3xl font-semibold">
                 {t.articles.title}
               </h2>
-              <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl">
+              <p className="mt-2 text-gray-600 hidden md:block dark:text-gray-300 max-w-2xl">
                 {t.articles.description}
               </p>
             </div>
