@@ -35,7 +35,7 @@ export default async function RootLayout({
         <TranslationsProvider locale={validLocale}>
           <ThemeProvider>
             <Header />
-            <main id="main" className="container mx-auto mt-25 lg:mt-30 mb-4 max-w-7xl px-4 pb-16">{children}</main>
+            <main id="main" className="mx-auto mt-25 lg:mt-30 mb-4 max-w-7xl px-4 pb-16">{children}</main>
             <Footer />
           </ThemeProvider>
         </TranslationsProvider>

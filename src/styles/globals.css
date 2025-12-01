@@ -2,7 +2,13 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+body {
+  font-family: var(--font-ibm-plex-mono, --font-ibm-plex-sans);
+}
+
 @layer base {
+
+  /* Typography */
 
   h1 { @apply text-2xl md:text-4xl font-bold leading-tight; }
   h2 { @apply text-xl md:text-3xl font-semibold; }
@@ -10,8 +16,26 @@
   h4 { @apply text-base font-medium; }
   h5 { @apply text-sm font-medium; }
   h6 { @apply text-xs font-medium; }
-  p  { @apply text-sm leading-relaxed; }
+  p, ul, li, strong  { @apply text-sm leading-relaxed; }
+  a {
+    @apply text-blue-600 dark:text-blue-400 underline underline-offset-2;
+    @apply hover:text-blue-800 dark:hover:text-blue-200;
+  }
+
+  code {
+    @apply font-mono text-[0.95em] bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5;
+  }
+
+  pre {
+    @apply bg-gray-950 text-gray-100 rounded-xl border border-white/10 px-4 py-3 text-sm leading-relaxed overflow-x-auto;
+  }
+
+  pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
   
+  /* Focus styles */
+
   :root {
     --focus-color: theme(colors.sky.500);
     --focus-width: 3px;
@@ -36,12 +60,8 @@
   
 }
 
-body {
-  font-family: var(--font-ibm-plex-mono, --font-ibm-plex-sans);
-}
-
 .btn-custom{
-  @apply flex flex-wrap justify-center items-center gap-y-2 gap-x-2 bg-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#7f7f7f] text-black font-semibold border-3 border-black tracking-widest cursor-pointer transition-colors duration-300 ease-in-out;
+  @apply flex flex-wrap justify-center items-center no-underline gap-y-2 gap-x-2 bg-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#7f7f7f] text-black font-semibold border-3 border-black tracking-widest cursor-pointer transition-colors duration-300 ease-in-out;
   @apply hover:bg-gray-300;
 }
 
@@ -84,5 +104,4 @@ body {
     border-color: transparent;
   }
 }
-
 
