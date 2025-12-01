@@ -5,6 +5,7 @@ import Image from "next/image";
 import { articles } from "@/data/articles";
 import translations from "@/utils/language";
 import type { ArticleContent } from "@/data/articles";
+import ShareButtons from "@/components/ShareButtons";
 
 type Params = { locale: "es" | "en"; slug: string };
 
@@ -188,6 +189,9 @@ export default async function ArticlePage({
       <div className="space-y-4 text-base leading-relaxed">
         {article.content.map((block, idx) => renderBlock(block, idx))}
       </div>
+
+      <hr className="my-8 border-gray-200 dark:border-gray-800" />
+      <ShareButtons title={article.title} />
     </article>
   );
 }

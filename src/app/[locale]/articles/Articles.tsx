@@ -154,24 +154,28 @@ export default function ArticlesSection() {
         <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
           <aside
             aria-label="Filtro por fecha"
-            className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 p-4 sticky top-28 h-fit space-y-4 shadow-lg"
+            className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 p-4 sticky top-21 h-fit space-y-4 shadow-lg"
           >
             <div className="flex items-center justify-between gap-2">
-              <h3 className="text-sm font-semibold">Filtrar por fecha</h3>
+              <div className="flex items-center gap-2 text-sm font-semibold">
+                <span aria-hidden="true">📅</span>
+                <span>{t.articles.filterTitle}</span>
+              </div>
               {selectedMonthKey && (
                 <button
                   onClick={() => setSelectedMonthKey(null)}
                   className="text-xs text-sky-500 hover:underline cursor-pointer"
                 >
-                  Limpiar
+                  {t.articles.filterReset}
                 </button>
               )}
             </div>
 
             <ul className="space-y-3">
               {groupedByYearMonth.map((group) => (
-                <li key={group.year}>
-                  <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+                <li key={group.year} className="rounded-lg bg-slate-50 dark:bg-slate-800/60 p-3">
+                  <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-sky-400" aria-hidden="true" />
                     {group.year}
                   </p>
                   <ul className="space-y-2">
@@ -183,14 +187,21 @@ export default function ArticlesSection() {
                             onClick={() =>
                               setSelectedMonthKey(isActive ? null : month.key)
                             }
-                            className={`w-full text-left text-xs rounded-md px-3 py-2 transition ${
+                            className={`w-full text-left text-xs rounded-md px-3 py-2 transition flex items-center justify-between ${
                               isActive
-                                ? "bg-sky-500 text-white"
-                                : "bg-transparent hover:bg-sky-100 dark:hover:bg-white/10 text-gray-800 dark:text-gray-100"
+                                ? "bg-sky-500 text-white shadow-sm"
+                                : "bg-white dark:bg-slate-900 hover:bg-sky-100 dark:hover:bg-white/10 text-gray-800 dark:text-gray-100 border border-transparent"
                             }`}
                             aria-pressed={isActive}
                           >
-                            {month.label} <span className="opacity-70">({month.count})</span>
+                            <span>{month.label}</span>
+                            <span
+                              className={`text-[11px] ${
+                                isActive ? "text-white/90" : "text-gray-500 dark:text-gray-400"
+                              }`}
+                            >
+                              {month.count}
+                            </span>
                           </button>
                         </li>
                       );
