@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { articles } from "@/data/articles";
 import translations from "@/utils/language";
-import type { ArticleContent } from "@/data/articles";
 import ShareButtons from "@/components/ShareButtons";
+import { getArticle } from "@/lib/mdxArticles";
 
 type Params = { locale: "es" | "en"; slug: string };
 
@@ -15,9 +14,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const article = articles.find(
-    (a) => a.slug === slug && a.locale === (locale || "en")
-  );
+  const article = await getArticle(locale || "en", slug);
   const t = translations[locale || "en"];
 
   if (!article) {
@@ -39,9 +36,7 @@ export default async function ArticlePage({
   params: Promise<Params>;
 }) {
   const { locale, slug } = await params;
-  const article = articles.find(
-    (a) => a.slug === slug && a.locale === (locale || "en")
-  );
+  const article = await getArticle(locale || "en", slug);
   const t = translations[locale || "en"];
 
   if (!article) notFound();
@@ -51,56 +46,6 @@ export default async function ArticlePage({
     month: "short",
     day: "2-digit",
   });
-
-  const renderInline = (text: string) =>
-    text
-      .replace(/`([^`]+)`/g, "<code>$1</code>")
-      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-      .replace(/_([^_]+)_/g, "<em>$1</em>");
-
-  const renderBlock = (block: ArticleContent, idx: number) => {
-    switch (block.kind) {
-      case "code":
-        return (
-          <pre
-            key={`code-${idx}`}
-            className="rounded-lg bg-gray-900 text-white text-sm p-4 overflow-x-auto border border-white/10"
-          >
-            <code className={block.language ? `language-${block.language}` : undefined}>
-              {block.text}
-            </code>
-          </pre>
-        );
-      case "list":
-        return (
-          <ul key={`list-${idx}`} className="list-disc pl-6 space-y-2">
-            {block.items.map((item, i) => (
-              <li
-                key={`list-${idx}-${i}`}
-                dangerouslySetInnerHTML={{ __html: renderInline(item) }}
-              />
-            ))}
-          </ul>
-        );
-      case "note":
-        return (
-          <div
-            key={`note-${idx}`}
-            className="border-l-4 border-sky-400/70 bg-sky-50 dark:bg-sky-900/20 px-4 py-3 rounded text-sm"
-            dangerouslySetInnerHTML={{ __html: renderInline(block.text) }}
-          />
-        );
-      case "p":
-        return (
-          <p
-            key={`p-${idx}`}
-            dangerouslySetInnerHTML={{ __html: renderInline(block.text) }}
-          />
-        );
-      default:
-        return null;
-    }
-  };
 
   return (
     <article>
@@ -186,8 +131,8 @@ export default async function ArticlePage({
         )}
       </header>
 
-      <div className="space-y-4 text-base leading-relaxed">
-        {article.content.map((block, idx) => renderBlock(block, idx))}
+      <div className="prose dark:prose-invert max-w-none">
+        <div dangerouslySetInnerHTML={{ __html: article.html || "" }} />
       </div>
 
       <hr className="my-8 border-gray-200 dark:border-gray-800" />

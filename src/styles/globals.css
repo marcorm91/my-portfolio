@@ -2,24 +2,31 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+/* Base font */
 body {
   font-family: var(--font-ibm-plex-mono, --font-ibm-plex-sans);
 }
 
 @layer base {
-
   /* Typography */
-
   h1 { @apply text-2xl md:text-4xl font-bold leading-tight; }
   h2 { @apply text-xl md:text-3xl font-semibold; }
   h3 { @apply text-lg md:text-2xl font-semibold; }
   h4 { @apply text-base font-medium; }
   h5 { @apply text-sm font-medium; }
   h6 { @apply text-xs font-medium; }
-  p, ul, li, strong  { @apply text-sm leading-relaxed; }
+  p, ul, li, strong { @apply text-sm leading-relaxed; }
+  ol { @apply list-decimal list-inside pl-2 ml-2; }
+
+  /* Links */
   a {
     @apply text-blue-600 dark:text-blue-400 underline underline-offset-2;
     @apply hover:text-blue-800 dark:hover:text-blue-200;
+  }
+
+  /* Rich text */
+  blockquote {
+    @apply border-l-4 border-sky-400 dark:border-sky-600 p-4 italic text-sky-800 dark:text-sky-100 bg-sky-50/80 dark:bg-sky-900/30 rounded-sm max-w-3xl;
   }
 
   code {
@@ -33,9 +40,8 @@ body {
   pre code {
     @apply bg-transparent p-0 text-inherit;
   }
-  
-  /* Focus styles */
 
+  /* Focus styles */
   :root {
     --focus-color: theme(colors.sky.500);
     --focus-width: 3px;
@@ -43,36 +49,31 @@ body {
   }
 
   :where(:focus-visible) {
-    @apply outline-none
-           ring-[color:var(--focus-color)]
-           ring-[length:var(--focus-width)]
-           ring-offset-[var(--focus-offset)];
+    @apply outline-none ring-[color:var(--focus-color)] ring-[length:var(--focus-width)] ring-offset-[var(--focus-offset)];
   }
 
   :where(a, button, input, select, textarea, summary,
          [tabindex]:not([tabindex="-1"]), [role="button"], [contenteditable])
   :focus-visible {
-    @apply outline-none
-           ring-[color:var(--focus-color)]
-           ring-[length:var(--focus-width)]
-           ring-offset-[var(--focus-offset)];
+    @apply outline-none ring-[color:var(--focus-color)] ring-[length:var(--focus-width)] ring-offset-[var(--focus-offset)];
   }
-  
 }
 
-.btn-custom{
+/* Buttons & cards */
+.btn-custom {
   @apply flex flex-wrap justify-center items-center no-underline gap-y-2 gap-x-2 bg-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#7f7f7f] text-black font-semibold border-3 border-black tracking-widest cursor-pointer transition-colors duration-300 ease-in-out;
   @apply hover:bg-gray-300;
 }
 
-.btn-custom.active{
+.btn-custom.active {
   @apply bg-gray-300 cursor-default pointer-events-none;
 }
 
-.box-custom{
+.box-custom {
   @apply bg-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#7f7f7f] text-black border-3 border-black;
 }
 
+/* Animations */
 .animate-floating {
   @apply animate-[floating_4s_ease-in-out_infinite];
 }
@@ -81,27 +82,21 @@ body {
   @apply inline-block overflow-hidden whitespace-nowrap border-r-3 border-white dark:border-black animate-[typing_2s_steps(22),blink_0.5s_step-end_infinite_alternate] text-left;
 }
 
+/* Prose spacing */
+.prose > div > * {
+  @apply mb-6;
+}
+
 @keyframes floating {
-  0% {
-    transform: translate(0, 0);
-    }
-  50% {
-    transform: translate(20px, -20px);
-    }
-  100% {
-    transform: translate(0, 0);
-  }
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+  100% { transform: translate(0, 0); }
 }
 
 @keyframes typing {
-  from{
-    width: 0;
-  }
+  from { width: 0; }
 }
 
 @keyframes blink {
-  50% {
-    border-color: transparent;
-  }
+  50% { border-color: transparent; }
 }
-

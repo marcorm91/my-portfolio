@@ -3,30 +3,35 @@
 Personal portfolio built with Next.js (App Router) in English/Spanish, with light/dark mode, smooth animations, and reusable components.
 
 ## Key features
-- Locale routing `/en` and `/es` using `TranslationsProvider` and copy in `src/utils/language`.
-- Home, About, and Blog with centralized data in `src/data/profile.ts` and `src/data/articles.ts`.
-- Blog sidebar filter by year/month, infinite scroll, and persistent “read” state in `localStorage`.
-- Language and theme switch in `Header`, powered by `ThemeProvider` and `ThemeSwitch`.
-- Responsive UI with Tailwind CSS 4 and motion-safe transitions.
-- Accessibility focus (roles, aria-labels, live regions, and optimized `Image` usage).
-- Consistent layout in `src/app/[locale]/layout.tsx` with IBM Plex fonts via `next/font`.
+- Locale routing `/en` and `/es` via `TranslationsProvider` and copy in `src/utils/language`.
+- Home, About, and Blog; profile data in `src/data/profile.ts`.
+- Blog powered by MDX content in `content/{en,es}` (loader in `src/lib/mdxArticles.ts`), with sidebar filter by year/month, infinite scroll, and persistent read state in `localStorage`.
+- Article detail renders collaborator info, share buttons with toast, hero cover, and rich prose styling.
+- Language and theme switch in Header (`ThemeProvider` + `ThemeSwitch`).
+- Responsive UI with Tailwind CSS 4 and motion-respectful animations (floating gradients, typing, etc.).
+- Accessibility focus (roles, aria-labels, focus styles, optimized `Image` usage).
+- Tests with Jest + React Testing Library for NavMenu and ShareButtons.
 
 ## Stack
 - Next.js 15 (App Router) + React 19 + TypeScript.
 - Tailwind CSS 4 with global styles in `src/styles/globals.css`.
-- Data/helpers in `src/data` and `src/utils`.
+- MDX + `gray-matter` + `remark-html` for articles.
+- Jest + @testing-library/react for component tests.
 
 ## Quick structure
 - `src/app/[locale]/page.tsx`: home page mounting `Home.tsx`.
 - `src/app/[locale]/about/page.tsx`: profile/experience section.
-- `src/app/[locale]/blog/page.tsx`: blog/notes.
-- `src/components/`: header, footer, menus, cards, and timelines.
+- `src/app/[locale]/blog/page.tsx`: blog index (uses `Articles.tsx`).
+- `src/app/[locale]/articles/[slug]/page.tsx`: article detail (MDX HTML).
+- `src/components/`: header, footer, menus, cards, timelines, share buttons/toast.
 - `src/utils/language/en.ts` and `src/utils/language/es.ts`: translations.
+- `src/lib/mdxArticles.ts`: MDX loader/helpers.
+- `content/{en,es}/`: MDX articles.
 - `public/assets/`: images and icons used in the UI.
 
 ## Content configuration
 - Edit personal data and timeline in `src/data/profile.ts`.
-- Update articles in `src/data/articles.ts`, which aggregates entries from `src/data/articles/{es,en}/*.ts` and exposes `articlesByLocale`.
+- Add or edit articles by creating MDX files under `content/en` or `content/es`; `mdxArticles.ts` ingests them.
 - Change copy/labels in `src/utils/language/{en,es}.ts`.
 - Replace images in `public/assets/images/` for avatar and social icons.
 
@@ -39,6 +44,7 @@ Personal portfolio built with Next.js (App Router) in English/Spanish, with ligh
 - `npm run build`: create production build.
 - `npm run start`: serve the built app.
 - `npm run lint`: run Next/TypeScript linting.
+- `npm run test`: run Jest + RTL tests.
 
 ## Deployment
 - Run `npm run build` to validate the build.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Articles from "../articles/Articles";
 import translations from "@/utils/language";
+import { getAllArticles } from "@/lib/mdxArticles";
 
 export async function generateMetadata({
   params,
@@ -16,6 +17,13 @@ export async function generateMetadata({
   };
 }
 
-export default function Page() {
-  return <Articles />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: "es" | "en" }>;
+}) {
+  const { locale } = await params;
+  const initialArticles = await getAllArticles(locale || "en");
+
+  return <Articles locale={locale || "en"} initialArticles={initialArticles} />;
 }

@@ -1,24 +1,22 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "@/app/[locale]/TranslationsProvider";
-import { articles } from "@/data/articles";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Article } from "@/lib/mdxArticles";
 
-export default function ArticlesSection() {
+type ArticlesProps = {
+  locale: "es" | "en";
+  initialArticles: Article[];
+};
+
+export default function ArticlesSection({ locale, initialArticles }: ArticlesProps) {
   const STORAGE_KEY = "blog_read_all";
-  const params = useParams<{ locale: "es" | "en" }>();
-  const locale = params?.locale ?? "en";
   const t = useTranslations();
 
-  const localizedArticles = useMemo(
-    () =>
-      articles
-        .filter((a) => a.locale === locale)
-        .sort((a, b) => b.date.localeCompare(a.date)),
-    [locale]
-  );
+  const localizedArticles = useMemo(() => {
+    return [...initialArticles].sort((a, b) => b.date.localeCompare(a.date));
+  }, [initialArticles]);
 
   const dateFormatter = useMemo(
     () =>
@@ -338,9 +336,9 @@ export default function ArticlesSection() {
       </section>
 
       <div className="hidden md:block" aria-hidden="true">
-        <div className="w-50 h-50 fixed left-16 bottom-32 rounded-full bg-gradient-to-tl from-orange-500 to-gray-500 opacity-10 motion-safe:animate-floating motion-reduce:animate-none"></div>
-        <div className="w-80 h-80 fixed right-16 bottom-32 rounded-full bg-gradient-to-br from-gray-500 to-green-500 opacity-10 motion-safe:animate-floating motion-reduce:animate-none"></div>
-        <div className="w-25 h-25 fixed top-16 left-0 right-128 m-auto rounded-full bg-gradient-to-r from-blue-800 to-gray-500 opacity-10 motion-safe:animate-floating motion-reduce:animate-none"></div>
+        <div className="w-50 h-50 fixed left-16 bottom-32 rounded-full bg-gradient-to-tl from-orange-500 to-gray-500 opacity-10 animate-floating motion-reduce:animate-none"></div>
+        <div className="w-80 h-80 fixed right-16 bottom-32 rounded-full bg-gradient-to-br from-gray-500 to-green-500 opacity-10 animate-floating motion-reduce:animate-none"></div>
+        <div className="w-25 h-25 fixed top-16 left-0 right-128 m-auto rounded-full bg-gradient-to-r from-blue-800 to-gray-500 opacity-10 animate-floating motion-reduce:animate-none"></div>
       </div>
     </>
   );
