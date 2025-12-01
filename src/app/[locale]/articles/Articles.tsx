@@ -65,6 +65,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
   const PAGE_SIZE = 6;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [readSet, setReadSet] = useState<Set<string>>(() => {
     if (typeof window === "undefined") return new Set();
     try {
@@ -78,7 +79,25 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
     setSelectedMonthKey(null);
+    setIsFilterOpen(false);
   }, [locale]);
+
+  // Lock body scroll on mobile when filter panel is open
+  useEffect(() => {
+    if (typeof document === "undefined" || typeof window === "undefined") return;
+    const body = document.body;
+    const originalOverflow = body.style.overflow;
+    if (isFilterOpen && window.innerWidth < 1024) {
+      body.style.overflow = "hidden";
+      return () => {
+        body.style.overflow = originalOverflow;
+      };
+    }
+    body.style.overflow = originalOverflow;
+    return () => {
+      body.style.overflow = originalOverflow;
+    };
+  }, [isFilterOpen]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -139,33 +158,66 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
 
   return (
     <>
-      <section aria-labelledby="articles-title" className="min-h-dvh relative z-10">
-        <header className="mb-6">
-          <h2 id="articles-title" className="text-2xl md:text-3xl font-semibold">
-            {t.articles.title}
-          </h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl">
-            {t.articles.description}
-          </p>
+        <section aria-labelledby="articles-title" className="min-h-dvh relative z-10">
+        <header className="mb-0 sticky top-20 z-20 pt-3 pb-6 mb-md-6 pb-md-0 pt-md-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur lg:static lg:top-auto lg:z-auto lg:bg-transparent lg:backdrop-blur-0">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 id="articles-title" className="text-2xl md:text-3xl font-semibold">
+                {t.articles.title}
+              </h2>
+              <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl">
+                {t.articles.description}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsFilterOpen((v) => !v)}
+              className="lg:hidden inline-flex items-center justify-center bg-white dark:bg-slate-900 p-2 text-sky-700 dark:text-sky-100"
+              aria-expanded={isFilterOpen}
+              aria-controls="filters-panel"
+              aria-label={t.articles.filterTitle}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-8 w-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5m-14 5.5h11.5m-9 5h6.5" />
+              </svg>
+            </button>
+          </div>
         </header>
 
         <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
           <aside
             aria-label="Filtro por fecha"
-            className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 p-4 sticky top-21 h-fit space-y-4 shadow-lg z-10"
+            id="filters-panel"
+            className={`rounded-2xl bg-white dark:bg-gray-900 p-4 space-y-4 shadow-lg z-30 transition duration-200 lg:sticky lg:top-21 lg:h-fit lg:max-h-[80vh] lg:overflow-y-auto ${
+              isFilterOpen
+                ? "fixed inset-0 top-[90px] max-h-[calc(100vh-90px)] overflow-y-auto opacity-100 translate-y-0 px-4"
+                : "hidden opacity-0 -translate-y-2"
+            } lg:static lg:block lg:opacity-100 lg:translate-y-0 lg:border lg:border-black/10 lg:dark:border-white/10`}
           >
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 sticky top-0 bg-white dark:bg-gray-900 z-10">
               <div className="flex items-center gap-2 text-sm font-semibold">
                 <span>{t.articles.filterTitle}</span>
               </div>
-              {selectedMonthKey && (
+              <div className="flex items-center gap-3">
+                {selectedMonthKey && (
+                  <button
+                    onClick={() => setSelectedMonthKey(null)}
+                    className="text-xs text-sky-500 hover:underline cursor-pointer"
+                  >
+                    {t.articles.filterReset}
+                  </button>
+                )}
                 <button
-                  onClick={() => setSelectedMonthKey(null)}
-                  className="text-xs text-sky-500 hover:underline cursor-pointer"
+                  type="button"
+                  onClick={() => setIsFilterOpen(false)}
+                  className="lg:hidden inline-flex items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm text-slate-700 dark:text-slate-100"
+                  aria-label="Cerrar filtros"
                 >
-                  {t.articles.filterReset}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+                    <path d="M6 18 18 6M6 6l12 12" />
+                  </svg>
                 </button>
-              )}
+              </div>
             </div>
 
             <ul className="space-y-3">
@@ -181,9 +233,9 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
                       return (
                         <li key={month.key}>
                           <button
-                            onClick={() =>
-                              setSelectedMonthKey(isActive ? null : month.key)
-                            }
+                            onClick={() => {
+                              setSelectedMonthKey(isActive ? null : month.key);
+                            }}
                             className={`w-full text-left text-xs rounded-md px-3 py-2 transition flex items-center justify-between ${
                               isActive
                                 ? "bg-sky-500 text-white shadow-sm"
@@ -330,4 +382,3 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
     </>
   );
 }
-
