@@ -1,0 +1,123 @@
+---
+slug: typography-expressive-accessible
+title: "Expressive typography without breaking accessibility"
+excerpt: "Use variable fonts, fluid sizes, and solid rhythm without sacrificing contrast or legibility."
+date: "2025-12-02"
+minutes: 8
+tags:
+  - UI
+  - CSS
+  - Accessibility
+  - Typography
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-amber-500 via-pink-500 to-indigo-600"
+coverAlt: "Colorful typographic composition"
+locale: en
+---
+
+Typography is half of the interface: it sets hierarchy, tone, and readability. The goal is to be expressive without losing accessibility. Here is a practical approach.
+
+---
+
+### 1. Use variable fonts wisely
+
+- **Fewer files, more control**: one variable font gives you weights/axes without multiple downloads. Limit the axes you serve (e.g., `weight` 400–700).
+- **Simple loading**: with Next, import via `next/font` and restrict subsets and weights you really need.
+- **Skip gratuitous axes**: avoid decorative extremes if they hurt legibility.
+
+```css
+:root {
+  --font-body: "InterVariable", system-ui, -apple-system, sans-serif;
+  --font-title: "GeneralSansVariable", system-ui, sans-serif;
+}
+```
+
+### 2. Fluid sizes with `clamp()`
+
+- Let headings grow on desktop while staying readable on mobile.
+- Quick rule: `clamp(min-size, factor * vw + offset, max-size)`.
+
+```css
+h1 {
+  font-size: clamp(2rem, 3vw + 1rem, 3.5rem);
+  line-height: 1.1;
+}
+
+body {
+  font-size: clamp(1rem, 1vw + 0.75rem, 1.1rem);
+  line-height: 1.55;
+}
+```
+
+### 3. Rhythm and legibility first
+
+- **Line-height**: 1.4–1.6 for body; 1.1–1.3 for headings.
+- **Column width**: 60–80 characters reduces fatigue. Use `max-width: 65ch`.
+- **Spacing**: consistent `margin-block` on lists and paragraphs; uppercase text with `letter-spacing: 0.02em`.
+
+```css
+.prose {
+  max-width: 65ch;
+  letter-spacing: 0.01em;
+}
+
+.prose p + p {
+  margin-top: 0.85em;
+}
+```
+
+### 4. Contrast and friendly backgrounds
+
+- Check contrast (AA minimum: 4.5:1 on body text).
+- Avoid text over noisy photos; add overlays or solid cards.
+- Use color tokens and test both themes if you have dark mode.
+
+### 5. Careful animations
+
+- If you animate text, respect `prefers-reduced-motion`.
+- Use short transitions (120–180ms) on `color`/`background` for hover/focus states.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+```
+
+### 6. Reusable type system
+
+Define a scale and tokens and apply them in components, not inline.
+
+```css
+:root {
+  --fs-xs: 0.85rem;
+  --fs-sm: 0.95rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: 2.4rem;
+}
+
+.heading-1 { font: 700 var(--fs-2xl) / 1.1 var(--font-title); }
+.heading-2 { font: 700 var(--fs-xl) / 1.2 var(--font-title); }
+.text-body { font: 400 var(--fs-md) / 1.55 var(--font-body); }
+.text-small { font: 500 var(--fs-sm) / 1.45 var(--font-body); }
+```
+
+### 7. Quick checklist
+
+1) Variable fonts with limited weights.  
+2) Headings and body with `clamp()`.  
+3) Columns at ~65ch; tuned line-height.  
+4) AA contrast in both themes.  
+5) Opt-out animations with `prefers-reduced-motion`.  
+6) Typographic tokens used consistently across components.
+
+### Conclusion
+
+Typography sets your UI's personality: you can be expressive without losing clarity if you start from an accessible base (contrast, rhythm, fluid sizes) and leverage modern tools like variable fonts and `clamp()`. Begin with a scale and tokens, test on mobile and desktop, and iterate from there.
