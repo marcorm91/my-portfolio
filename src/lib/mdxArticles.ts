@@ -2,7 +2,9 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
-import html from "remark-html";
+import remarkRehype from "remark-rehype";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
+import rehypeStringify from "rehype-stringify";
 import { cache } from "react";
 
 export type Article = {
@@ -38,7 +40,12 @@ const parseFile = async (locale: "es" | "en", file: string): Promise<Article> =>
   const raw = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(raw);
 
-  const processed = await remark().use(html).process(content);
+  // Convert markdown to HTML and sanitize to prevent XSS from content files
+  const processed = await remark()
+    .use(remarkRehype)
+    .use(rehypeSanitize, defaultSchema)
+    .use(rehypeStringify)
+    .process(content);
   const htmlContent = processed.toString();
 
   const slug = data.slug || file.replace(/\.mdx$/, "");

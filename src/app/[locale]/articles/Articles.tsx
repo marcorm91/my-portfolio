@@ -159,7 +159,8 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
   return (
     <>
         <section aria-labelledby="articles-title" className="min-h-dvh relative z-10">
-        <header className="mb-0 sticky top-20 z-20 pb-3 md:pb-6 mb-md-6 bg-white/90 dark:bg-gray-900/90 backdrop-blur lg:static lg:top-auto lg:z-auto lg:bg-transparent lg:backdrop-blur-0">
+        <header className="mb-0 sticky top-20 z-20 pb-3 md:pb-6 mb-md-6
+         bg-white/90 dark:bg-gray-900/90 lg:static lg:top-auto lg:z-auto lg:bg-transparent">
           <div className="flex items-center md:items-start justify-between gap-3">
             <div>
               <h2 id="articles-title" className="text-2xl md:text-3xl font-semibold">
