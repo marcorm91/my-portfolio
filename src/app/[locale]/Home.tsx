@@ -13,7 +13,7 @@ export default function HomeClient() {
         role="region"
         aria-label="Sección principal de presentación"
       >
-        <article className="flex justify-center items-center flex-col gap-6 pb-[15vh]">
+        <article className="flex justify-center items-center flex-col gap-6 mb-8">
           <Image
             src="/assets/images/profile.png"
             alt={t.home.image}
@@ -64,6 +64,55 @@ export default function HomeClient() {
             </a>
           </div>
         </article>
+      </section>
+      <section className="w-full max-w-5xl mx-auto mt-6 md:mt-12 px-4">
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <h3 className="text-xl md:text-2xl font-semibold">{t.home.featured.title}</h3>
+            <span className="text-xs md:text-sm px-2 py-1 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-100">
+              {t.home.featured.badge}
+            </span>
+          </div>
+          <article className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col md:flex-row gap-5 md:gap-8">
+            <div className="flex-1 space-y-3">
+              <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                {t.home.featured.category}
+              </p>
+              <h4 className="text-2xl font-bold">Focus Mode - Pomodoro</h4>
+              <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
+                {t.home.featured.description}
+              </p>
+              <div className="flex flex-wrap gap-2 text-[11px] md:text-xs text-gray-700 dark:text-gray-200">
+                {["Next.js", "Tailwind", "TypeScript", "Supabase"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-1 rounded bg-black text-white dark:bg-white/10 dark:text-white/90"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 min-w-[240px]">
+              <div className="relative overflow-hidden rounded-xl border border-black/10 dark:border-white/10 bg-slate-100 dark:bg-slate-800 shadow-sm aspect-[4/3]">
+                <Image
+                  src="/pomodoro-hero.png"
+                  alt={t.home.featured.imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 320px, 100vw"
+                  priority
+                />
+              </div>
+              <a
+                className="btn-custom px-3 py-2 text-sm md:text-base flex items-center justify-center"
+                href="https://focus-mode-pomodoro.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t.home.featured.ctaLive}
+              </a>
+            </div>
+          </article>
       </section>
 
       <div className="hidden md:block" aria-hidden="true">

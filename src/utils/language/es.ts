@@ -1,6 +1,6 @@
 const es = {
   general: {
-    project_name: "Marco Romero – Portfolio",
+    project_name: "Marco Romero - Portfolio",
     name: "Marco Romero",
     titles: {
       home: "Inicio - Marco Romero",
@@ -37,12 +37,25 @@ const es = {
     image: "Imagen ficticia Marco",
     hero: {
       greeting: "¡Hola! Soy",
-      description: "Desarrollador UI apasionado por crear experiencias digitales accesibles, intuitivas y centradas en las personas.",
+      description:
+        "Desarrollador UI apasionado por crear experiencias digitales accesibles, intuitivas y centradas en las personas.",
       currentJob: "Actualmente trabajo en",
       company: "Knowmad mood",
       role: "UI Frontend Developer",
-      projectsButton: "Ver Articulos",
+      projectsButton: "Ver artículos",
       contactButton: "Contáctame",
+    },
+    featured: {
+      title: "Proyecto destacado",
+      badge: "Live",
+      category: "Productividad",
+      description: "Un Pomodoro centrado en el foco, con intervalos personalizables, estadísticas y modo oscuro.",
+      ctaLive: "Probar demo",
+      sessionLabel: "Sesión de foco",
+      focusBreak: "Foco · Descanso",
+      rounds: "Rondas: 4",
+      previewText: "Vista previa de la sesión, con estado en vivo y barra de progreso.",
+      imageAlt: "Captura de la app Focus Mode Pomodoro",
     },
   },
   articles: {
@@ -70,8 +83,8 @@ const es = {
   },
   profile: {
     title: "Sobre mí",
-    work_experience: "Experiencia Laboral",
-    studies: "Formación Académica",
+    work_experience: "Experiencia laboral",
+    studies: "Formación académica",
     ui: {
       present: "Actualidad",
       view_site: "Ver sitio",
@@ -131,16 +144,19 @@ const es = {
       ],
     },
     studiesDescriptions: {
-      fp_wad: "Formación en desarrollo de aplicaciones web, centrada en la creación de interfaces dinámicas, gestión de servidores, integración de servicios y desarrollo full-stack con conexión a bases de datos.",
-      fp_sar: "Formación en administración de servidores, gestión de servicios de red, implementación de bases de datos, integración de infraestructuras de telecomunicaciones y evaluación del rendimiento del hardware.",
-      fp_smr: "Formación en instalación y mantenimiento de servicios de red e internet, gestión de sistemas informáticos en entornos monousuario y multiusuario, y administración de pequeños negocios."
+      fp_wad:
+        "Formación en desarrollo de aplicaciones web, centrada en la creación de interfaces dinámicas, gestión de servidores, integración de servicios y desarrollo full-stack con conexión a bases de datos.",
+      fp_sar:
+        "Formación en administración de servidores, gestión de servicios de red, implementación de bases de datos, integración de infraestructuras de telecomunicaciones y evaluación del rendimiento del hardware.",
+      fp_smr:
+        "Formación en instalación y mantenimiento de servicios de red e internet, gestión de sistemas informáticos en entornos monousuario y multiusuario, y administración de pequeños negocios.",
     },
   },
   about: {
     other_studies: {
       title: "Otros estudios",
       english_b1: {
-        title: "Inglés B2 — EOI",
+        title: "Inglés B2 - EOI",
         description: "Preparación y certificación de nivel B2 en la Escuela Oficial de Idiomas.",
         items: [
           "Simulacros de speaking con feedback estructurado (B2 First).",

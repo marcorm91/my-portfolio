@@ -44,6 +44,18 @@ const en = {
       projectsButton: "View Articles",
       contactButton: "Contact Me",
     },
+    featured: {
+      title: "Featured project",
+      badge: "Live",
+      category: "Productivity",
+      description: "A focus-first Pomodoro with custom intervals, stats, and dark mode.",
+      ctaLive: "Try live demo",
+      sessionLabel: "Focus session",
+      focusBreak: "Focus · Break",
+      rounds: "Rounds: 4",
+      previewText: "Preview of the session layout, live state, and progress bar.",
+      imageAlt: "Screenshot of the Focus Mode Pomodoro app",
+    },
   },
   articles: {
     title: "Blog & notes",
