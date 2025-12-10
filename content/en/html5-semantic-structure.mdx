@@ -1,0 +1,123 @@
+---
+slug: html5-semantic-structure
+title: "Headings, main, article, aside: quick HTML5 semantics guide"
+excerpt: "When to use main, header, section, article, aside and how to order headings without divitis."
+date: "2025-12-10"
+minutes: 6
+tags:
+  - Accessibility
+  - HTML
+  - Frontend
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-amber-500 via-sky-500 to-indigo-600"
+coverAlt: "Diagram of sections and headings on a web page"
+locale: en
+---
+
+Semantics is the skeleton of your HTML: it improves accessibility, SEO, and code comprehension. Here’s a quick guide to use landmarks and headings properly.
+
+---
+
+### Core landmarks
+
+- `main`: primary page content. One per document. Add a skip link pointing to `#main-content`.
+- `header` and `footer`: for the whole page or for each section/article. Inside `article`, it’s the header for that content.
+- `nav`: real navigation (menu, page tabs, pagination). Don’t use it for arbitrary button rows.
+- `aside`: complementary content (related but non-essential). Examples: filters, related links, side notes.
+
+```html
+<body>
+  <a href="#main-content">Skip to content</a>
+  <header>...</header>
+  <main id="main-content">...</main>
+  <footer>...</footer>
+</body>
+```
+
+### Section vs. article vs. div
+
+- `section`: groups a topic within the page. Needs a heading (`h2`, `aria-labelledby`). Examples: “Features”, “Testimonials”.
+- `article`: self-contained piece that could live outside the page (a post card, a comment). Has its own heading.
+- `div`: neutral container for layout/styles when there’s no meaning.
+
+```html
+<section aria-labelledby="features-title">
+  <h2 id="features-title">Features</h2>
+  <article>
+    <h3>Distraction-free mode</h3>
+    <p>Hide secondary panels to focus on reading.</p>
+  </article>
+</section>
+```
+
+### Headings in order
+
+- A single `h1` for the page topic, inside `main`.
+- Subsections use `h2`; if nesting, go to `h3`, etc. Don’t jump from `h2` to `h4`.
+- Every `section` or `article` needs a visible title or `aria-labelledby` pointing to existing text.
+
+```html
+<main>
+  <h1>Semantics guide</h1>
+  <section>
+    <h2>Landmarks</h2>
+    <p>...</p>
+    <section>
+      <h3>Skip links</h3>
+      <p>...</p>
+    </section>
+  </section>
+</main>
+```
+
+### When to use aside
+
+- Complementary: author bio, filters, related links, side notes.
+- Don’t use it for essential content (forms, core steps of a flow).
+
+```html
+<main>
+  <article>
+    <h1>How to structure your HTML</h1>
+    <p>Main content...</p>
+  </article>
+  <aside aria-label="Related resources">
+    <h2>Resources</h2>
+    <ul>
+      <li><a href="#">Headings checklist</a></li>
+      <li><a href="#">Landmark examples</a></li>
+    </ul>
+  </aside>
+</main>
+```
+
+### Forms and actions
+
+- Use `form`, `fieldset`, `legend`, and `label` associated to each control.
+- `button` for actions; `a` only for navigation with `href`.
+
+```html
+<form aria-describedby="help-text">
+  <fieldset>
+    <legend>Subscription</legend>
+    <label for="email">Email</label>
+    <input id="email" type="email" required />
+    <button type="submit">Send</button>
+  </fieldset>
+  <p id="help-text">We don’t share your email.</p>
+```
+
+### Quick checklist
+
+- One `main` per page, reachable from a skip link.
+- Each `section`/`article` has a logical heading (`h2` and onward).
+- `nav` only for navigation; `aside` only for secondary content.
+- Don’t nest `section` without a heading; don’t skip heading levels.
+- Prefer `button` for actions, `a` for navigation.
+
+### Conclusion
+
+Clear semantics save time for users, screen readers, and your future self when you return to the code. Start with landmarks (`main`, `header`, `nav`, `footer`), name each block with an ordered heading, and reserve `article`/`aside` for when they add meaning. CSS can wait; your HTML hierarchy is the foundation.

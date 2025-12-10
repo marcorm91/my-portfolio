@@ -1,0 +1,124 @@
+---
+slug: html5-semantic-structure
+title: "Encabezados, main, article, aside: guía breve de semántica HTML5"
+excerpt: "Cuándo usar main, header, section, article, aside y cómo ordenar los encabezados sin divitis."
+date: "2025-12-10"
+minutes: 6
+tags:
+  - Accesibilidad
+  - HTML
+  - Frontend
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-amber-500 via-sky-500 to-indigo-600"
+coverAlt: "Esquema de secciones y encabezados en una página web"
+locale: es
+---
+
+La semántica es el esqueleto de tu HTML: mejora accesibilidad, SEO y comprensión del código. Guía rápida para usar bien los landmarks y los encabezados.
+
+---
+
+### Landmarks básicos
+
+- `main`: contenido principal de la página. Uno por documento. Añade un “skip link” que apunte a `#main-content`.
+- `header` y `footer`: sirven para la página o para cada sección/artículo. Si está dentro de `article`, es el encabezado de ese contenido.
+- `nav`: navegación real (menú, tabs de página, paginación). No lo uses para cualquier fila de botones.
+- `aside`: contenido complementario (relacionado pero no esencial). Ej: filtros, anuncios, enlaces relacionados.
+
+```html
+<body>
+  <a href="#main-content">Saltar al contenido</a>
+  <header>...</header>
+  <main id="main-content">...</main>
+  <footer>...</footer>
+</body>
+```
+
+### Section vs. article vs. div
+
+- `section`: agrupa un tema dentro de la página. Debe tener encabezado (`h2`, `aria-labelledby`). Ej: “Características”, “Opiniones”.
+- `article`: pieza autocontenida que podría vivir fuera de la página (una tarjeta de post, un comentario). Lleva su propio encabezado.
+- `div`: contenedor neutro para estilos o layout cuando no hay significado.
+
+```html
+<section aria-labelledby="features-title">
+  <h2 id="features-title">Características</h2>
+  <article>
+    <h3>Modo sin distracciones</h3>
+    <p>Oculta paneles secundarios para enfocar la lectura.</p>
+  </article>
+</section>
+```
+
+### Encabezados bien ordenados
+
+- Un solo `h1` para el tema de la página. Dentro de `main`.
+- Subsecciones con `h2`; si anidas, baja a `h3`, etc. No saltes de `h2` a `h4`.
+- Cada `section` o `article` necesita un título visible o `aria-labelledby` que apunte a un texto existente.
+
+```html
+<main>
+  <h1>Guía de semántica</h1>
+  <section>
+    <h2>Landmarks</h2>
+    <p>...</p>
+    <section>
+      <h3>Skip links</h3>
+      <p>...</p>
+    </section>
+  </section>
+</main>
+```
+
+### Cuándo usar aside
+
+- Complementario: fichas de autor, filtros, enlaces relacionados, notas laterales.
+- No lo uses para contenido esencial (formularios, pasos de un proceso).
+
+```html
+<main>
+  <article>
+    <h1>Cómo estructurar tu HTML</h1>
+    <p>Contenido principal...</p>
+  </article>
+  <aside aria-label="Recursos relacionados">
+    <h2>Recursos</h2>
+    <ul>
+      <li><a href="#">Checklist de encabezados</a></li>
+      <li><a href="#">Ejemplos de landmarks</a></li>
+    </ul>
+  </aside>
+</main>
+```
+
+### Formularios y acciones
+
+- Usa `form`, `fieldset`, `legend`, `label` asociado a cada control.
+- `button` para acciones; `a` solo para navegación con `href`.
+
+```html
+<form aria-describedby="help-text">
+  <fieldset>
+    <legend>Suscripción</legend>
+    <label for="email">Email</label>
+    <input id="email" type="email" required />
+    <button type="submit">Enviar</button>
+  </fieldset>
+  <p id="help-text">No compartimos tu correo.</p>
+</form>
+```
+
+### Checklist rápida
+
+- Un `main` por página, reachable desde un skip link.
+- Cada `section`/`article` con encabezado lógico (`h2` en adelante).
+- `nav` solo para navegación; `aside` solo para contenido secundario.
+- No anidar `section` sin encabezado; no saltar niveles de `hX`.
+- Prefiere `button` para acciones, `a` para navegar.
+
+### Conclusión
+
+Estructurar con semántica clara ahorra tiempo a usuarios, lectores de pantalla y a ti mismo cuando vuelves al código. Empieza por los landmarks (`main`, `header`, `nav`, `footer`), nombra cada bloque con un encabezado ordenado, y reserva `article`/`aside` solo cuando aporten significado. El CSS puede esperar; la jerarquía de tu HTML es la base de todo.
