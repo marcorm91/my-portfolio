@@ -6,6 +6,15 @@ import Footer from "@/components/Footer";
 import "../../styles/globals.css";
 import React from "react";
 import { ThemeProvider } from "./ThemeProvider";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Marco Romero - Desarrollador Web",
+  description: "Portafolio personal y blog de desarrollo front-end y accesibilidad.",
+  other: {
+    "google-site-verification": "PJfgRUWQfk3wBcLg_HOoyQv5sxGaTuj2egCpsKub098",
+  },
+};
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
