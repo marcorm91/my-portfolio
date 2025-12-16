@@ -1,0 +1,181 @@
+---
+slug: beautiful-vs-usable-ui
+title: "Beautiful UI vs Usable UI: Where Is the Line?"
+excerpt: "Visual appeal and accessibility are not opposites. We explore where usability usually breaks down and how to keep a polished UI without sacrificing user experience or accessibility."
+date: "2025-12-16"
+minutes: 5
+tags:
+  - UI
+  - Accessibility
+  - Frontend
+  - CSS
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverImage: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzBlMDM2ZCIvPgogICAgPHN0b3Agb2Zmc2V0PSIwLjUiIHN0b3AtY29sb3I9IiMyMTg4ZmYiLz4KICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzM3ZGJmZiIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNDAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTAwIiByPSI5MCIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjEwIiAvPgogIDxjaXJjbGUgY3g9IjEwMDAiIGN5PSIyODAiIHI9IjEyMCIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjA4IiAvPgo8L3N2Zz4="
+coverGradient: "from-slate-800 via-indigo-600 to-sky-500"
+coverAlt: "Modern interface balancing design and usability"
+locale: en
+---
+
+In real-world projects, accessibility rarely breaks because of a lack of knowledge.
+It breaks because of small design decisions: soft contrast, invisible focus states,
+excessive animations, or interactions designed only for mouse users.
+
+The real question is not “beautiful or usable?”,
+but where the line is and how not to cross it without noticing.
+Let's look at the points where balance is most often lost.
+
+---
+
+### Contrast: visual identity vs readability
+
+Soft colors and brand palettes work well in presentations, but in real interfaces they often become a problem.
+
+\- Light gray text on light backgrounds \
+\- Indistinguishable disabled states \
+\- Links differentiated only by color
+
+Practical tip: adjust contrast by role, not by global color.
+Primary content should not share contrast levels with secondary labels or metadata.
+
+```css
+.text-primary {
+  color: rgb(15 23 42);
+}
+
+.text-muted {
+  color: rgb(100 116 139);
+}
+ ```
+
+A UI can remain elegant without forcing users to “guess” the content.
+
+---
+
+### Invisible interactions
+
+Poorly understood minimalism often removes exactly what users need most: visual cues.
+
+Common mistakes:
+
+\- Buttons that look like plain text \
+\- Links without underline or hover styles \
+\- Clickable icons with no feedback
+
+If something is interactive, it should look interactive before interaction.
+
+```css
+a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+```
+
+This is not visual noise, it is guidance.
+
+---
+
+### The focus that “ruins” the design.  
+
+Removing visible focus is one of the most common and harmful decisions.
+
+Incorrect CSS:
+
+```css
+*:focus {
+  outline: none;
+}
+ ```
+
+Focus is not only about accessibility.
+It provides context, orientation, and confidence.
+
+Recommended CSS:
+
+```css
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+```
+
+Focus can be part of the visual system,
+just like hover or active states.
+
+---
+
+### Animations: when smooth becomes annoying
+
+Smooth transitions improve perceived quality,
+until they stop doing so.
+
+Common problems:
+
+\- Long animations for frequent actions \
+\- Effects applied to functional elements \
+\- No respect for prefers-reduced-motion
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none;
+    transition: none;
+  }
+}
+```
+
+Animation should support the UI, not dominate it.
+
+---
+
+### Touch targets and “pixel perfect” design
+
+A design can look perfect and still be uncomfortable to use.
+
+\- Targets that are too small \
+\- Icons without padding \
+\- Precise clicks required on mobile
+
+Quick rule: 44x44px is not excessive, it is usable.
+
+```css
+.button {
+  min-height: 44px;
+  min-width: 44px;
+}
+```
+
+The user is not failing.
+The design is.
+
+---
+
+### Quick checklist
+
+Before considering a UI “finished”, check:
+
+\- Is the main text readable without effort? \
+\- Are interactive elements recognizable without hover? \
+\- Is focus visible and consistent with the design? \
+\- Does the UI still work without animations? \
+\- Are touch targets comfortable on mobile?
+
+If you hesitate on any of these,
+the line has probably already been crossed.
+
+---
+
+### Conclusion
+
+A usable UI is not less attractive, it is more honest.
+When design and accessibility work together,
+the result is a clearer, more robust,
+and easier-to-maintain interface.
+
+Good design is not the one you notice.  It is the one that does not get in the way.
