@@ -7,7 +7,8 @@ import "../../styles/globals.css";
 import React from "react";
 import { ThemeProvider } from "./ThemeProvider";
 import type { Metadata } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Marco Romero - Desarrollador Web",
@@ -50,6 +51,7 @@ export default async function RootLayout({
           </ThemeProvider>
         </TranslationsProvider>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
