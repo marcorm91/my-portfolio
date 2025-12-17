@@ -46,7 +46,7 @@ export default function HomeClient() {
             </span>
           </div>
 
-          <div className="flex gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             <a
               href={cvHref} target="_blank"
               rel="noopener noreferrer"
