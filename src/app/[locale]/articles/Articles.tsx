@@ -187,7 +187,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
 
         <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
           <aside
-            aria-label="Filtro por fecha"
+            aria-label={t.articles.filterTitle}
             id="filters-panel"
             className={`rounded-2xl bg-white dark:bg-gray-900 p-4 space-y-4 shadow-lg z-30 transition duration-200 lg:sticky lg:top-21 lg:h-fit lg:max-h-[80vh] lg:overflow-y-auto ${
               isFilterOpen
@@ -283,7 +283,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
                       {isRead && (
                         <span
                           role="img"
-                          aria-label={`${t.articles.readBadge} badge`}
+                          aria-label={t.articles.readBadgeAria}
                           className="absolute -right-2 -bottom-2 inline-flex items-center justify-center text-emerald-800 dark:text-emerald-200 bg-emerald-100 dark:bg-emerald-900 rounded-full shadow-sm p-2 transition-colors group-hover:text-sky-600 dark:group-hover:text-sky-300 group-hover:bg-sky-100 dark:group-hover:bg-sky-900"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
@@ -357,7 +357,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
               <div
                 ref={sentinelRef}
                 className="mt-6 h-10 w-full flex items-center justify-center text-sm text-gray-500"
-                aria-label="Cargando más artículos"
+                aria-label={t.articles.loadMore}
               >
                 {t.articles.loadMore || "Cargando más..."}
               </div>

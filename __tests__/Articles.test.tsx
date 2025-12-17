@@ -11,6 +11,7 @@ const tMock = {
     markRead: "Marcar leído",
     markUnread: "Quitar leído",
     readBadge: "Leído",
+    readBadgeAria: "Insignia de leído",
     readMore: "Leer más",
     loadMore: "Cargar más",
     ctaPrefix: "CTA",
@@ -36,7 +37,7 @@ describe("ArticlesSection", () => {
   it("opens and closes filter panel in mobile", () => {
     render(<ArticlesSection locale="es" initialArticles={articles as any} />);
 
-    const panel = screen.getByLabelText(/Filtro por fecha/i);
+    const panel = screen.getByRole("complementary", { name: /Filtrar por fecha/i });
     expect(panel).toHaveClass("hidden");
 
     fireEvent.click(screen.getAllByRole("button", { name: /filtrar por fecha/i })[0]);
@@ -53,7 +54,7 @@ describe("ArticlesSection", () => {
     fireEvent.click(checkbox);
 
     expect(screen.getByLabelText(/quitar leído/i)).toBeChecked();
-    const badge = screen.getByLabelText(/leído badge/i);
+    const badge = screen.getByLabelText(/insignia de leído/i);
     expect(badge).toBeInTheDocument();
   });
 });

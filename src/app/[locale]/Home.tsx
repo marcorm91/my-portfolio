@@ -2,16 +2,20 @@
 
 import { useTranslations } from "@/app/[locale]/TranslationsProvider";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 export default function HomeClient() {
   const t = useTranslations();
+  const params = useParams<{ locale?: "es" | "en" }>();
+  const currentLocale = params?.locale === "en" ? "en" : "es";
+  const cvHref = currentLocale === "en" ? "/cv/english_cv.pdf" : "/cv/spanish_cv.pdf";
 
   return (
     <>
      <section
         className="flex flex-col items-center justify-center h-full text-center px-5 relative z-10 max-w-4xl m-auto"
         role="region"
-        aria-label="Sección principal de presentación"
+        aria-label={t.home.aria.introSection}
       >
         <article className="flex justify-center items-center flex-col gap-6 mb-8">
           <Image
@@ -31,25 +35,33 @@ export default function HomeClient() {
 
           <div
             className="bg-black dark:bg-white py-2 px-4 rounded-sm shadow-lg motion-safe:animate-fade-in-delay motion-reduce:animate-none mb-6 min-w-72 md:min-w-96 flex justify-start text-xs md:text-base"
-            role="status"
-            aria-live="polite"
+            aria-hidden="true"
           >
-            <span className="text-white dark:text-black pr-2" aria-hidden="true">
+            <span className="text-white dark:text-black pr-2">
               C:\Users\marco&gt;
             </span>
             <span className="sr-only">Command: make directory my-portfolio</span>
-            <span className="typing-effect text-white dark:text-black w-[135px] md:w-[185px]" aria-hidden="true">
+            <span className="typing-effect text-white dark:text-black w-[135px] md:w-[185px]">
               mkdir my-portfolio
             </span>
           </div>
 
           <div className="flex gap-8">
             <a
+              href={cvHref} target="_blank"
+              rel="noopener noreferrer"
+              className="btn-custom px-3 py-1 text-sm md:text-xl min-h-12"
+              aria-label={t.home.aria.openCvNewTab}
+            >
+              <Image src="/assets/images/cv.svg" alt="" width={22} height={22} aria-hidden="true" />
+              <span className="flex-1">{t.home.hero.cvButton}</span>
+            </a>
+            <a
               href="https://www.linkedin.com/in/marcorm91/"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-custom px-3 py-1 text-sm md:text-xl min-h-12"
-              aria-label="Abrir perfil de LinkedIn de Marco en una nueva pestaña"
+              aria-label={t.home.aria.openLinkedinNewTab}
             >
               <Image src="/assets/images/linkedin.svg" alt="" width={20} height={20} aria-hidden="true" />
               <span className="flex-1">LinkedIn</span>
@@ -57,7 +69,7 @@ export default function HomeClient() {
             <a
               href="mailto:marco_antonio88_9@hotmail.com"
               className="btn-custom px-3 py-1 text-sm md:text-xl min-h-12"
-              aria-label="Enviar correo electrónico a Marco"
+              aria-label={t.home.aria.sendEmail}
             >
               <Image src="/assets/images/email.svg" alt="" width={20} height={20} aria-hidden="true" />
               <span className="flex-1">{t.home.hero.contactButton}</span>

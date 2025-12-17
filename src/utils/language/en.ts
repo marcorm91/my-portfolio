@@ -19,6 +19,7 @@ const en = {
     about: "About",
     es: "Spanish",
     en: "English",
+    language: "Language",
     skipToContent: "Skip to main content",
     nav: "Navigation Menu",
     index_img: "Home - Marco Romero - Portfolio",
@@ -35,6 +36,12 @@ const en = {
   home: {
     welcome: "Welcome to my portfolio",
     image: "Fictional image Marco",
+    aria: {
+      introSection: "Main introduction section",
+      openCvNewTab: "Open Marco's curriculum vitae in a new tab",
+      openLinkedinNewTab: "Open Marco's LinkedIn profile in a new tab",
+      sendEmail: "Send an email to Marco",
+    },
     hero: {
       greeting: "Hi! I'm",
       description: "UI Developer passionate about creating accessible, intuitive, and human-centered digital experiences.",
@@ -43,6 +50,7 @@ const en = {
       role: "UI Frontend Developer",
       projectsButton: "View Articles",
       contactButton: "Contact Me",
+      cvButton: "View CV"
     },
     featured: {
       title: "Featured project",
@@ -68,6 +76,7 @@ const en = {
     collaborator: "Collaborator",
     linkedin: "LinkedIn",
     readBadge: "Read",
+    readBadgeAria: "Read badge",
     markRead: "Mark as read",
     markUnread: "Mark as unread",
     filterTitle: "Filter by date",

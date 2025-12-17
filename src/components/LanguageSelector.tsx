@@ -142,7 +142,7 @@ export default function LanguageSelector({
         aria-haspopup="menu"
         aria-expanded={isLangMenuOpen}
         aria-controls={menuId}
-        aria-label={`Language: ${labelCurrent}`}
+        aria-label={`${t.header.language}: ${labelCurrent}`}
       >
         <Image
           src={currentLocale === "es" ? "/assets/images/es.svg" : "/assets/images/en.svg"}
