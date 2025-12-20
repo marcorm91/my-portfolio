@@ -48,10 +48,11 @@ export default function HomeClient() {
 
           <div className="flex flex-wrap justify-center gap-8">
             <a
-              href={cvHref} target="_blank"
+              href={cvHref}
               rel="noopener noreferrer"
               className="btn-custom px-3 py-1 text-sm md:text-xl min-h-12"
               aria-label={t.home.aria.openCvNewTab}
+              download
             >
               <Image src="/assets/images/cv.svg" alt="" width={22} height={22} aria-hidden="true" />
               <span className="flex-1">{t.home.hero.cvButton}</span>
