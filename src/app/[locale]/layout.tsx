@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Marco Romero - Desarrollador Web",
   description: "Portafolio personal y blog de desarrollo front-end y accesibilidad.",
   other: {
-    "google-site-verification": "PJfgRUWQfk3wBcLg_HOoyQv5sxGaTuj2egCpsKub098",
+    "google-site-verification": "OAUcRQJVTgB7GenU6ok0VIK3XmOTilkiCmuHHM4NbNY",
   },
 };
 
