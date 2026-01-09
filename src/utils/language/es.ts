@@ -53,17 +53,38 @@ const es = {
       contactButton: "Contáctame",
       cvButton: "Ver CV"
     },
-    featured: {
-      title: "Proyecto destacado",
-      badge: "Live",
-      category: "Productividad",
-      description: "Un Pomodoro centrado en el foco, con intervalos personalizables, estadísticas y modo oscuro.",
-      ctaLive: "Probar demo",
-      sessionLabel: "Sesión de foco",
-      focusBreak: "Foco · Descanso",
-      rounds: "Rondas: 4",
-      previewText: "Vista previa de la sesión, con estado en vivo y barra de progreso.",
-      imageAlt: "Captura de la app Focus Mode Pomodoro",
+    projects: {
+      title: "Proyectos",
+      featuredId: "pomodoro",
+      items: {
+        pomodoro: {
+          category: "Productividad",
+          title: "Focus Mode - Pomodoro",
+          description:
+            "Aplicación Pomodoro diseñada para maximizar el foco real, con sesiones personalizables, seguimiento del progreso y una interfaz cuidada orientada a la productividad consciente.",
+          imageAlt: "Captura de la app Focus Mode Pomodoro",
+          cta: {
+            label: "Probar demo",
+            href: "https://focus-mode.app",
+          },
+          tags: ["Next.js", "Tailwind", "TypeScript", "Supabase"],
+          imageSrc: "/pomodoro-hero.png",
+          badge: "Live",
+        },
+        fintrack: {
+          category: "App de escritorio",
+          title: "Fintrack",
+          description:
+            "Aplicación de escritorio para controlar finanzas personales (vista mensual/anual + histórico) con gráficas y tablas ordenables. Permite importar datos desde CSV o pegando texto. Todo se guarda en local en una base de datos SQLite.",
+          imageAlt: "Captura de la app Fintrack",
+          cta: {
+            label: "Ver en GitHub",
+            href: "https://github.com/marcorm91/fintrack-app",
+          },
+          tags: ["React", "Vite", "TypeScript", "Tailwind", "Tauri", "SQLite", "Chart.js"],
+          imageSrc: "/assets/images/fintrack-app.png",
+        },
+      },
     },
   },
   articles: {
