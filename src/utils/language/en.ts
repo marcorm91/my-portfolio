@@ -110,6 +110,21 @@ const en = {
     copied: "Link copied",
     ctaPrefix: "Want to publish new posts or collaborate?",
     ctaLink: "Contact me",
+    searchTitle: "Search title or description",
+    searchPlaceholder: "Search...",
+    clearSearch: "Clear search",
+    results: {
+      base: "{count} posts",
+      baseSingular: "{count} post",
+      month: "{count} posts in the selected month",
+      monthSingular: "{count} post in the selected month",
+      search: "{count} posts filtered by search",
+      searchSingular: "{count} post filtered by search",
+      monthAndSearch:
+        "{count} posts in the selected month (filtered by search)",
+      monthAndSearchSingular:
+        "{count} post in the selected month (filtered by search)",
+    }
   },
   profile: {
     title: "About me",

@@ -59,7 +59,7 @@ export default async function ArticlePage({
       </div>
 
       <div
-        className="mt-4 mb-6 h-56 w-full rounded-2xl bg-gradient-to-br overflow-hidden"
+        className="hidden md:block mt-4 mb-6 h-56 w-full rounded-2xl bg-gradient-to-br overflow-hidden"
         aria-label={article.coverAlt || article.title}
         role="img"
       >

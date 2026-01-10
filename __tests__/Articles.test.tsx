@@ -7,6 +7,9 @@ const tMock = {
     description: "Desc",
     filterTitle: "Filtrar por fecha",
     filterReset: "Limpiar",
+    searchTitle: "Buscar",
+    searchPlaceholder: "Buscar por título o descripción…",
+    clearSearch: "Limpiar búsqueda",
     readTimeSuffix: "min",
     markRead: "Marcar leído",
     markUnread: "Quitar leído",
@@ -14,6 +17,16 @@ const tMock = {
     readBadgeAria: "Insignia de leído",
     readMore: "Leer más",
     loadMore: "Cargar más",
+    results: {
+      base: "{count} entradas",
+      baseSingular: "{count} entrada",
+      month: "{count} entradas en el mes seleccionado",
+      monthSingular: "{count} entrada en el mes seleccionado",
+      search: "{count} entradas filtradas por búsqueda",
+      searchSingular: "{count} entrada filtrada por búsqueda",
+      monthAndSearch: "{count} entradas en el mes seleccionado (filtradas por búsqueda)",
+      monthAndSearchSingular: "{count} entrada en el mes seleccionado (filtrada por búsqueda)",
+    },
     ctaPrefix: "CTA",
     ctaLink: "Link",
   },
@@ -35,7 +48,7 @@ const articles = [
 
 describe("ArticlesSection", () => {
   it("opens and closes filter panel in mobile", () => {
-    render(<ArticlesSection locale="es" initialArticles={articles as any} />);
+    render(<ArticlesSection locale="es" initialArticles={articles as never} />);
 
     const panel = screen.getByRole("complementary", { name: /Filtrar por fecha/i });
     expect(panel).toHaveClass("hidden");
@@ -48,7 +61,7 @@ describe("ArticlesSection", () => {
   });
 
   it("marks article as read and shows eye badge", () => {
-    render(<ArticlesSection locale="es" initialArticles={articles as any} />);
+    render(<ArticlesSection locale="es" initialArticles={articles as never} />);
 
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);

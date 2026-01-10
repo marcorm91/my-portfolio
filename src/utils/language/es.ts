@@ -110,6 +110,21 @@ const es = {
     copied: "Enlace copiado",
     ctaPrefix: "¿Quieres publicar nuevas entradas o colaborar?",
     ctaLink: "Escríbeme",
+    searchTitle: "Buscar título o descripción",
+    searchPlaceholder: "Buscar...",
+    clearSearch: "Limpiar búsqueda",
+    results: {
+      base: "{count} entradas",
+      baseSingular: "{count} entrada",
+      month: "{count} entradas en el mes seleccionado",
+      monthSingular: "{count} entrada en el mes seleccionado",
+      search: "{count} entradas filtradas por búsqueda",
+      searchSingular: "{count} entrada filtrada por búsqueda",
+      monthAndSearch:
+        "{count} entradas en el mes seleccionado (filtradas por búsqueda)",
+      monthAndSearchSingular:
+        "{count} entrada en el mes seleccionado (filtrada por búsqueda)",
+    }
   },
   profile: {
     title: "Sobre mí",
