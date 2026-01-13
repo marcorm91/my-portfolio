@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import translations from "@/utils/language";
 import ShareButtons from "@/components/ShareButtons";
 import { getArticle } from "@/lib/mdxArticles";
@@ -132,7 +133,9 @@ export default async function ArticlePage({
       </header>
 
       <div className="prose dark:prose-invert max-w-none">
-        <div dangerouslySetInnerHTML={{ __html: article.html || "" }} />
+        <div className="mdx-content">
+          <MDXRemote source={article.content || ""} />
+        </div>
       </div>
 
       <hr className="my-8 border-gray-200 dark:border-gray-800" />

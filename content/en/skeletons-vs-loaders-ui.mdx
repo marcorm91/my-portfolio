@@ -1,0 +1,202 @@
+---
+slug: skeletons-vs-loaders-ui
+title: "Skeletons vs loaders: when the problem isn’t loading"
+excerpt: "Skeletons and loaders are not interchangeable. Choosing the wrong loading pattern creates false expectations, visual friction, and loss of trust. We analyze when to use each one and why the problem is rarely technical."
+date: "2026-01-13"
+minutes: 9
+tags:
+  - UI
+  - Frontend
+  - UX
+  - Performance
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-slate-900 via-indigo-700 to-cyan-500"
+coverAlt: "Loading patterns and visual expectations in user interfaces"
+locale: en
+---
+
+In real projects, loading issues rarely come from the network.  
+They come from **expectations poorly communicated by the interface**.
+
+It’s not always a performance problem or slow APIs.  
+Very often, it’s **a bad UI decision**: treating skeletons and loaders as if they were equivalent.
+
+---
+
+### What do skeletons and loaders actually communicate?
+
+A loader and a skeleton do not mean the same thing, even if both appear during loading.
+
+A loader communicates:
+
+\- An action in progress  
+\- Unknown duration  
+\- An uncertain result  
+\- Blocked interaction  
+
+A skeleton communicates:
+
+\- A known structure  
+\- Predictable content  
+\- Progressive loading  
+\- A near completion  
+
+This is not an aesthetic difference.  
+It’s a **semantic and perceptual** one.
+
+---
+
+### The problem isn’t loading, it’s expectation
+
+Users can tolerate waiting.  
+What they don’t tolerate is **feeling misled by the UI**.
+
+When an interface promises a specific structure and then fails to deliver it, friction appears—even if the loading time is acceptable.
+
+This is where many skeletons start to fail.
+
+---
+
+### When a skeleton creates more friction than a loader
+
+A skeleton is not a neutral pattern.  
+It is a **visual promise**.
+
+It fails especially when:
+
+\- The final layout doesn’t match the placeholder  
+\- The real content is longer or denser  
+\- Optional states are not represented  
+\- The skeleton lasts longer than the actual load  
+
+In these cases, a loader—although simpler—is often more honest.
+
+---
+
+### Loading components that don’t scale
+
+A loading pattern can work on a single screen and break when reused elsewhere.
+
+Warning signs:
+
+\- Different skeletons for the same component  
+\- One-off visual adjustments  
+\- Undocumented loading states  
+\- Decisions made “because it looks good here”  
+
+That’s not flexibility.  
+It’s design debt applied to loading.
+
+---
+
+### Rendered skeleton example (content structure)
+
+<section className="mx-auto my-8 max-w-[520px] rounded-xl bg-black/[0.03] p-4">
+  <div className="flex items-start gap-4">
+    <div aria-hidden="true" className="skeleton-block h-12 w-12 shrink-0 rounded-full bg-slate-200" />
+
+    <div className="flex-1">
+      <div aria-hidden="true" className="skeleton-block h-3.5 w-3/5 rounded-md bg-slate-200" />
+      <div aria-hidden="true" className="skeleton-block mt-2 h-3 w-2/5 rounded-md bg-slate-200" />
+
+      <div className="mt-3 grid gap-1.5">
+        <div aria-hidden="true" className="skeleton-block h-3 rounded-md bg-slate-200" />
+        <div aria-hidden="true" className="skeleton-block h-3 w-[90%] rounded-md bg-slate-200" />
+      </div>
+    </div>
+  </div>
+</section>
+
+This skeleton communicates hierarchy, structure, and content type.  
+The key is that **the final content must honor this promise exactly**.
+
+---
+
+### Skeletons designed without states = fragile experiences
+
+One of the most common mistakes is designing only the “ideal” state.
+
+What’s usually missing?
+
+\- Error states  
+\- Empty states  
+\- Partial states  
+\- Slow-loading states  
+
+When these states don’t exist in design, they are improvised during development…  
+and they almost always break visual consistency.
+
+---
+
+### Skeleton ≠ performance
+
+A common misunderstanding.
+
+Skeletons **do not make applications faster**.  
+They only make waiting feel less uncomfortable.
+
+When misused, they can even worsen:
+
+\- Component complexity  
+\- Rendering cost  
+\- Visual stability (CLS)  
+
+Real performance comes from architecture.  
+Skeletons only communicate how waiting should feel.
+
+---
+
+### State-driven UI, not screen-driven UI
+
+When design starts from clearly defined states, the choice of pattern becomes obvious:
+
+\- Stable layout → skeleton  
+\- Uncertain result → loader  
+\- Instant action → nothing  
+
+The pattern isn’t chosen by trend.  
+It is **deduced from the state**.
+
+---
+
+### Quick checklist to decide between skeleton and loader
+
+Before adding a skeleton, ask yourself:
+
+\- Is the final layout stable and predictable?  
+\- Does the real content fit the placeholder?  
+\- Does the load justify showing structure?  
+\- Does it disappear without visual jumps?  
+\- Is it documented as a component state?  
+
+If any answer is “it depends,” it’s probably not the best option.
+
+---
+
+### How to reduce debt in loading patterns
+
+It’s not about adding more effects, but about making better decisions:
+
+\- States defined from the design phase  
+\- Skeletons aligned with real content  
+\- Loaders used when there’s uncertainty  
+\- Fewer patterns, more consistency  
+
+Loading doesn’t break the experience.  
+**Poorly communicated loading does.**
+
+---
+
+### Conclusion
+
+Skeletons and loaders are not interchangeable.  
+They are **communication tools**.
+
+When the UI promises what it later delivers, the experience flows.  
+When it doesn’t, friction appears—hard to explain, but easy to feel.
+
+The problem is rarely loading itself.  
+It’s usually **the expectation created by design**.

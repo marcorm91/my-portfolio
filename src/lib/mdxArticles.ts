@@ -1,10 +1,6 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { remark } from "remark";
-import remarkRehype from "remark-rehype";
-import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
-import rehypeStringify from "rehype-stringify";
 import { cache } from "react";
 
 export type Article = {
@@ -24,7 +20,7 @@ export type Article = {
   coverGradient?: string;
   coverAlt?: string;
   link?: string;
-  html?: string;
+  content?: string;
 };
 
 const contentRoot = path.join(process.cwd(), "content");
@@ -39,14 +35,6 @@ const parseFile = async (locale: "es" | "en", file: string): Promise<Article> =>
   const fullPath = path.join(contentRoot, locale, file);
   const raw = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(raw);
-
-  // Convert markdown to HTML and sanitize to prevent XSS from content files
-  const processed = await remark()
-    .use(remarkRehype)
-    .use(rehypeSanitize, defaultSchema)
-    .use(rehypeStringify)
-    .process(content);
-  const htmlContent = processed.toString();
 
   const slug = data.slug || file.replace(/\.mdx$/, "");
   const excerpt =
@@ -69,7 +57,7 @@ const parseFile = async (locale: "es" | "en", file: string): Promise<Article> =>
     coverGradient: data.coverGradient,
     coverAlt: data.coverAlt,
     link: data.link,
-    html: htmlContent,
+    content,
   };
 };
 

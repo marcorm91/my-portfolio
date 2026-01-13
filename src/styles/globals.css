@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../content/**/*.{md,mdx}";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -87,10 +88,29 @@ body {
   @apply mb-6;
 }
 
+.skeleton-block {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
 @keyframes floating {
   0% { transform: translate(0, 0); }
   50% { transform: translate(20px, -20px); }
   100% { transform: translate(0, 0); }
+}
+
+@keyframes skeleton-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 @keyframes typing {
@@ -99,4 +119,10 @@ body {
 
 @keyframes blink {
   50% { border-color: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-block::after {
+    animation: none;
+  }
 }

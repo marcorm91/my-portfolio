@@ -1,0 +1,202 @@
+---
+slug: skeletons-vs-loaders-ui
+title: "Skeletons vs loaders: cuando el problema no es la carga"
+excerpt: "Skeletons y loaders no son intercambiables. Elegir mal el patrón de carga genera falsas expectativas, fricción visual y pérdida de confianza. Analizamos cuándo usar cada uno y por qué el problema rara vez es técnico."
+date: "2026-01-13"
+minutes: 9
+tags:
+  - UI
+  - Frontend
+  - UX
+  - Performance
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-slate-900 via-indigo-700 to-cyan-500"
+coverAlt: "Patrones de carga y expectativas visuales en interfaces"
+locale: es
+---
+
+En proyectos reales, los problemas de carga rara vez vienen de la red.
+Vienen de **expectativas mal comunicadas por la interfaz**.
+
+No siempre es un problema de performance o de APIs lentas.
+Muchas veces es **una mala decisión de UI**: usar skeletons y loaders como si fueran equivalentes.
+
+---
+
+### ¿Qué comunican realmente skeletons y loaders?
+
+Un loader y un skeleton no indican lo mismo, aunque ambos aparezcan durante una carga.
+
+El loader comunica:
+
+\- Acción en progreso  
+\- Duración desconocida  
+\- Resultado aún incierto  
+\- Interacción bloqueada  
+
+El skeleton comunica:
+
+\- Estructura conocida  
+\- Contenido predecible  
+\- Carga progresiva  
+\- Final cercano  
+
+No es una diferencia estética.
+Es una diferencia **semántica y perceptiva**.
+
+---
+
+### El problema no es la carga, es la expectativa
+
+Un usuario tolera esperar.
+Lo que no tolera es **sentirse engañado por la UI**.
+
+Cuando una interfaz promete una estructura concreta y luego no la cumple, la fricción aparece aunque el tiempo de carga sea aceptable.
+
+Aquí es donde muchos skeletons empiezan a fallar.
+
+---
+
+### Cuando un skeleton genera más fricción que un loader
+
+El skeleton no es un patrón neutro.
+Es una **promesa visual**.
+
+Falla especialmente cuando:
+
+\- El layout final no coincide con el placeholder  
+\- El contenido real es más largo o más denso  
+\- Existen estados opcionales no representados  
+\- El skeleton dura más que la carga real  
+
+En estos casos, el loader —aunque más simple— suele ser más honesto.
+
+---
+
+### Componentes de carga imposibles de escalar
+
+Un patrón de carga puede funcionar en una pantalla concreta y romperse al reutilizarse.
+
+Señales de alerta:
+
+\- Skeletons distintos para el mismo componente  
+\- Ajustes visuales caso a caso  
+\- Estados de carga no documentados  
+\- Decisiones tomadas “porque aquí queda bien”  
+
+Eso no es flexibilidad.
+Es deuda de diseño aplicada a la carga.
+
+---
+
+### Ejemplo de skeleton renderizado (estructura de contenido)
+
+<section className="mx-auto my-8 max-w-[520px] rounded-xl bg-black/[0.03] p-4">
+  <div className="flex items-start gap-4">
+    <div aria-hidden="true" className="skeleton-block h-12 w-12 shrink-0 rounded-full bg-slate-200" />
+
+    <div className="flex-1">
+      <div aria-hidden="true" className="skeleton-block h-3.5 w-3/5 rounded-md bg-slate-200" />
+      <div aria-hidden="true" className="skeleton-block mt-2 h-3 w-2/5 rounded-md bg-slate-200" />
+
+      <div className="mt-3 grid gap-1.5">
+        <div aria-hidden="true" className="skeleton-block h-3 rounded-md bg-slate-200" />
+        <div aria-hidden="true" className="skeleton-block h-3 w-[90%] rounded-md bg-slate-200" />
+      </div>
+    </div>
+  </div>
+</section>
+
+Este skeleton comunica jerarquía, estructura y tipo de contenido.
+La clave es que **el contenido final respete exactamente esta promesa**.
+
+---
+
+### Skeletons diseñados sin estados = experiencia frágil
+
+Uno de los errores más comunes es diseñar solo el estado “ideal”.
+
+¿Qué suele faltar?
+
+\- Estados de error  
+\- Estados vacíos  
+\- Estados parciales  
+\- Estados de carga lenta  
+
+Cuando estos estados no existen en diseño, aparecen improvisados en desarrollo…  
+y casi siempre rompen la coherencia visual.
+
+---
+
+### Skeleton ≠ performance
+
+Un malentendido habitual.
+
+Los skeletons **no hacen la aplicación más rápida**.
+Solo hacen la espera menos incómoda.
+
+Mal usados, incluso empeoran:
+
+\- Complejidad de componentes  
+\- Coste de render  
+\- Estabilidad visual (CLS)  
+
+El rendimiento real se gana con arquitectura.
+El skeleton solo comunica cómo se espera.
+
+---
+
+### UI orientada a estados, no a pantallas
+
+Cuando el diseño parte de estados claros, la elección del patrón suele ser evidente:
+
+\- Layout estable → skeleton  
+\- Resultado incierto → loader  
+\- Acción instantánea → nada  
+
+El patrón no se elige por moda.
+Se **deduce del estado**.
+
+---
+
+### Checklist rápido para decidir entre skeleton y loader
+
+Antes de añadir un skeleton, revisa:
+
+\- ¿El layout final es estable y predecible?  
+\- ¿El contenido real encaja con el placeholder?  
+\- ¿La carga justifica mostrar estructura?  
+\- ¿Desaparece sin saltos visuales?  
+\- ¿Está documentado como estado del componente?  
+
+Si alguna respuesta es “depende”, probablemente no sea la mejor opción.
+
+---
+
+### Cómo reducir la deuda en patrones de carga
+
+No se trata de añadir más efectos, sino de decidir mejor:
+
+\- Estados definidos desde el diseño  
+\- Skeletons alineados con contenido real  
+\- Loaders usados cuando hay incertidumbre  
+\- Menos patrones distintos, más consistencia  
+
+La carga no rompe la experiencia.
+Lo que la rompe es **comunicarla mal**.
+
+---
+
+### Conclusión
+
+Skeletons y loaders no son intercambiables.
+Son **herramientas de comunicación**.
+
+Cuando la UI promete lo que luego cumple, la experiencia fluye.
+Cuando no, aparecen fricciones difíciles de explicar… pero fáciles de sentir.
+
+El problema rara vez es la carga.  
+Suele ser **la expectativa que construye el diseño**.
