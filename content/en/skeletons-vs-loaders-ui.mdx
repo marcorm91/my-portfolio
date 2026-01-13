@@ -1,6 +1,6 @@
 ---
 slug: skeletons-vs-loaders-ui
-title: "Skeletons vs loaders: when the problem isn’t loading"
+title: "Skeletons vs loaders: when the problem isn't loading"
 excerpt: "Skeletons and loaders are not interchangeable. Choosing the wrong loading pattern creates false expectations, visual friction, and loss of trust. We analyze when to use each one and why the problem is rarely technical."
 date: "2026-01-13"
 minutes: 9
@@ -21,8 +21,8 @@ locale: en
 In real projects, loading issues rarely come from the network.  
 They come from **expectations poorly communicated by the interface**.
 
-It’s not always a performance problem or slow APIs.  
-Very often, it’s **a bad UI decision**: treating skeletons and loaders as if they were equivalent.
+It's not always a performance problem or slow APIs.  
+Very often, it's **a bad UI decision**: treating skeletons and loaders as if they were equivalent.
 
 ---
 
@@ -45,14 +45,14 @@ A skeleton communicates:
 \- A near completion  
 
 This is not an aesthetic difference.  
-It’s a **semantic and perceptual** one.
+It's a **semantic and perceptual** one.
 
 ---
 
-### The problem isn’t loading, it’s expectation
+### The problem isn't loading, it's expectation
 
 Users can tolerate waiting.  
-What they don’t tolerate is **feeling misled by the UI**.
+What they don't tolerate is **feeling misled by the UI**.
 
 When an interface promises a specific structure and then fails to deliver it, friction appears—even if the loading time is acceptable.
 
@@ -67,7 +67,7 @@ It is a **visual promise**.
 
 It fails especially when:
 
-\- The final layout doesn’t match the placeholder  
+\- The final layout doesn't match the placeholder  
 \- The real content is longer or denser  
 \- Optional states are not represented  
 \- The skeleton lasts longer than the actual load  
@@ -76,7 +76,7 @@ In these cases, a loader—although simpler—is often more honest.
 
 ---
 
-### Loading components that don’t scale
+### Loading components that don't scale
 
 A loading pattern can work on a single screen and break when reused elsewhere.
 
@@ -87,8 +87,8 @@ Warning signs:
 \- Undocumented loading states  
 \- Decisions made “because it looks good here”  
 
-That’s not flexibility.  
-It’s design debt applied to loading.
+That's not flexibility.  
+It's design debt applied to loading.
 
 ---
 
@@ -119,14 +119,14 @@ The key is that **the final content must honor this promise exactly**.
 
 One of the most common mistakes is designing only the “ideal” state.
 
-What’s usually missing?
+What's usually missing?
 
 \- Error states  
 \- Empty states  
 \- Partial states  
 \- Slow-loading states  
 
-When these states don’t exist in design, they are improvised during development…  
+When these states don't exist in design, they are improvised during development…  
 and they almost always break visual consistency.
 
 ---
@@ -157,7 +157,7 @@ When design starts from clearly defined states, the choice of pattern becomes ob
 \- Uncertain result → loader  
 \- Instant action → nothing  
 
-The pattern isn’t chosen by trend.  
+The pattern isn't chosen by trend.  
 It is **deduced from the state**.
 
 ---
@@ -172,20 +172,20 @@ Before adding a skeleton, ask yourself:
 \- Does it disappear without visual jumps?  
 \- Is it documented as a component state?  
 
-If any answer is “it depends,” it’s probably not the best option.
+If any answer is “it depends,” it's probably not the best option.
 
 ---
 
 ### How to reduce debt in loading patterns
 
-It’s not about adding more effects, but about making better decisions:
+It's not about adding more effects, but about making better decisions:
 
 \- States defined from the design phase  
 \- Skeletons aligned with real content  
-\- Loaders used when there’s uncertainty  
+\- Loaders used when there's uncertainty  
 \- Fewer patterns, more consistency  
 
-Loading doesn’t break the experience.  
+Loading doesn't break the experience.  
 **Poorly communicated loading does.**
 
 ---
@@ -196,7 +196,7 @@ Skeletons and loaders are not interchangeable.
 They are **communication tools**.
 
 When the UI promises what it later delivers, the experience flows.  
-When it doesn’t, friction appears—hard to explain, but easy to feel.
+When it doesn't, friction appears—hard to explain, but easy to feel.
 
 The problem is rarely loading itself.  
-It’s usually **the expectation created by design**.
+It's usually **the expectation created by design**.
