@@ -1,0 +1,207 @@
+---
+slug: breakpoint-driven-design
+title: "El fin del breakpoint-driven design"
+excerpt: "Diseñar solo para el viewport ya no basta: los componentes viven dentro de contenedores cambiantes. Breakpoints globales generan UI frágil; container queries y un enfoque híbrido reducen excepciones y deuda CSS."
+date: "2026-01-23"
+minutes: 9
+tags:
+  - UI
+  - CSS
+  - Frontend
+  - Arquitectura
+  - Design Systems
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-slate-900 via-violet-700 to-fuchsia-600"
+coverAlt: "Responsive moderno: componentes adaptativos por contenedor"
+locale: es
+---
+
+Durante años, el responsive ha girado alrededor de una idea simple: **el viewport manda**.
+
+Mobile, tablet, desktop.
+Todo se decide a base de breakpoints... y parece funcionar.
+
+Hasta que el componente deja de vivir donde lo diseñaste.
+
+Hoy los componentes aparecen dentro de sidebars, grids, modales, paneles, CMS y layouts reordenables. Y ahí el enfoque clásico empieza a fallar: no por CSS, sino por **modelo mental**.
+
+---
+
+### 1. Qué es el breakpoint-driven design
+
+El breakpoint-driven design es un enfoque donde el comportamiento del UI depende del tamaño de la pantalla:
+
+\- "Si es móvil, haz A" \
+\- "Si es desktop, haz B" \
+\- "Si es tablet... ya veremos"
+
+Se suele implementar con media queries globales:
+
+```css
+@media (min-width: 768px) {
+  .card {
+    display: flex;
+    gap: 1rem;
+  }
+}
+```
+
+En este enfoque, el breakpoint responde a la pregunta:
+
+> "¿Qué tamaño tiene la pantalla?"
+
+Y esa es justo la pregunta equivocada para muchos componentes modernos.
+
+---
+
+### 2. El problema real: pantallas grandes, componentes pequeños
+
+En producción, es muy común que pase esto:
+
+\- El viewport es grande → se activa el modo "desktop" \
+\- El componente asume que tiene aire \
+\- Pero en realidad vive dentro de un contenedor estrecho (sidebar, columna, modal...)
+
+Resultado típico:
+
+\- Botones apretados o saltando de línea \
+\- Títulos que colapsan \
+\- Iconos y acciones sin espacio \
+\- Overflow inesperado
+
+No es un bug puntual. Es una UI **dependiente de contexto**.
+
+---
+
+### 3. La pregunta correcta: ¿cuánto espacio real tiene el componente?
+
+El cambio de mentalidad es este:
+
+Pregunta equivocada:
+
+> "¿Qué tamaño tiene la pantalla?"
+
+Pregunta correcta:
+
+> "¿Cuánto espacio real tiene este componente?" 
+
+Cuando un componente solo funciona en su layout original, no es reutilizable. Es decorativo.
+
+Y esto, en sistemas de diseño, se convierte rápido en deuda: excepciones, overrides, variantes escondidas y CSS imposible de mantener.
+
+---
+
+### 4. De páginas responsivas a componentes adaptativos
+
+Antes diseñábamos páginas. Ahora diseñamos **sistemas**.
+
+Un componente puede vivir en:
+
+\- Una card dentro de un grid \
+\- Un panel lateral \
+\- Una vista embebida en un CMS \
+\- Un modal con ancho variable
+
+Si su comportamiento depende del viewport, el componente no controla nada.
+Solo reacciona a una condición que no describe su realidad.
+
+Lo que buscamos es:
+
+\- Comportamiento encapsulado \
+\- Reglas locales \
+\- Componentes que se adaptan al espacio disponible
+
+---
+
+### 5. Container queries: el responsive donde importa
+
+Las container queries permiten que un componente responda a su contenedor (no al viewport).
+
+Primero declaras el contenedor:
+
+```css
+.card {
+  container-type: inline-size;
+}
+```
+
+Y luego condicionas estilos al ancho real del contenedor:
+
+```css
+@container (min-width: 420px) {
+  .card__actions {
+    flex-direction: row;
+  }
+}
+```
+
+Ahora el componente:
+
+\- Funciona igual dentro de un grid o un sidebar \
+\- No necesita "modo desktop" global \
+\- Reduce casos especiales
+
+No es "más responsive". Es **más honesto** con el espacio real.
+
+---
+
+### 6. Señales claras de deuda por breakpoints
+
+Si en un proyecto aparecen estos síntomas, hay deuda latente:
+
+\- Media queries globales apuntando a componentes concretos \
+\- Clases tipo `.is-mobile` / `.is-desktop` \
+\- Bugs que "solo pasan en tablet" \
+\- Overrides por pantalla para arreglar un caso
+
+Eso no es flexibilidad.
+Es una UI que solo funciona en escenarios previstos.
+
+---
+
+### 7. El enfoque híbrido (el que realmente funciona)
+
+No se trata de eliminar breakpoints.
+
+Lo más sano es separar niveles:
+
+\- **Breakpoints** → estructura macro (layout de página, columnas principales) \
+\- **Container queries** → comportamiento micro (componentes)
+
+Ejemplo práctico:
+
+\- La página decide cuántas columnas hay → `@media` \
+\- La card decide cómo alinear acciones según su espacio → `@container`
+
+Ese reparto reduce fricción entre layout y componentes y hace que el UI escale mejor.
+
+---
+
+### Checklist rápida para detectar si un componente es "adaptativo"
+
+Antes de dar por bueno un componente responsive, revisa:
+
+1) ¿Funciona dentro de un contenedor estrecho sin depender del viewport?  
+2) ¿Sobrevive en un modal, sidebar y grid sin CSS extra?  
+3) ¿Su comportamiento está encapsulado (no requiere overrides globales)?  
+4) ¿Tolera contenido real (texto largo, traducciones, zoom)?  
+5) ¿Tiene estados pensados (loading, empty, error) sin romper el layout?
+
+Si varias respuestas son "depende", ese componente aún está atado al viewport.
+
+---
+
+### Conclusión
+
+El breakpoint-driven design no está "mal".
+Está **incompleto** como único enfoque.
+
+Las interfaces modernas no viven en páginas: viven en componentes reutilizados en contextos cambiantes.
+
+Diseñar solo para el viewport es diseñar para el caso ideal.  
+Diseñar para el contenedor es diseñar para producción.
+
+Y cuando un componente funciona fuera de su "home", la deuda de diseño baja... casi sola.
