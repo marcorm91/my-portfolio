@@ -21,7 +21,7 @@ locale: es
 
 Migrar Bootstrap no es simplemente actualizar una dependencia y continuar como si nada hubiera cambiado. Es intervenir una capa estructural que durante años ha condicionado cómo se construye la interfaz, cómo se organiza el CSS y cómo se modela el comportamiento interactivo. Con el tiempo, esa capa se vuelve invisible y deja de cuestionarse; pasa a formar parte del “ADN” del proyecto. Por eso el problema real nunca es la versión en sí misma, sino el nivel de acoplamiento que el sistema ha desarrollado alrededor del framework.
 
-## La falsa sensación de simplicidad
+### La falsa sensación de simplicidad
 
 En los roadmaps, la migración suele formularse como una tarea acotada: actualizar dependencias, cambiar clases deprecadas, eliminar jQuery y validar que todo siga funcionando. El relato es técnico y aparentemente controlable. Sin embargo, Bootstrap no es únicamente una colección de estilos; es una gramática del DOM, un sistema de convenciones y un contrato implícito entre HTML, CSS y JavaScript. Cuando se pasa de la versión 3 a la 5, no se están “ajustando clases”, se están alterando supuestos estructurales que el equipo llevaba años utilizando como si fueran parte del propio producto.
 
@@ -29,7 +29,7 @@ En los roadmaps, la migración suele formularse como una tarea acotada: actualiz
 
 El recorrido real no es 3 → 5, sino 3 → 4 → 5. Entre medias hay cambios profundos en el grid, en la filosofía de utilidades, en la estructura de componentes y en la forma en que se inicializan comportamientos. La eliminación de jQuery y la reestructuración de la data-API no son detalles menores; modifican el modelo mental con el que el equipo entiende la interacción. Esto implica trabajo de reescritura, no de sustitución mecánica. Cambian formas, contratos y expectativas, y eso tiene impacto directo en el diseño del sistema frontend.
 
-## El acoplamiento invisible
+### El acoplamiento invisible
 
 Uno de los mayores riesgos en este tipo de migraciones es el acoplamiento que no está documentado. A lo largo de los años, se construyen dependencias implícitas que no aparecen en ningún diagrama de arquitectura pero que condicionan el comportamiento real del sistema.
 
@@ -43,7 +43,7 @@ Uno de los mayores riesgos en este tipo de migraciones es el acoplamiento que no
 
 Cada uno de estos elementos representa una pequeña decisión histórica que, acumulada, se convierte en una red de dependencias difícil de deshacer. Al migrar, esa red se tensa y revela puntos frágiles que antes pasaban desapercibidos.
 
-## CSS como deuda estructural
+### CSS como deuda estructural
 
 La mayoría de proyectos no diseñan un sistema encima de Bootstrap; lo sobreescriben progresivamente. Se acumulan selectores cada vez más específicos, reglas dependientes de la jerarquía exacta del DOM y usos estratégicos de !important que solucionan problemas puntuales pero erosionan la coherencia global. Cuando la base cambia, ese CSS no falla de forma clara y centralizada, sino de manera dispersa e inconsistente.
 
@@ -56,8 +56,9 @@ La mayoría de proyectos no diseñan un sistema encima de Bootstrap; lo sobreesc
 
 No estamos ante bugs aislados, sino ante una degradación sistémica que evidencia la ausencia de un contrato claro entre diseño y código.
 
-## Conclusión: intervenir el sistema con intención
+### Conclusión: intervenir el sistema con intención
 
 Migrar Bootstrap puede ser una oportunidad estratégica o una amplificación silenciosa del caos existente. La diferencia no radica únicamente en la distancia entre la versión 3 y la 5, sino en la intención con la que se aborda el proceso. Si el objetivo es simplemente modernizar la superficie, el resultado será una colección de parches con estética actualizada. Si el objetivo es reducir acoplamiento, clarificar contratos y recuperar control sobre el sistema, entonces la migración se convierte en un ejercicio de arquitectura consciente.
+
 
 Bootstrap debería ser implementación, no arquitectura. Cuando el framework define la estructura profunda del producto, cada cambio de versión se convierte en una intervención mayor. Pero cuando el sistema está diseñado para sobrevivir al framework, migrar deja de ser un trauma y se convierte en evolución natural.
