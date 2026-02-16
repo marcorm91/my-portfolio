@@ -65,8 +65,8 @@ function parseSlugFromMdx(mdx: string): string | null {
 }
 
 function parseLocaleFromMdx(mdx: string): "es" | "en" | null {
-  const loc = mdx.match(/^\s*locale:\s*(es|en)\s*$/m)?.[1];
-  return (loc as any) ?? null;
+  const match = mdx.match(/locale:\s*["']?(es|en)["']?/);
+  return (match?.[1] as "es" | "en") ?? null;
 }
 
 async function telegramGetFilePath(fileId: string): Promise<string> {
