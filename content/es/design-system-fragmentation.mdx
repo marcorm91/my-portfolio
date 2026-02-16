@@ -1,0 +1,107 @@
+---
+slug: design-systems-fragmentation
+title: "Cuando el design system deja de ser sistema"
+excerpt: "Muchos design systems fracasan no por falta de componentes, sino por pérdida de coherencia. Analizamos cómo la fragmentación erosiona el valor en equipos UI."
+date: "2026-02-16"
+minutes: 14
+tags:
+  - UI
+  - Design Systems
+  - Frontend
+  - Architecture
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverImage: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzExMTgyNyIvPgogICAgPHN0b3Agb2Zmc2V0PSIwLjUiIHN0b3AtY29sb3I9IiMyNjM1NTMiLz4KICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA2YjZkNCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNDAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMTUwIiByPSIxMDAiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIgLz4KICA8Y2lyY2xlIGN4PSI5MDAiIGN5PSIyNTAiIHI9IjE0MCIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjA0IiAvPgo8L3N2Zz4="
+coverGradient: "from-slate-900 via-slate-700 to-cyan-500"
+coverAlt: "Componentes UI desalineados representando fragmentación de design system"
+locale: es
+---
+
+Un design system no fracasa cuando le faltan componentes. Fracasa cuando deja de comportarse como un sistema.
+
+En muchos equipos de UI, el design system empieza como una iniciativa estratégica: coherencia visual, reutilización, reducción de deuda, velocidad de entrega. Pero con el tiempo, y sin una gobernanza clara, ese sistema empieza a fragmentarse. Lo que era un lenguaje compartido se convierte en un repositorio de piezas.
+
+El problema no es la cantidad.  
+Es la pérdida de contrato.
+
+## La ilusión de madurez
+
+Cuando un equipo tiene librería de componentes, documentación y tokens de diseño, es fácil asumir que el design system está “maduro”. Sin embargo, la madurez no se mide por volumen, sino por consistencia operativa. Si cada squad interpreta los componentes de forma distinta, si los patrones se extienden sin revisión y si las excepciones se normalizan, el sistema empieza a erosionarse desde dentro.
+
+### Señales tempranas de fragmentación
+
+\- Variantes de botones creadas “solo para este flujo”  
+\- Componentes duplicados con diferencias mínimas  
+\- Tokens redefinidos localmente para resolver urgencias  
+\- Pull requests que modifican estilos base sin discusión transversal  
+\- Documentación que no refleja el estado real del código  
+
+Cada una de estas señales parece pequeña. En conjunto, indican que el contrato del sistema se está debilitando.
+
+## Cuando reutilizar deja de ser rentable
+
+El propósito de un design system no es solo compartir UI, sino reducir decisiones repetitivas. Cuando los desarrolladores comienzan a cuestionar si usar un componente existente o crear uno nuevo porque “es más rápido”, el sistema ya ha perdido parte de su legitimidad.
+
+### Costes invisibles de la duplicación
+
+\- Incremento del mantenimiento transversal  
+\- Mayor superficie de regresión visual  
+\- Dificultad para aplicar cambios globales  
+\- Pérdida de coherencia en microinteracciones  
+\- Aumento del tiempo de onboarding  
+
+Lo que parecía una optimización local se convierte en deuda global.
+
+## El problema de la gobernanza difusa
+
+Muchos design systems fallan porque nadie es realmente responsable de ellos. Existe un equipo “core”, pero las decisiones se diluyen entre squads, prioridades de negocio y deadlines ajustados. Sin un modelo claro de ownership y revisión, el sistema se convierte en un espacio donde todo es posible.
+
+### Patrones organizativos problemáticos
+
+\- Cambios estructurales aprobados sin revisión sistémica  
+\- Roadmaps del sistema desconectados del roadmap de producto  
+\- Falta de métricas claras sobre adopción y consistencia  
+\- Ausencia de criterios explícitos para aceptar nuevas variantes  
+
+Sin gobernanza, el sistema se transforma en catálogo.
+
+## El desalineamiento entre diseño y código
+
+Uno de los puntos más críticos es la divergencia progresiva entre la librería implementada y la librería diseñada. Cuando Figma y el código dejan de sincronizarse, el equipo empieza a tomar atajos. Aparecen estilos inline, overrides puntuales y micro-ajustes visuales que no vuelven al sistema.
+
+<section className="mx-auto my-10 max-w-[720px] rounded-2xl border border-black/10 bg-white p-6 shadow-sm" aria-labelledby="system-risk-title">
+  <h4 id="system-risk-title" className="text-lg font-semibold text-slate-900">
+    Lo que suele indicar que el sistema ya no es sistema
+  </h4>
+  <ul className="mt-4 space-y-2 text-sm text-slate-700">
+    <li>• Más excepciones que reglas en los componentes</li>
+    <li>• Variantes no documentadas pero usadas en producción</li>
+    <li>• Tokens sobrescritos a nivel local</li>
+    <li>• Diseño y frontend discutiendo diferencias en cada entrega</li>
+  </ul>
+  <p className="mt-4 text-sm font-medium text-slate-900">
+    Cuando la coherencia depende de personas concretas y no del sistema, el sistema ya está debilitado.
+  </p>
+</section>
+
+## Estrategia: reforzar contratos, no añadir componentes
+
+La solución a la fragmentación no es añadir más piezas, sino reforzar contratos. Eso implica definir criterios claros para nuevas variantes, establecer procesos de revisión transversales y medir adopción real. Un design system saludable no crece por acumulación, sino por consolidación.
+
+### Acciones estructurales recomendadas
+
+\- Definir ownership explícito y modelo de decisión  
+\- Auditar componentes duplicados y consolidarlos  
+\- Establecer métricas de coherencia visual  
+\- Sincronizar roadmap de sistema con roadmap de producto  
+\- Priorizar refactor sobre expansión  
+
+Sin disciplina, la complejidad siempre gana.
+
+## Conclusión: sistema o colección
+
+Un design system no es una librería de UI. Es una capa arquitectónica que define cómo se toman decisiones visuales y de interacción en un producto. Cuando esa capa pierde coherencia, el equipo vuelve a diseñar desde cero en cada sprint, aunque use los mismos nombres de componentes.
+
+La fragmentación no ocurre de un día para otro. Es el resultado acumulado de pequeñas excepciones no gestionadas. Mantener un design system sano exige intención, gobernanza y disciplina técnica. Porque cuando el sistema deja de ser sistema, la deuda ya no es visual: es estructural.
