@@ -1,0 +1,107 @@
+---
+slug: design-systems-fragmentation
+title: "When a Design System Stops Being a System"
+excerpt: "Design systems rarely fail due to lack of components. They fail when coherence erodes. We explore fragmentation in UI development teams."
+date: "2026-02-16"
+minutes: 14
+tags:
+  - UI
+  - Design Systems
+  - Frontend
+  - Architecture
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverImage: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzExMTgyNyIvPgogICAgPHN0b3Agb2Zmc2V0PSIwLjUiIHN0b3AtY29sb3I9IiMyNjM1NTMiLz4KICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA2YjZkNCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNDAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMTUwIiByPSIxMDAiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIgLz4KICA8Y2lyY2xlIGN4PSI5MDAiIGN5PSIyNTAiIHI9IjE0MCIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjA0IiAvPgo8L3N2Zz4="
+coverGradient: "from-slate-900 via-slate-700 to-cyan-500"
+coverAlt: "Misaligned UI components representing design system fragmentation"
+locale: en
+---
+
+A design system does not fail when it lacks components. It fails when it stops behaving like a system.
+
+In many UI teams, the design system starts as a strategic initiative: visual coherence, reusability, reduced debt, faster delivery. Over time, without clear governance, that system begins to fragment. What was once a shared language turns into a repository of pieces.
+
+The problem is not quantity.  
+It is the erosion of contracts.
+
+## The illusion of maturity
+
+Having a component library, documentation, and design tokens creates the perception of maturity. But maturity is not measured by volume; it is measured by operational consistency. When squads interpret components differently, extend patterns without review, and normalize exceptions, coherence quietly deteriorates.
+
+### Early signals of fragmentation
+
+\- One-off variants created “just for this flow”  
+\- Near-duplicate components with subtle differences  
+\- Locally overridden tokens to meet deadlines  
+\- Structural style changes merged without systemic review  
+\- Documentation lagging behind actual implementation  
+
+Individually minor, collectively structural.
+
+## When reuse stops being cheaper
+
+The promise of a design system is not only shared UI but reduced repeated decisions. When developers hesitate between using an existing component or creating a new one because “it’s faster,” the system has already lost authority.
+
+### Hidden costs of duplication
+
+\- Increased cross-cutting maintenance  
+\- Larger visual regression surface  
+\- Harder global refactors  
+\- Interaction inconsistencies  
+\- Slower onboarding  
+
+Local optimization creates global debt.
+
+## Governance and ownership
+
+Many systems degrade because ownership is unclear. A core team may exist, but decision rights are blurred across squads and product pressures. Without explicit criteria for accepting new variants and evolving primitives, the system becomes permissive.
+
+### Organizational anti-patterns
+
+\- Structural changes approved without systemic review  
+\- Product roadmap disconnected from system roadmap  
+\- No metrics on adoption or divergence  
+\- Undefined acceptance criteria for new components  
+
+Without governance, systems drift.
+
+## Design-code divergence
+
+A critical inflection point occurs when design files and implemented components diverge. Once Figma and code stop mirroring each other, teams begin compensating locally. Inline styles and ad-hoc overrides emerge, rarely flowing back into the system.
+
+<section className="mx-auto my-10 max-w-[720px] rounded-2xl border border-black/10 bg-white p-6 shadow-sm" aria-labelledby="system-risk-title-en">
+  <h4 id="system-risk-title-en" className="text-lg font-semibold text-slate-900">
+    Indicators the system is no longer systemic
+  </h4>
+  <ul className="mt-4 space-y-2 text-sm text-slate-700">
+    <li>• More exceptions than canonical variants</li>
+    <li>• Undocumented production variants</li>
+    <li>• Token overrides at local scope</li>
+    <li>• Repeated design-engineering alignment gaps</li>
+  </ul>
+  <p className="mt-4 text-sm font-medium text-slate-900">
+    When coherence depends on individuals rather than structure, the system is fragile.
+  </p>
+</section>
+
+## Strategy: strengthen contracts, not inventory
+
+The answer to fragmentation is not adding more components. It is reinforcing contracts. That means defining variant criteria, implementing cross-squad review processes, measuring adoption, and prioritizing consolidation over expansion.
+
+### Structural interventions
+
+\- Explicit ownership and governance model  
+\- Component audits and consolidation  
+\- Visual consistency metrics  
+\- Roadmap alignment between product and system  
+\- Refactoring prioritized over feature expansion  
+
+Discipline sustains coherence.
+
+## Conclusion: system or collection
+
+A design system is not a UI kit; it is an architectural layer that governs decision-making in visual and interaction design. When coherence erodes, teams effectively redesign in every sprint, even if they reuse familiar names.
+
+Fragmentation is incremental. It accumulates through unmanaged exceptions. Sustaining a healthy design system requires intentional governance, technical rigor, and cross-functional alignment. When the system stops being a system, the debt is no longer visual. It is structural.
