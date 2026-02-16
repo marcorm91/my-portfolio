@@ -18,15 +18,22 @@ type TelegramUpdate = {
       file_id: string;
       file_name?: string;
       file_size?: number;
+      mime_type?: string;
     };
   };
 };
 
 async function telegramSendMessage(chatId: number, text: string) {
+  if (!TELEGRAM_BOT_TOKEN) return;
+
   await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
+    body: JSON.stringify({
+      chat_id: chatId,
+      text,
+      disable_web_page_preview: true,
+    }),
   });
 }
 
@@ -83,7 +90,7 @@ async function telegramDownloadFileText(filePath: string): Promise<string> {
 }
 
 async function createBilingualPullRequest(params: {
-  filename: string;         // mismo filename para ES y EN
+  filename: string; // mismo filename para ES y EN
   mdxEs: string;
   mdxEn: string;
   branchSlug: string;
@@ -94,6 +101,8 @@ async function createBilingualPullRequest(params: {
   const filePathEn = `content/en/${filename}`;
 
   const [owner, repo] = GITHUB_REPO.split("/");
+  if (!owner || !repo) throw new Error("GITHUB_REPO inválido. Debe ser 'owner/repo'.");
+
   const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
   // 1) SHA del branch base
@@ -152,23 +161,23 @@ async function createBilingualPullRequest(params: {
 
 export async function POST(req: Request) {
   const res = NextResponse.json({ ok: true });
+  let chatId: number | undefined;
 
   try {
     const update = (await req.json()) as TelegramUpdate;
 
-    const chatId = update.message?.chat?.id;
+    chatId = update.message?.chat?.id;
     if (!chatId) return res;
     if (String(chatId) !== String(ALLOWED_CHAT_ID)) return res;
 
     const caption = update.message?.caption ?? "";
-    const text = update.message?.text ?? "";
     const doc = update.message?.document;
 
-    // ✅ En este modo, OBLIGAMOS a usar archivo .txt (para evitar límites)
+    // En este modo: SOLO archivo .txt (bilingüe obligatorio)
     if (!doc) {
       await telegramSendMessage(
         chatId,
-        "❌ Envíame un archivo .txt con ES+EN. Ejemplo: post.txt (bilingüe obligatorio)."
+        "❌ Envíame un archivo .txt bilingüe (ES+EN). Debe incluir /pr filename=... y bloques ---ES_START---/---EN_START---."
       );
       return res;
     }
@@ -181,7 +190,7 @@ export async function POST(req: Request) {
 
     // Tamaño máximo razonable
     if (doc.file_size && doc.file_size > 600_000) {
-      await telegramSendMessage(chatId, "❌ Archivo demasiado grande. Divide el post en partes más pequeñas.");
+      await telegramSendMessage(chatId, "❌ Archivo demasiado grande. Reduce tamaño o divide el post.");
       return res;
     }
 
@@ -192,7 +201,11 @@ export async function POST(req: Request) {
     // El comando /pr puede venir en caption o dentro del archivo (primera línea)
     const merged = caption.trim().startsWith("/pr") ? `${caption}\n${fileText}` : fileText;
 
-    const filenameParam = parseFilenameFromPrCommand(merged);
+    // ✅ Si el /pr no se detecta por BOM o espacios invisibles, ponemos fallback:
+    const trimmedStart = merged.replace(/^\uFEFF/, "").trimStart();
+    const mergedSafe = trimmedStart.startsWith("/pr") ? trimmedStart : merged;
+
+    const filenameParam = parseFilenameFromPrCommand(mergedSafe);
     if (!filenameParam) {
       await telegramSendMessage(
         chatId,
@@ -202,8 +215,8 @@ export async function POST(req: Request) {
     }
 
     // Extraer secciones ES/EN (obligatorias)
-    const esSection = extractBetween(merged, "---ES_START---", "---ES_END---");
-    const enSection = extractBetween(merged, "---EN_START---", "---EN_END---");
+    const esSection = extractBetween(mergedSafe, "---ES_START---", "---ES_END---");
+    const enSection = extractBetween(mergedSafe, "---EN_START---", "---EN_END---");
 
     if (!esSection || !enSection) {
       await telegramSendMessage(
@@ -222,14 +235,14 @@ export async function POST(req: Request) {
     if (locEs !== "es") throw new Error("El bloque ES debe tener `locale: es` en el frontmatter.");
     if (locEn !== "en") throw new Error("El bloque EN debe tener `locale: en` en el frontmatter.");
 
-    // Usamos slug del ES (o EN) para rama; deben coincidir (recomendado)
+    // Slug: recomendado igual (lo hacemos obligatorio)
     const slugEs = parseSlugFromMdx(mdxEs);
     const slugEn = parseSlugFromMdx(mdxEn);
 
-    const branchSlug = (slugEs ?? slugEn ?? filenameParam.replace(/\.mdx$/, "")).toLowerCase();
-    if (slugEs && slugEn && slugEs !== slugEn) {
-      throw new Error("Los slugs ES y EN deben ser iguales.");
-    }
+    if (!slugEs || !slugEn) throw new Error("Ambos bloques deben incluir `slug:` en el frontmatter.");
+    if (slugEs !== slugEn) throw new Error("Los slugs ES y EN deben ser iguales.");
+
+    const branchSlug = slugEs.toLowerCase();
 
     // Crear PR con 2 archivos
     const prUrl = await createBilingualPullRequest({
@@ -242,10 +255,9 @@ export async function POST(req: Request) {
     await telegramSendMessage(chatId, `✅ PR creada (ES+EN): ${prUrl}`);
     return res;
   } catch (e: any) {
-    // Mensaje de error al chat autorizado
-    try {
-      // No siempre tenemos chatId en scope, pero lo intentamos con un fallback simple
-    } catch {}
-    return NextResponse.json({ ok: true });
+    if (chatId && String(chatId) === String(ALLOWED_CHAT_ID)) {
+      await telegramSendMessage(chatId, `❌ Error: ${e?.message ?? String(e)}`);
+    }
+    return res;
   }
 }
