@@ -61,7 +61,8 @@ function parseFilenameFromPrCommand(text: string): string | null {
 }
 
 function parseSlugFromMdx(mdx: string): string | null {
-  return mdx.match(/^\s*slug:\s*([A-Za-z0-9-_]+)/m)?.[1] ?? null;
+  const match = mdx.match(/slug:\s*["']?([A-Za-z0-9-_]+)["']?/);
+  return match?.[1] ?? null;
 }
 
 function parseLocaleFromMdx(mdx: string): "es" | "en" | null {
