@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { Octokit } from "@octokit/rest";
 
+export const runtime = "nodejs";
+
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
 const ALLOWED_CHAT_ID = process.env.TELEGRAM_ALLOWED_CHAT_ID!;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
@@ -11,6 +13,12 @@ type TelegramUpdate = {
   message?: {
     chat?: { id?: number };
     text?: string;
+    caption?: string;
+    document?: {
+      file_id: string;
+      file_name?: string;
+      file_size?: number;
+    };
   };
 };
 
@@ -22,113 +30,222 @@ async function telegramSendMessage(chatId: number, text: string) {
   });
 }
 
-function parsePrCommand(text: string) {
-  // /pr locale=es filename=algo.mdx
-  const firstLine = text.split("\n")[0] || "";
-  const locale = (firstLine.match(/locale=(es|en)/)?.[1] ?? "es") as "es" | "en";
-  const filename = firstLine.match(/filename=([A-Za-z0-9-_.]+\.mdx)/)?.[1] ?? null;
-
-  const start = text.indexOf("---MDX_START---");
-  const end = text.indexOf("---MDX_END---");
-  if (start === -1 || end === -1 || end <= start) {
-    throw new Error("Formato inválido: faltan ---MDX_START--- / ---MDX_END---");
-  }
-
-  const mdx = text.slice(start + "---MDX_START---".length, end).trim();
-  const slug = mdx.match(/^\s*slug:\s*([A-Za-z0-9-_]+)/m)?.[1] ?? null;
-
-  return { locale, filename, mdx, slug };
-}
-
 function toBase64(str: string) {
   return Buffer.from(str, "utf8").toString("base64");
 }
 
+function extractBetween(text: string, startMark: string, endMark: string) {
+  const start = text.indexOf(startMark);
+  const end = text.indexOf(endMark);
+  if (start === -1 || end === -1 || end <= start) return null;
+  return text.slice(start + startMark.length, end).trim();
+}
+
+function extractMdxBlock(sectionText: string) {
+  const mdx = extractBetween(sectionText, "---MDX_START---", "---MDX_END---");
+  if (!mdx) throw new Error("Falta bloque ---MDX_START--- / ---MDX_END--- dentro de la sección.");
+  return mdx.trim();
+}
+
+function parseFilenameFromPrCommand(text: string): string | null {
+  const firstLine = (text.split("\n")[0] || "").trim();
+  if (!firstLine.startsWith("/pr")) return null;
+  return firstLine.match(/filename=([A-Za-z0-9-_.]+\.mdx)/)?.[1] ?? null;
+}
+
+function parseSlugFromMdx(mdx: string): string | null {
+  return mdx.match(/^\s*slug:\s*([A-Za-z0-9-_]+)/m)?.[1] ?? null;
+}
+
+function parseLocaleFromMdx(mdx: string): "es" | "en" | null {
+  const loc = mdx.match(/^\s*locale:\s*(es|en)\s*$/m)?.[1];
+  return (loc as any) ?? null;
+}
+
+async function telegramGetFilePath(fileId: string): Promise<string> {
+  const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getFile`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ file_id: fileId }),
+  });
+
+  const json = (await res.json()) as any;
+  const filePath = json?.result?.file_path as string | undefined;
+  if (!filePath) throw new Error("No se pudo obtener file_path desde Telegram getFile()");
+  return filePath;
+}
+
+async function telegramDownloadFileText(filePath: string): Promise<string> {
+  const url = `https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${filePath}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`No se pudo descargar el archivo: ${res.status} ${res.statusText}`);
+  return await res.text();
+}
+
+async function createBilingualPullRequest(params: {
+  filename: string;         // mismo filename para ES y EN
+  mdxEs: string;
+  mdxEn: string;
+  branchSlug: string;
+}) {
+  const { filename, mdxEs, mdxEn, branchSlug } = params;
+
+  const filePathEs = `content/es/${filename}`;
+  const filePathEn = `content/en/${filename}`;
+
+  const [owner, repo] = GITHUB_REPO.split("/");
+  const octokit = new Octokit({ auth: GITHUB_TOKEN });
+
+  // 1) SHA del branch base
+  const baseRef = await octokit.git.getRef({
+    owner,
+    repo,
+    ref: `heads/${GITHUB_DEFAULT_BRANCH}`,
+  });
+  const baseSha = baseRef.data.object.sha;
+
+  // 2) Crear branch (si existe, sufijo timestamp)
+  let branchName = `post/${branchSlug}`;
+  try {
+    await octokit.git.createRef({ owner, repo, ref: `refs/heads/${branchName}`, sha: baseSha });
+  } catch {
+    branchName = `post/${branchSlug}-${Date.now()}`;
+    await octokit.git.createRef({ owner, repo, ref: `refs/heads/${branchName}`, sha: baseSha });
+  }
+
+  // 3) Crear/actualizar ambos archivos en la misma rama
+  await octokit.repos.createOrUpdateFileContents({
+    owner,
+    repo,
+    path: filePathEs,
+    message: `content: add ${filename} (es)`,
+    content: toBase64(mdxEs),
+    branch: branchName,
+  });
+
+  await octokit.repos.createOrUpdateFileContents({
+    owner,
+    repo,
+    path: filePathEn,
+    message: `content: add ${filename} (en)`,
+    content: toBase64(mdxEn),
+    branch: branchName,
+  });
+
+  // 4) Crear PR con ambos cambios
+  const prTitle = `Post: ${branchSlug} (es+en)`;
+  const prBody =
+    `Añade post bilingüe:\n- \`${filePathEs}\`\n- \`${filePathEn}\`\n\n` +
+    `Checklist:\n- [ ] Revisar copy ES\n- [ ] Revisar copy EN\n- [ ] Revisar tags/minutes\n- [ ] Revisar coverAlt/SEO\n`;
+
+  const pr = await octokit.pulls.create({
+    owner,
+    repo,
+    title: prTitle,
+    head: branchName,
+    base: GITHUB_DEFAULT_BRANCH,
+    body: prBody,
+  });
+
+  return pr.data.html_url;
+}
+
 export async function POST(req: Request) {
-  // Responder rápido a Telegram
   const res = NextResponse.json({ ok: true });
 
   try {
     const update = (await req.json()) as TelegramUpdate;
 
     const chatId = update.message?.chat?.id;
-    const text = update.message?.text ?? "";
-
     if (!chatId) return res;
     if (String(chatId) !== String(ALLOWED_CHAT_ID)) return res;
 
-    if (!text.startsWith("/pr")) {
+    const caption = update.message?.caption ?? "";
+    const text = update.message?.text ?? "";
+    const doc = update.message?.document;
+
+    // ✅ En este modo, OBLIGAMOS a usar archivo .txt (para evitar límites)
+    if (!doc) {
       await telegramSendMessage(
         chatId,
-        "Usa /pr locale=es|en filename=mi-post.mdx y pega el contenido entre ---MDX_START--- y ---MDX_END---."
+        "❌ Envíame un archivo .txt con ES+EN. Ejemplo: post.txt (bilingüe obligatorio)."
       );
       return res;
     }
 
-    const { locale, filename, mdx, slug } = parsePrCommand(text);
-    const finalName = filename ?? (slug ? `${slug}.mdx` : null);
-    if (!finalName) throw new Error("No se pudo determinar filename. Añade filename=... o slug en frontmatter.");
+    const fileName = (doc.file_name ?? "").toLowerCase();
+    if (!fileName.endsWith(".txt")) {
+      await telegramSendMessage(chatId, "❌ El archivo debe ser .txt (por ejemplo: post.txt).");
+      return res;
+    }
 
-    const filePath = `content/${locale}/${finalName}`;
-    const branchSlug = (slug ?? finalName.replace(/\.mdx$/, "")).toLowerCase();
-    const branchName = `post/${branchSlug}`;
+    // Tamaño máximo razonable
+    if (doc.file_size && doc.file_size > 600_000) {
+      await telegramSendMessage(chatId, "❌ Archivo demasiado grande. Divide el post en partes más pequeñas.");
+      return res;
+    }
 
-    const [owner, repo] = GITHUB_REPO.split("/");
-    const octokit = new Octokit({ auth: GITHUB_TOKEN });
+    // Descargar txt
+    const filePath = await telegramGetFilePath(doc.file_id);
+    const fileText = await telegramDownloadFileText(filePath);
 
-    // 1) Obtener SHA del branch base
-    const baseRef = await octokit.git.getRef({
-      owner,
-      repo,
-      ref: `heads/${GITHUB_DEFAULT_BRANCH}`,
+    // El comando /pr puede venir en caption o dentro del archivo (primera línea)
+    const merged = caption.trim().startsWith("/pr") ? `${caption}\n${fileText}` : fileText;
+
+    const filenameParam = parseFilenameFromPrCommand(merged);
+    if (!filenameParam) {
+      await telegramSendMessage(
+        chatId,
+        '❌ Falta "/pr filename=..." (en el caption o como primera línea del txt).'
+      );
+      return res;
+    }
+
+    // Extraer secciones ES/EN (obligatorias)
+    const esSection = extractBetween(merged, "---ES_START---", "---ES_END---");
+    const enSection = extractBetween(merged, "---EN_START---", "---EN_END---");
+
+    if (!esSection || !enSection) {
+      await telegramSendMessage(
+        chatId,
+        "❌ Formato inválido. Debe incluir ---ES_START---...---ES_END--- y ---EN_START---...---EN_END---."
+      );
+      return res;
+    }
+
+    const mdxEs = extractMdxBlock(esSection);
+    const mdxEn = extractMdxBlock(enSection);
+
+    // Validaciones: locale correcto en cada bloque
+    const locEs = parseLocaleFromMdx(mdxEs);
+    const locEn = parseLocaleFromMdx(mdxEn);
+    if (locEs !== "es") throw new Error("El bloque ES debe tener `locale: es` en el frontmatter.");
+    if (locEn !== "en") throw new Error("El bloque EN debe tener `locale: en` en el frontmatter.");
+
+    // Usamos slug del ES (o EN) para rama; deben coincidir (recomendado)
+    const slugEs = parseSlugFromMdx(mdxEs);
+    const slugEn = parseSlugFromMdx(mdxEn);
+
+    const branchSlug = (slugEs ?? slugEn ?? filenameParam.replace(/\.mdx$/, "")).toLowerCase();
+    if (slugEs && slugEn && slugEs !== slugEn) {
+      throw new Error("Los slugs ES y EN deben ser iguales.");
+    }
+
+    // Crear PR con 2 archivos
+    const prUrl = await createBilingualPullRequest({
+      filename: filenameParam,
+      mdxEs,
+      mdxEn,
+      branchSlug,
     });
 
-    const baseSha = baseRef.data.object.sha;
-
-    // 2) Crear branch
-    await octokit.git.createRef({
-      owner,
-      repo,
-      ref: `refs/heads/${branchName}`,
-      sha: baseSha,
-    });
-
-    // 3) Crear/actualizar archivo en esa rama
-    await octokit.repos.createOrUpdateFileContents({
-      owner,
-      repo,
-      path: filePath,
-      message: `content: add ${finalName} (${locale})`,
-      content: toBase64(mdx),
-      branch: branchName,
-    });
-
-    // 4) Crear PR
-    const prTitle = slug ? `Post: ${slug} (${locale})` : `Post: ${finalName} (${locale})`;
-    const prBody =
-      `Añade post en \`${filePath}\`.\n\n` +
-      `Checklist:\n- [ ] Revisar copy\n- [ ] Revisar tags/minutes\n- [ ] Revisar coverAlt/SEO\n`;
-
-    const pr = await octokit.pulls.create({
-      owner,
-      repo,
-      title: prTitle,
-      head: branchName,
-      base: GITHUB_DEFAULT_BRANCH,
-      body: prBody,
-    });
-
-    await telegramSendMessage(chatId, `✅ PR creada: ${pr.data.html_url}`);
+    await telegramSendMessage(chatId, `✅ PR creada (ES+EN): ${prUrl}`);
     return res;
   } catch (e: any) {
-    // Si tu chat id es válido, notifícalo; si no, no respondas
+    // Mensaje de error al chat autorizado
     try {
-      const update = (await req.json().catch(() => null)) as TelegramUpdate | null;
-      const chatId = update?.message?.chat?.id;
-      if (chatId && String(chatId) === String(ALLOWED_CHAT_ID)) {
-        await telegramSendMessage(chatId, `❌ Error: ${e?.message ?? "desconocido"}`);
-      }
+      // No siempre tenemos chatId en scope, pero lo intentamos con un fallback simple
     } catch {}
-    return res;
+    return NextResponse.json({ ok: true });
   }
 }
