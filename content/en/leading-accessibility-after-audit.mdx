@@ -13,13 +13,13 @@ tags:
 locale: en
 ---
 
-The project did not start as an internal improvement initiative. \  
+The project did not start as an internal improvement initiative.<br />
 It came from an external accessibility audit for a high-profile client.
 
 The report identified multiple compliance gaps and structural weaknesses. This was not optional refinement. It was mandatory correction under deadlines, visibility, and stakeholder scrutiny.
 
-The team was small: 
-one frontend developer and two markup specialists. 
+The team was small:<br />
+one frontend developer and two markup specialists.<br />
 I assumed technical coordination of the effort.
 
 It was not perfect from day one.
@@ -30,16 +30,16 @@ The audit document was extensive and technically dense. Treating it as a flat li
 
 We reorganized findings by criteria:
 
-\- Structure and semantic markup   
-\- Navigation and focus management 
-\- Forms and validation logic 
-\- Reusable components 
-\- Visual system consistency 
+\- Structure and semantic markup<br />
+\- Navigation and focus management<br />
+\- Forms and validation logic<br />
+\- Reusable components<br />
+\- Visual system consistency<br />
 
-Grouping by criteria exposed recurring patterns and cross-dependencies.  
+Grouping by criteria exposed recurring patterns and cross-dependencies.<br />
 We shifted from fixing isolated pages to addressing structural layers of the system.
 
-That shift created strategic clarity.  
+That shift created strategic clarity.<br />
 It did not eliminate early mistakes.
 
 ### Task Distribution in a Small Team
@@ -48,15 +48,15 @@ With one frontend developer and two markup specialists, allocation needed to be 
 
 Initial structure:
 
-\- Markup specialists → structural HTML corrections, heading hierarchy, labels, global semantic adjustments 
-\- Frontend developer → focus control, dynamic behavior, validation logic, interaction states, edge cases 
-\- Coordination → cross-criteria supervision, final validation, client communication 
+\- Markup specialists → structural HTML corrections, heading hierarchy, labels, global semantic adjustments<br />
+\- Frontend developer → focus control, dynamic behavior, validation logic, interaction states, edge cases<br />
+\- Coordination → cross-criteria supervision, final validation, client communication<br />
 
 On paper, the structure worked.
 
 In practice, structural markup changes affected existing JavaScript logic. Adjusting the DOM sometimes broke interactions we did not immediately detect. Not due to lack of knowledge, but due to insufficient synchronization.
 
-Accessibility impacts structure and behavior simultaneously.  
+Accessibility impacts structure and behavior simultaneously.<br />
 That requires deliberate coordination.
 
 ### Early Regressions
@@ -65,14 +65,14 @@ The primary mistake was moving too fast without a strong control layer between m
 
 Real examples:
 
-\- Modal restructuring breaking focus trapping 
-\- Form updates altering validation flows 
-\- Heading hierarchy corrections affecting dependent styles and visual tests 
+\- Modal restructuring breaking focus trapping<br />
+\- Form updates altering validation flows<br />
+\- Heading hierarchy corrections affecting dependent styles and visual tests<br />
 
-None caused full system failure.  
+None caused full system failure.<br />
 All required rework and created internal friction.
 
-We underestimated the systemic impact of structural corrections.  
+We underestimated the systemic impact of structural corrections.<br />
 Accessibility fixes are architectural interventions.
 
 ### Process Adjustment and Stabilization
@@ -81,11 +81,11 @@ After early regressions, we paused and reviewed the workflow itself.
 
 We introduced:
 
-\- Cross-review between markup and frontend before closing any criterion block 
-\- Full interaction flow validation after structural changes 
-\- A minimal mandatory checklist before QA transition 
+\- Cross-review between markup and frontend before closing any criterion block<br />
+\- Full interaction flow validation after structural changes<br />
+\- A minimal mandatory checklist before QA transition<br />
 
-Velocity decreased temporarily.  
+Velocity decreased temporarily.<br />
 Stability improved significantly.
 
 Slowing down was a strategic decision. It restored control.
@@ -96,9 +96,9 @@ We refined the criteria-based approach further.
 
 Instead of isolated component fixes, we defined reusable base patterns:
 
-\- Standard accessible form structure 
-\- Unified modal implementation with controlled focus 
-\- Consistent visible focus rule applied system-wide 
+\- Standard accessible form structure<br />
+\- Unified modal implementation with controlled focus<br />
+\- Consistent visible focus rule applied system-wide<br />
 
 Each corrected pattern was applied globally.
 
@@ -110,9 +110,9 @@ After the first issues, we chose clarity over concealment.
 
 We reported by criteria:
 
-\- What was fully corrected 
-\- What impact certain changes had 
-\- What internal process improvements were implemented 
+\- What was fully corrected<br />
+\- What impact certain changes had<br />
+\- What internal process improvements were implemented<br />
 
 Transparency strengthened trust.
 
@@ -120,27 +120,27 @@ The client moved from seeing isolated fixes to recognizing systemic control and 
 
 ### What Leadership Meant in Practice
 
-Leadership was not about citing more guidelines.  
+Leadership was not about citing more guidelines.<br />
 It was about structuring execution under pressure.
 
 I learned to:
 
-\- Break down complex problems into manageable systems 
-\- Distribute responsibilities according to real specialization 
-\- Adjust process after mistakes without blame 
-\- Maintain technical coherence under external visibility 
+\- Break down complex problems into manageable systems<br />
+\- Distribute responsibilities according to real specialization<br />
+\- Adjust process after mistakes without blame<br />
+\- Maintain technical coherence under external visibility<br />
 
-Early regressions were not failure.  
+Early regressions were not failure.<br />
 They were calibration.
 
 ### Conclusion
 
-This was not a flawless execution story.  
+This was not a flawless execution story.<br />
 It was an adaptive and realistic one.
 
-We moved too fast. 
-We introduced regressions. 
-We corrected the system. 
+We moved too fast.<br />
+We introduced regressions.<br />
+We corrected the system.<br />
 
 The structural lesson was clear: accessibility changes are architectural changes. They demand coordination between markup and logic, especially in small teams where each modification has direct impact.
 
