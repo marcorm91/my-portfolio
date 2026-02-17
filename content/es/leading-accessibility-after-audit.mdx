@@ -1,5 +1,5 @@
 ---
-slug:  leading-accessibility-after-audit
+slug: leading-accessibility-after-audit
 title: "Auditoría, Equipo y Regresiones"
 excerpt: "Una experiencia real liderando accesibilidad tras una auditoría para un cliente importante: organización por criterios, equipo reducido, regresiones iniciales y cómo conseguimos estabilizar el sistema."
 date: "2026-02-17"
@@ -13,142 +13,138 @@ tags:
 locale: es
 ---
 
-El proyecto no comenzó como mejora interna. 
+El proyecto no comenzó como mejora interna.<br />
 Llegó tras una auditoría externa para un cliente importante.
 
-El informe señalaba múltiples incumplimientos y problemas estructurales. No era optimización opcional. Era corrección obligatoria bajo presión, con deadlines definidos y exposición directa ante stakeholders.
+El informe señalaba múltiples incumplimientos y debilidades estructurales. No era una optimización opcional. Era una corrección obligatoria bajo presión, con deadlines definidos y exposición directa ante stakeholders.
 
-El equipo era reducido: 
-un frontend developer y dos maquetadores. 
-Yo asumí la coordinación técnica del proceso.
+El equipo era pequeño:<br />
+un frontend developer y dos maquetadores.<br />
+Asumí la coordinación técnica del proceso.
 
-No fue perfecto desde el inicio.
+No fue perfecto desde el primer día.
 
-### Descomponer la auditoría sin colapsar
+### Descomponer la auditoría sin colapsar al equipo
 
-La auditoría era extensa y técnicamente densa. Tratarla como una lista lineal de issues habría saturado al equipo y generado sensación de bloqueo.
+La auditoría era extensa y técnicamente densa. Tratarla como una lista lineal de issues habría saturado al equipo rápidamente.
 
-La reorganizamos por criterios:
+Reorganizamos los hallazgos por criterios:
 
-\- Estructura y semántica 
-\- Navegación y gestión de foco 
-\- Formularios y validaciones 
-\- Componentes reutilizables 
-\- Sistema visual 
+\- Estructura y semántica<br />
+\- Navegación y gestión del foco<br />
+\- Formularios y lógica de validación<br />
+\- Componentes reutilizables<br />
+\- Consistencia del sistema visual<br />
 
-Agrupar por criterio permitió detectar patrones repetidos y dependencias cruzadas.  
-Pasamos de arreglar pantallas aisladas a intervenir sobre capas estructurales del sistema.
+Agrupar por criterio permitió detectar patrones recurrentes y dependencias cruzadas.<br />
+Pasamos de corregir páginas aisladas a intervenir capas estructurales del sistema.
 
-Ese cambio dio claridad estratégica.  
-No evitó los errores iniciales.
+Ese cambio aportó claridad estratégica.<br />
+No eliminó los errores iniciales.
 
-### Reparto de tareas en un equipo pequeño
+### Reparto de tareas en un equipo reducido
 
-Con un frontend y dos perfiles de maquetación, la distribución debía ser precisa y realista.
+Con un frontend y dos perfiles de maquetación, la asignación debía ser precisa y realista.
 
-Asignación inicial:
+Estructura inicial:
 
-\- Maquetadores → correcciones HTML estructurales, jerarquía de headings, labels, ajustes semánticos globales 
-\- Frontend → control de foco, comportamiento dinámico, validaciones, estados interactivos y edge cases  
-\- Coordinación → supervisión transversal por criterio, validación final y comunicación con cliente 
+\- Maquetadores → correcciones HTML estructurales, jerarquía de headings, labels y ajustes semánticos globales<br />
+\- Frontend → control de foco, comportamiento dinámico, validaciones, estados interactivos y edge cases<br />
+\- Coordinación → supervisión transversal por criterio, validación final y comunicación con cliente<br />
 
 Sobre el papel funcionaba.
 
-En práctica, los cambios estructurales impactaban la lógica JS existente. Ajustábamos markup y rompíamos interacciones sin detectarlo inmediatamente. No por falta de conocimiento, sino por falta de sincronización suficiente.
+En la práctica, los cambios estructurales impactaban la lógica JavaScript existente. Ajustar el DOM a veces rompía interacciones que no detectábamos de inmediato. No por falta de conocimiento, sino por sincronización insuficiente.
 
-La accesibilidad toca estructura y comportamiento al mismo tiempo.  
-Eso exige coordinación constante.
+La accesibilidad impacta estructura y comportamiento al mismo tiempo.<br />
+Eso exige coordinación deliberada.
 
 ### Las primeras regresiones
 
-El error fue avanzar demasiado rápido sin una capa de control clara entre estructura y lógica.
+El error principal fue avanzar demasiado rápido sin una capa sólida de control entre markup y lógica.
 
 Ejemplos reales:
 
-\- Ajustes en modales que rompieron el focus trapping 
-\- Cambios en formularios que alteraron flujos de validación 
-\- Reorganización de headings que afectó estilos dependientes y tests visuales 
+\- Cambios en modales que rompieron el focus trapping<br />
+\- Actualizaciones en formularios que alteraron flujos de validación<br />
+\- Ajustes en la jerarquía de headings que afectaron estilos dependientes y tests visuales<br />
 
-Nada crítico a nivel de caída total del producto.  
-Pero sí suficiente para generar retrabajo y fricción interna.
+Nada provocó una caída total del sistema.<br />
+Pero sí generó retrabajo y fricción interna.
 
-Subestimamos el impacto transversal de los cambios estructurales.  
-Corregir accesibilidad no es cosmético. Es arquitectónico.
+Subestimamos el impacto sistémico de las correcciones estructurales.<br />
+Las mejoras de accesibilidad son intervenciones arquitectónicas.
 
 ### Ajuste de proceso y estabilización
 
-Tras las primeras regresiones, hicimos algo clave: paramos a revisar el proceso, no solo el código.
+Tras las primeras regresiones, pausamos y revisamos el workflow completo.
 
 Implementamos:
 
-\- Revisiones cruzadas entre maquetación y frontend antes de cerrar cada bloque de criterio 
-\- Validación manual completa de flujos tras cambios estructurales relevantes 
-\- Checklist mínimo obligatorio antes de pasar cualquier tarea a QA 
+\- Revisión cruzada entre maquetación y frontend antes de cerrar cada bloque de criterio<br />
+\- Validación completa de flujos interactivos tras cambios estructurales<br />
+\- Checklist mínimo obligatorio antes de pasar tareas a QA<br />
 
-La velocidad bajó temporalmente.  
-La estabilidad aumentó de forma clara.
+La velocidad bajó temporalmente.<br />
+La estabilidad mejoró de forma clara.
 
-Reducir ritmo fue una decisión estratégica. Nos permitió recuperar control.
+Reducir ritmo fue una decisión estratégica. Nos devolvió el control.
 
 ### Trabajo transversal por criterios
 
-Refinamos aún más el enfoque por criterios.
+Refinamos aún más el enfoque basado en criterios.
 
-En lugar de corregir componentes de forma aislada, definimos patrones base reutilizables:
+En lugar de correcciones aisladas, definimos patrones reutilizables:
 
-\- Estructura estándar de formulario accesible 
-\- Patrón único de modal con foco gestionado correctamente 
-\- Regla común de foco visible aplicada a todo el sistema  
+\- Estructura estándar de formulario accesible<br />
+\- Implementación única de modal con foco controlado<br />
+\- Regla consistente de foco visible aplicada a todo el sistema<br />
 
-Cada patrón corregido se aplicaba globalmente.  
-Esto redujo inconsistencias y evitó repetir decisiones técnicas en cada pantalla.
+Cada patrón corregido se aplicaba globalmente.
 
-La accesibilidad dejó de ser parche puntual.  
-Se convirtió en normalización estructural del frontend.
+La accesibilidad dejó de ser parche reactivo.<br />
+Se convirtió en normalización estructural.
 
 ### Comunicación transparente con el cliente
 
-Tras los primeros fallos, decidimos comunicar con claridad y sin maquillaje.
+Tras los primeros problemas, optamos por la claridad.
 
 Reportábamos por criterio:
 
-\- Qué estaba completamente corregido 
-\- Qué impacto habían tenido ciertos cambios 
-\- Qué mejoras internas de proceso habíamos implementado para evitar nuevas regresiones 
+\- Qué estaba completamente corregido<br />
+\- Qué impacto habían tenido ciertos cambios<br />
+\- Qué mejoras internas de proceso habíamos implementado<br />
 
-La transparencia fortaleció la confianza.
+La transparencia reforzó la confianza.
 
-El cliente dejó de ver correcciones aisladas.  
-Empezó a ver control sistémico y liderazgo técnico real.
+El cliente pasó de ver correcciones aisladas a percibir control sistémico y liderazgo técnico.
 
 ### Lo que significó liderar este proceso
 
-Liderar no fue saber más reglas ni citar más estándares.  
-Fue ordenar el trabajo bajo presión real.
+Liderar no fue citar más estándares.<br />
+Fue estructurar ejecución bajo presión real.
 
 Aprendí a:
 
-\- Descomponer problemas complejos en bloques manejables 
-\- Distribuir responsabilidades según especialización real 
-\- Ajustar proceso tras errores sin buscar culpables  
-\- Mantener coherencia técnica bajo visibilidad externa 
+\- Descomponer problemas complejos en sistemas manejables<br />
+\- Distribuir responsabilidades según especialización real<br />
+\- Ajustar el proceso tras errores sin buscar culpables<br />
+\- Mantener coherencia técnica bajo alta visibilidad externa<br />
 
-Las regresiones iniciales no fueron fracaso.  
-Fueron parte del proceso de maduración del equipo.
+Las regresiones iniciales no fueron fracaso.<br />
+Fueron calibración.
 
 ### Conclusión
 
-Este proyecto no fue una ejecución impecable.  
-Fue un proceso adaptativo y real.
+No fue una historia de ejecución impecable.<br />
+Fue una historia de adaptación.
 
-Fallamos al inicio. 
-Movimos demasiado rápido. 
-Introdujimos regresiones.  
+Movimos demasiado rápido.<br />
+Introdujimos regresiones.<br />
+Ajustamos el sistema.<br />
 
-Después ajustamos el sistema y fortalecimos el proceso.
-
-La lección fue estructural: los cambios de accesibilidad son cambios arquitectónicos. Exigen coordinación real entre markup y lógica, especialmente en equipos pequeños donde cada ajuste tiene impacto directo.
+La lección estructural fue clara: los cambios de accesibilidad son cambios arquitectónicos. Exigen coordinación real entre markup y lógica, especialmente en equipos pequeños donde cada modificación tiene impacto directo.
 
 La auditoría expuso debilidades.
 
-El proceso de corrección consolidó un estándar interno más sólido, una dinámica de trabajo más madura y una comprensión más profunda de lo que implica liderar técnicamente bajo presión.
+El proceso de corrección fortaleció al equipo, refinó la disciplina de ejecución y consolidó un estándar interno más sólido para futuros proyectos.
