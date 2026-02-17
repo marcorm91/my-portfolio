@@ -1,0 +1,149 @@
+---
+slug: leading-accessibility-after-audit
+title: "Audit, Team, and Regressions"
+excerpt: "A realistic account of leading accessibility after an external audit for a high-profile client: criteria-based task distribution, early regressions, and how a small team stabilized the system."
+date: "2026-02-17"
+minutes: 8
+tags:
+  - Accessibility
+  - Frontend
+  - UI Engineering
+  - Technical Leadership
+  - Architecture
+locale: en
+---
+
+The project did not start as an internal improvement initiative. \  
+It came from an external accessibility audit for a high-profile client.
+
+The report identified multiple compliance gaps and structural weaknesses. This was not optional refinement. It was mandatory correction under deadlines, visibility, and stakeholder scrutiny.
+
+The team was small: 
+one frontend developer and two markup specialists. 
+I assumed technical coordination of the effort.
+
+It was not perfect from day one.
+
+### Breaking Down the Audit Without Overwhelming the Team
+
+The audit document was extensive and technically dense. Treating it as a flat list of issues would have overwhelmed the team immediately.
+
+We reorganized findings by criteria:
+
+\- Structure and semantic markup   
+\- Navigation and focus management 
+\- Forms and validation logic 
+\- Reusable components 
+\- Visual system consistency 
+
+Grouping by criteria exposed recurring patterns and cross-dependencies.  
+We shifted from fixing isolated pages to addressing structural layers of the system.
+
+That shift created strategic clarity.  
+It did not eliminate early mistakes.
+
+### Task Distribution in a Small Team
+
+With one frontend developer and two markup specialists, allocation needed to be precise and realistic.
+
+Initial structure:
+
+\- Markup specialists → structural HTML corrections, heading hierarchy, labels, global semantic adjustments 
+\- Frontend developer → focus control, dynamic behavior, validation logic, interaction states, edge cases 
+\- Coordination → cross-criteria supervision, final validation, client communication 
+
+On paper, the structure worked.
+
+In practice, structural markup changes affected existing JavaScript logic. Adjusting the DOM sometimes broke interactions we did not immediately detect. Not due to lack of knowledge, but due to insufficient synchronization.
+
+Accessibility impacts structure and behavior simultaneously.  
+That requires deliberate coordination.
+
+### Early Regressions
+
+The primary mistake was moving too fast without a strong control layer between markup and logic.
+
+Real examples:
+
+\- Modal restructuring breaking focus trapping 
+\- Form updates altering validation flows 
+\- Heading hierarchy corrections affecting dependent styles and visual tests 
+
+None caused full system failure.  
+All required rework and created internal friction.
+
+We underestimated the systemic impact of structural corrections.  
+Accessibility fixes are architectural interventions.
+
+### Process Adjustment and Stabilization
+
+After early regressions, we paused and reviewed the workflow itself.
+
+We introduced:
+
+\- Cross-review between markup and frontend before closing any criterion block 
+\- Full interaction flow validation after structural changes 
+\- A minimal mandatory checklist before QA transition 
+
+Velocity decreased temporarily.  
+Stability improved significantly.
+
+Slowing down was a strategic decision. It restored control.
+
+### Cross-System Work by Criteria
+
+We refined the criteria-based approach further.
+
+Instead of isolated component fixes, we defined reusable base patterns:
+
+\- Standard accessible form structure 
+\- Unified modal implementation with controlled focus 
+\- Consistent visible focus rule applied system-wide 
+
+Each corrected pattern was applied globally.
+
+Accessibility shifted from reactive patching to structural normalization.
+
+### Transparent Client Communication
+
+After the first issues, we chose clarity over concealment.
+
+We reported by criteria:
+
+\- What was fully corrected 
+\- What impact certain changes had 
+\- What internal process improvements were implemented 
+
+Transparency strengthened trust.
+
+The client moved from seeing isolated fixes to recognizing systemic control and technical leadership.
+
+### What Leadership Meant in Practice
+
+Leadership was not about citing more guidelines.  
+It was about structuring execution under pressure.
+
+I learned to:
+
+\- Break down complex problems into manageable systems 
+\- Distribute responsibilities according to real specialization 
+\- Adjust process after mistakes without blame 
+\- Maintain technical coherence under external visibility 
+
+Early regressions were not failure.  
+They were calibration.
+
+### Conclusion
+
+This was not a flawless execution story.  
+It was an adaptive and realistic one.
+
+We moved too fast. 
+We introduced regressions. 
+We corrected the system. 
+
+The structural lesson was clear: accessibility changes are architectural changes. They demand coordination between markup and logic, especially in small teams where each modification has direct impact.
+
+The audit exposed weaknesses.
+
+The correction process strengthened the team, refined execution discipline, and established a more solid internal standard for future projects.
