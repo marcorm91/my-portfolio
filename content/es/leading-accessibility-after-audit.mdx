@@ -13,13 +13,13 @@ tags:
 locale: es
 ---
 
-El proyecto no comenzó como mejora interna. \  
+El proyecto no comenzó como mejora interna. 
 Llegó tras una auditoría externa para un cliente importante.
 
 El informe señalaba múltiples incumplimientos y problemas estructurales. No era optimización opcional. Era corrección obligatoria bajo presión, con deadlines definidos y exposición directa ante stakeholders.
 
-El equipo era reducido: \  
-un frontend developer y dos maquetadores. \  
+El equipo era reducido: 
+un frontend developer y dos maquetadores. 
 Yo asumí la coordinación técnica del proceso.
 
 No fue perfecto desde el inicio.
@@ -29,12 +29,11 @@ No fue perfecto desde el inicio.
 La auditoría era extensa y técnicamente densa. Tratarla como una lista lineal de issues habría saturado al equipo y generado sensación de bloqueo.
 
 La reorganizamos por criterios:
-
-\- Estructura y semántica \  
-\- Navegación y gestión de foco \  
-\- Formularios y validaciones \  
-\- Componentes reutilizables \  
-\- Sistema visual \  
+\- Estructura y semántica 
+\- Navegación y gestión de foco 
+\- Formularios y validaciones 
+\- Componentes reutilizables 
+\- Sistema visual 
 
 Agrupar por criterio permitió detectar patrones repetidos y dependencias cruzadas.  
 Pasamos de arreglar pantallas aisladas a intervenir sobre capas estructurales del sistema.
@@ -48,9 +47,9 @@ Con un frontend y dos perfiles de maquetación, la distribución debía ser prec
 
 Asignación inicial:
 
-\- Maquetadores → correcciones HTML estructurales, jerarquía de headings, labels, ajustes semánticos globales \  
-\- Frontend → control de foco, comportamiento dinámico, validaciones, estados interactivos y edge cases \  
-\- Coordinación → supervisión transversal por criterio, validación final y comunicación con cliente \  
+\- Maquetadores → correcciones HTML estructurales, jerarquía de headings, labels, ajustes semánticos globales 
+\- Frontend → control de foco, comportamiento dinámico, validaciones, estados interactivos y edge cases 
+\- Coordinación → supervisión transversal por criterio, validación final y comunicación con cliente 
 
 Sobre el papel funcionaba.
 
@@ -65,9 +64,9 @@ El error fue avanzar demasiado rápido sin una capa de control clara entre estru
 
 Ejemplos reales:
 
-\- Ajustes en modales que rompieron el focus trapping \  
-\- Cambios en formularios que alteraron flujos de validación \  
-\- Reorganización de headings que afectó estilos dependientes y tests visuales \  
+\- Ajustes en modales que rompieron el focus trapping 
+\- Cambios en formularios que alteraron flujos de validación 
+\- Reorganización de headings que afectó estilos dependientes y tests visuales 
 
 Nada crítico a nivel de caída total del producto.  
 Pero sí suficiente para generar retrabajo y fricción interna.
@@ -81,9 +80,9 @@ Tras las primeras regresiones, hicimos algo clave: paramos a revisar el proceso,
 
 Implementamos:
 
-\- Revisiones cruzadas entre maquetación y frontend antes de cerrar cada bloque de criterio \  
-\- Validación manual completa de flujos tras cambios estructurales relevantes \  
-\- Checklist mínimo obligatorio antes de pasar cualquier tarea a QA \  
+\- Revisiones cruzadas entre maquetación y frontend antes de cerrar cada bloque de criterio 
+\- Validación manual completa de flujos tras cambios estructurales relevantes 
+\- Checklist mínimo obligatorio antes de pasar cualquier tarea a QA 
 
 La velocidad bajó temporalmente.  
 La estabilidad aumentó de forma clara.
@@ -96,9 +95,9 @@ Refinamos aún más el enfoque por criterios.
 
 En lugar de corregir componentes de forma aislada, definimos patrones base reutilizables:
 
-\- Estructura estándar de formulario accesible \  
-\- Patrón único de modal con foco gestionado correctamente \  
-\- Regla común de foco visible aplicada a todo el sistema \  
+\- Estructura estándar de formulario accesible 
+\- Patrón único de modal con foco gestionado correctamente 
+\- Regla común de foco visible aplicada a todo el sistema 
 
 Cada patrón corregido se aplicaba globalmente.  
 Esto redujo inconsistencias y evitó repetir decisiones técnicas en cada pantalla.
@@ -112,9 +111,9 @@ Tras los primeros fallos, decidimos comunicar con claridad y sin maquillaje.
 
 Reportábamos por criterio:
 
-\- Qué estaba completamente corregido \  
-\- Qué impacto habían tenido ciertos cambios \  
-\- Qué mejoras internas de proceso habíamos implementado para evitar nuevas regresiones \  
+\- Qué estaba completamente corregido 
+\- Qué impacto habían tenido ciertos cambios 
+\- Qué mejoras internas de proceso habíamos implementado para evitar nuevas regresiones 
 
 La transparencia fortaleció la confianza.
 
@@ -128,10 +127,10 @@ Fue ordenar el trabajo bajo presión real.
 
 Aprendí a:
 
-\- Descomponer problemas complejos en bloques manejables \  
-\- Distribuir responsabilidades según especialización real \  
-\- Ajustar proceso tras errores sin buscar culpables \  
-\- Mantener coherencia técnica bajo visibilidad externa \  
+\- Descomponer problemas complejos en bloques manejables 
+\- Distribuir responsabilidades según especialización real 
+\- Ajustar proceso tras errores sin buscar culpables 
+\- Mantener coherencia técnica bajo visibilidad externa 
 
 Las regresiones iniciales no fueron fracaso.  
 Fueron parte del proceso de maduración del equipo.
@@ -141,9 +140,9 @@ Fueron parte del proceso de maduración del equipo.
 Este proyecto no fue una ejecución impecable.  
 Fue un proceso adaptativo y real.
 
-Fallamos al inicio. \  
-Movimos demasiado rápido. \  
-Introdujimos regresiones. \  
+Fallamos al inicio. 
+Movimos demasiado rápido. 
+Introdujimos regresiones. 
 
 Después ajustamos el sistema y fortalecimos el proceso.
 
