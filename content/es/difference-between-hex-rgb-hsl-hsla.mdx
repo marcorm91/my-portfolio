@@ -1,0 +1,111 @@
+---
+slug: difference-between-hex-rgb-hsl-hsla
+title: "HEX vs RGB vs HSL vs HSLA"
+excerpt: "Diferencias reales entre HEX, RGB, HSL y HSLA en CSS. Qué cambia a nivel conceptual, cuándo usar cada formato y cómo impactan en sistemas de diseño modernos."
+date: "2026-02-25"
+minutes: 8
+tags:
+  - CSS
+  - Frontend
+  - UI Engineering
+  - Design Systems
+  - Web Fundamentals
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverImage: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzExMTgyNyIvPgogICAgPHN0b3Agb2Zmc2V0PSIwLjUiIHN0b3AtY29sb3I9IiMyNjM1NTMiLz4KICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA2YjZkNCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNDAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMTUwIiByPSIxMDAiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIgLz4KICA8Y2lyY2xlIGN4PSI5MDAiIGN5PSIyNTAiIHI9IjE0MCIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjA0IiAvPgo8L3N2Zz4="
+coverGradient: "from-slate-900 via-slate-700 to-cyan-500"
+coverAlt: "Representación visual de distintos modelos de color en CSS"
+locale: es
+---
+
+En frontend usamos colores a diario.  
+Pero no siempre entendemos qué cambia realmente entre HEX, RGB, HSL y HSLA.
+
+Visualmente pueden producir el mismo resultado.  
+Estructuralmente son modelos distintos.
+
+La elección no es estética.  
+Es arquitectónica.
+
+## El mismo color, modelos distintos
+
+Todos los formatos describen luz en pantalla. Lo que cambia es la forma de organizar esa información. HEX y RGB trabajan directamente con mezcla aditiva. HSL reorganiza esos mismos valores en tono, saturación y luminosidad.
+
+Esto afecta cómo modificamos colores, cómo generamos variantes y cómo construimos design tokens. En proyectos pequeños puede parecer irrelevante. En sistemas escalables impacta mantenimiento, claridad y coherencia visual.
+
+Un equipo que entiende el modelo que utiliza toma decisiones más predecibles. El color deja de ser un valor aislado y pasa a ser parte de una estructura.
+
+## HEX: simplicidad compacta
+
+HEX utiliza notación hexadecimal para representar rojo, verde y azul.
+
+Ejemplo:
+
+`#FF5733`
+
+Cada par de caracteres representa un canal en base 16. Es compacto y fácil de reconocer. Durante años fue el estándar dominante en CSS.
+
+Su limitación aparece cuando necesitamos variaciones sistemáticas. Aclarar o oscurecer un color requiere recalcular valores manualmente o usar herramientas externas.
+
+HEX funciona bien en estilos estáticos.  
+Pierde eficiencia cuando el sistema crece.
+
+## RGB y RGBA: control matemático directo
+
+RGB define colores mediante valores entre 0 y 255.
+
+Ejemplo:
+
+`rgb(255, 87, 51)`
+
+Es claro cuando trabajamos con lógica o cálculos en JavaScript. Permite interpolaciones y animaciones basadas en números directos.
+
+RGBA añade opacidad:
+
+`rgba(255, 87, 51, 0.5)`
+
+Útil para overlays y estados interactivos. Sin embargo, construir escalas sigue siendo poco intuitivo.
+
+RGB es preciso.  
+No es estructural.
+
+## HSL: coherencia perceptual
+
+HSL reorganiza el color según percepción humana.
+
+Ejemplo:
+
+`hsl(14, 100%, 60%)`
+
+Podemos mantener el mismo tono y modificar solo luminosidad para generar variantes consistentes.
+
+En design systems, HSL facilita coherencia y escalabilidad. Reduce fricción al crear tokens derivados.
+
+## HSLA: flexibilidad estructural
+
+HSLA añade canal alfa a HSL.
+
+Ejemplo:
+
+`hsla(14, 100%, 60%, 0.3)`
+
+Combina control perceptual con transparencia. Ideal para overlays y capas.
+
+No cambia rendimiento.  
+Mejora organización.
+
+## Conclusión
+
+HEX, RGB, HSL y HSLA representan el mismo color desde perspectivas distintas.
+
+HEX es compacto.  
+RGB es matemático.  
+HSL es perceptual.  
+HSLA añade flexibilidad.
+
+La diferencia relevante no es visual.  
+Es estructural.
+
+Elegir correctamente mejora la arquitectura del sistema.
