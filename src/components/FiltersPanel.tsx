@@ -36,65 +36,67 @@ export function FiltersPanel({
     <aside
       aria-label={filterTitle}
       id="filters-panel"
-      className={`rounded-2xl bg-white dark:bg-gray-900 p-4 space-y-4 shadow-lg z-30 transition duration-200 xl:sticky xl:top-21 xl:h-fit xl:max-h-[80vh] xl:overflow-y-auto ${
+      className={`rounded-2xl bg-white dark:bg-gray-900 p-4 space-y-4 shadow-lg z-30 transition duration-200 xl:mt-6 xl:sticky xl:top-21 xl:h-fit xl:max-h-[80vh] xl:overflow-y-auto ${
         isOpen
           ? "fixed inset-0 top-[90px] max-h-[calc(100vh-90px)] overflow-y-auto opacity-100 translate-y-0 px-4"
           : "hidden opacity-0 -translate-y-2"
-      } lg:static lg:block lg:opacity-100 lg:translate-y-0 lg:border lg:border-black/10 lg:dark:border-white/10`}
+      } xl:static xl:block xl:opacity-100 xl:translate-y-0 xl:border xl:border-black/10 xl:dark:border-white/10`}
     >
-      <div className="flex items-center justify-between gap-2 sticky top-0 bg-white dark:bg-gray-900 z-10">
-        <div className="flex items-center gap-2 text-sm font-semibold">
-          <span>{searchTitle}</span>
+      <div className="sticky top-0 z-10 -mx-4 border-b border-black/5 bg-white px-4 pb-4 dark:border-white/10 dark:bg-gray-900">
+        <div className="flex items-center justify-between gap-2 pt-1">
+          <div className="flex items-center gap-2 text-sm font-semibold">
+            <span>{searchTitle}</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {(selectedMonthKey || query) && (
+              <button
+                onClick={() => {
+                  onSelectMonth(null);
+                  onQueryChange("");
+                }}
+                className="text-xs text-sky-500 hover:underline cursor-pointer"
+              >
+                {filterReset}
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="xl:hidden inline-flex items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm text-slate-700 dark:text-slate-100"
+              aria-label={filterTitle}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+                <path d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          {(selectedMonthKey || query) && (
+        <div className="mt-3 space-y-2">
+          <input
+            id="articles-search"
+            type="search"
+            value={query}
+            onChange={(e) => onQueryChange(e.target.value)}
+            placeholder={searchPlaceholder}
+            className="w-full rounded-md border border-black/10 dark:border-white/10 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-400"
+          />
+          {query && (
             <button
-              onClick={() => {
-                onSelectMonth(null);
-                onQueryChange("");
-              }}
+              type="button"
+              onClick={() => onQueryChange("")}
               className="text-xs text-sky-500 hover:underline cursor-pointer"
             >
-              {filterReset}
+              {clearSearch}
             </button>
           )}
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="lg:hidden inline-flex items-center justify-center rounded-md bg-transparent px-2 py-1 text-sm text-slate-700 dark:text-slate-100"
-            aria-label={filterTitle}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-              <path d="M6 18 18 6M6 6l12 12" />
-            </svg>
-          </button>
         </div>
-      </div>
 
-      <div className="space-y-2">
-        <input
-          id="articles-search"
-          type="search"
-          value={query}
-          onChange={(e) => onQueryChange(e.target.value)}
-          placeholder={searchPlaceholder}
-          className="w-full rounded-md border border-black/10 dark:border-white/10 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-400"
-        />
-        {query && (
-          <button
-            type="button"
-            onClick={() => onQueryChange("")}
-            className="text-xs text-sky-500 hover:underline cursor-pointer"
-          >
-            {clearSearch}
-          </button>
-        )}
-      </div>
-
-      <div className="flex items-center gap-2 text-sm font-semibold">
-        <span>{filterTitle}</span>
+        <div className="mt-4 flex items-center gap-2 text-sm font-semibold">
+          <span>{filterTitle}</span>
+        </div>
       </div>
 
       <ul className="space-y-3">

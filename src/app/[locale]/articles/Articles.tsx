@@ -28,6 +28,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
   const [selectedMonthKey, setSelectedMonthKey] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Search
@@ -106,13 +107,13 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
     setQuery("");
   }, [locale]);
 
-  // Lock body scroll on mobile when filter panel is open
+  // Lock body scroll while the floating filters panel is open on non-xl layouts
   useEffect(() => {
     if (typeof document === "undefined" || typeof window === "undefined") return;
     const body = document.body;
     const originalOverflow = body.style.overflow;
 
-    if (isFilterOpen && window.innerWidth < 1024) {
+    if (isFilterOpen && window.innerWidth < 1280) {
       body.style.overflow = "hidden";
       return () => {
         body.style.overflow = originalOverflow;
@@ -216,11 +217,43 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
     });
   };
 
+  const scrollToArticlesTop = () => {
+    if (typeof window === "undefined" || !sectionRef.current) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const top =
+      sectionRef.current.getBoundingClientRect().top + window.scrollY - 104;
+
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  };
+
+  const handleSelectMonth = (nextMonthKey: string | null) => {
+    setSelectedMonthKey(nextMonthKey);
+
+    if (typeof window !== "undefined" && window.innerWidth < 1280) {
+      setIsFilterOpen(false);
+    }
+
+    requestAnimationFrame(() => {
+      scrollToArticlesTop();
+    });
+  };
+
   const openFilter = () => setIsFilterOpen((v) => !v);
 
   return (
     <>
-      <section aria-labelledby="articles-title" className="min-h-dvh relative z-10">
+      <section
+        ref={sectionRef}
+        aria-labelledby="articles-title"
+        className="min-h-dvh relative z-10"
+      >
         <header
           className="mb-0 sticky top-20 z-20 pb-3 md:pb-6 mb-md-6
          bg-white/90 dark:bg-gray-900/90 xl:static xl:top-auto xl:z-auto xl:bg-transparent dark:xl:bg-transparent"
@@ -238,7 +271,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
             <button
               type="button"
               onClick={openFilter}
-              className="lg:hidden inline-flex items-center justify-center bg-white dark:bg-slate-900 p-2 dark:text-sky-100"
+              className="xl:hidden inline-flex items-center justify-center bg-white dark:bg-slate-900 p-2 dark:text-sky-100"
               aria-expanded={isFilterOpen}
               aria-controls="filters-panel"
               aria-label={t.articles.filterTitle}
@@ -261,7 +294,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
           </div>
         </header>
 
-        <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
+        <div className="grid gap-8 xl:grid-cols-[260px_1fr]">
           <FiltersPanel
             isOpen={isFilterOpen}
             onClose={() => setIsFilterOpen(false)}
@@ -271,7 +304,7 @@ export default function ArticlesSection({ locale, initialArticles }: ArticlesPro
             clearSearch={t.articles.clearSearch}
             filterReset={t.articles.filterReset}
             selectedMonthKey={selectedMonthKey}
-            onSelectMonth={setSelectedMonthKey}
+            onSelectMonth={handleSelectMonth}
             query={query}
             onQueryChange={setQuery}
             groupedByYearMonth={groupedByYearMonth}
