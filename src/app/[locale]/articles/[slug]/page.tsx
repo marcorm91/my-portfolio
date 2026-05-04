@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import translations from "@/utils/language";
 import ShareButtons from "@/components/ShareButtons";
+import { mdxComponents } from "@/components/mdx";
 import { getArticle } from "@/lib/mdxArticles";
 
 type Params = { locale: "es" | "en"; slug: string };
@@ -134,7 +135,7 @@ export default async function ArticlePage({
 
       <div className="prose dark:prose-invert max-w-none">
         <div className="mdx-content">
-          <MDXRemote source={article.content || ""} />
+          <MDXRemote source={article.content || ""} components={mdxComponents} />
         </div>
       </div>
 

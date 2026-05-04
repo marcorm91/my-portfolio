@@ -1,0 +1,205 @@
+---
+slug: prefers-reduced-motion-ui
+title: "prefers-reduced-motion: keep personality without punishing users"
+excerpt: "How to respect prefers-reduced-motion without flattening the interface: reduce travel, keep hierarchy, and replace decorative motion with clearer state changes."
+date: "2026-05-04"
+minutes: 8
+tags:
+  - CSS
+  - Accessibility
+  - UI
+  - Motion
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-emerald-500 via-cyan-500 to-sky-700"
+coverAlt: "Interface elements with reduced motion and soft transitions"
+locale: en
+---
+
+You do not need to choose between a lively UI and an accessible one.
+`prefers-reduced-motion` does not mean freezing everything: it means reducing motion that can trigger discomfort, distraction, or fatigue.
+
+The rule is simple: **less travel, less surprise, and clearer state changes**.
+
+---
+
+### 1. What `prefers-reduced-motion` actually signals
+
+When the operating system enables this preference, the user is saying something quite specific:
+
+\- avoid intense animation;  
+\- reduce parallax, zooms, spins, and long travel distances;  
+\- do not turn every screen change into choreography.
+
+This is not an aesthetic preference.
+It is an accessibility and comfort preference.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+This is a good global safety net, but it should not be your only strategy.
+
+### 2. Reduced does not mean removed
+
+A common mistake is disabling every transition and making the interface feel abrupt.
+That also hurts the experience.
+
+The better tradeoff is replacing large motion with short, stable feedback:
+
+\- swap `transform: translateY()` for opacity;  
+\- swap aggressive scaling for subtle color or shadow changes;  
+\- swap off-screen entrances for direct appearance.
+
+```css
+.card {
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: box-shadow 120ms ease, opacity 120ms ease;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.22);
+  }
+}
+```
+
+The card still responds.
+It just stops jumping around.
+
+<MotionPreferenceDemo locale="en" />
+
+### 3. Which patterns to trim first
+
+Not all animation is equally problematic.
+The usual offenders are:
+
+\- forced smooth scrolling on long pages;  
+\- menus or modals that travel across the whole screen;  
+\- parallax backgrounds;  
+\- infinite loaders with obvious pulse or bounce loops;  
+\- autoplay carousels.
+
+If you need to prioritize, start with large X/Y movement and continuous animation.
+
+### 4. Modal example with a reduced alternative
+
+Typical version: fade on the overlay and vertical slide on the panel.
+Reduced version: short fade only.
+
+```css
+.modal-overlay {
+  animation: overlay-in 180ms ease-out;
+}
+
+.modal-panel {
+  animation: modal-slide 220ms ease-out;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-slide {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-panel {
+    animation: overlay-in 120ms linear;
+  }
+}
+```
+
+The visual state still changes, but without unnecessary travel.
+
+<ModalMotionDemo locale="en" />
+
+### 5. JavaScript and scroll: where noise often leaks in
+
+Many interfaces respect CSS and then ignore the preference in JavaScript.
+That usually happens with `scrollIntoView`, reveal libraries, or route-change animations.
+
+```ts
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+target.scrollIntoView({
+  behavior: reduceMotion ? "auto" : "smooth",
+  block: "start",
+});
+```
+
+If you use an animation library, the rule stays the same:
+disable complex timelines and keep only minimal state changes.
+
+### 6. In React or Next, decide once
+
+If the app has many animated components, centralize the preference and branch from it.
+
+```tsx
+const reduceMotion = useMemo(
+  () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  []
+);
+
+const menuClassName = reduceMotion
+  ? "opacity-100 transition-opacity duration-100"
+  : "translate-y-0 opacity-100 transition-all duration-200";
+```
+
+You do not need two separate UIs.
+You only need to separate decorative motion from motion that communicates state.
+
+### 7. Useful motion can stay
+
+Some animation still helps:
+
+\- a visible focus ring appearing smoothly;  
+\- a toast with a short fade;  
+\- an accordion that avoids abrupt layout jumps;  
+\- a color or elevation change on interaction.
+
+The question is not "is there motion?".
+The better question is "does this motion explain something, or is it just decoration?".
+
+### 8. Quick checklist
+
+1) Disable `smooth scroll` when the user asks for reduced motion.  
+2) Replace long travel with opacity, color, or shadow.  
+3) Trim parallax, autoplay, and continuous loops.  
+4) Review JavaScript and libraries, not just CSS.  
+5) Keep useful feedback and remove decorative motion.
+
+### Conclusion
+
+An interface does not lose personality when it reduces motion.
+It loses quality when it confuses visual energy with good UX.
+
+`prefers-reduced-motion` forces better design:
+more intention, less spectacle, and clearer states.
+If your UI still works well after trimming motion, it was probably well designed in the first place.
