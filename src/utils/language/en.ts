@@ -55,34 +55,39 @@ const en = {
     },
     projects: {
       title: "Projects",
-      featuredId: "pomodoro",
       items: {
         pomodoro: {
           category: "Productivity",
           title: "Focus Mode - Pomodoro",
           description:
-            "A Pomodoro app designed to maximize real focus, featuring customizable sessions, progress tracking, and a carefully crafted interface focused on mindful productivity.",
-          imageAlt: "Focus Mode Pomodoro app screenshot",
+            "A free, basic Pomodoro tool for working in focused blocks without sign-ups, accounts, or a database. Lightweight sessions, breaks, and a direct flow with no extra friction.",
+          highlights: [
+            "Focus and break sessions with a simple experience.",
+            "No login, no server-side data, and no complex setup.",
+            "Built as a direct utility for personal productivity.",
+          ],
           cta: {
             label: "Try demo",
             href: "https://focus-mode-pomodoro.vercel.app/",
           },
-          tags: ["Next.js", "Tailwind", "TypeScript", "Supabase"],
-          imageSrc: "/pomodoro-hero.png",
+          tags: ["Next.js", "Tailwind", "TypeScript"],
           badge: "Live",
         },
         fintrack: {
           category: "Desktop app",
           title: "Fintrack",
           description:
-            "Desktop app to track personal finances (monthly/yearly + history) with charts and sortable tables. Import data from CSV or by pasting text. Everything is stored locally in a SQLite database.",
-          imageAlt: "Fintrack app screenshot",
+            "Desktop app for managing personal finances with local data, monthly history, import/export, and versioned backups. Version 3.0.4 consolidates SQLite, monthly snapshots, and investment portfolio tracking.",
+          highlights: [
+            "Monthly/yearly tracking for income, expenses, balance, and history.",
+            "CSV or pasted-text import, plus JSON export and backups.",
+            "Local SQLite storage with investment portfolio support.",
+          ],
           cta: {
             label: "View on GitHub",
             href: "https://github.com/marcorm91/fintrack-app",
           },
           tags: ["React", "Vite", "TypeScript", "Tailwind", "Tauri", "SQLite", "Chart.js"],
-          imageSrc: "/fintrack-hero.png",
         },
       },
     },

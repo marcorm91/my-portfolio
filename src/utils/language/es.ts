@@ -55,34 +55,39 @@ const es = {
     },
     projects: {
       title: "Proyectos",
-      featuredId: "pomodoro",
       items: {
         pomodoro: {
           category: "Productividad",
           title: "Focus Mode - Pomodoro",
           description:
-            "Aplicación Pomodoro diseñada para maximizar el foco real, con sesiones personalizables, seguimiento del progreso y una interfaz cuidada orientada a la productividad consciente.",
-          imageAlt: "Captura de la app Focus Mode Pomodoro",
+            "Pomodoro básico y gratuito para trabajar por bloques de foco sin registros, cuentas ni base de datos. Una herramienta ligera para iniciar sesiones, descansar y volver al trabajo sin fricción.",
+          highlights: [
+            "Sesiones de foco y descanso con una experiencia simple.",
+            "Sin login, sin datos en servidor y sin configuración compleja.",
+            "Pensada como utilidad directa para productividad personal.",
+          ],
           cta: {
             label: "Probar demo",
             href: "https://focus-mode.app",
           },
-          tags: ["Next.js", "Tailwind", "TypeScript", "Supabase"],
-          imageSrc: "/pomodoro-hero.png",
+          tags: ["Next.js", "Tailwind", "TypeScript"],
           badge: "Live",
         },
         fintrack: {
           category: "App de escritorio",
           title: "Fintrack",
           description:
-            "Aplicación de escritorio para controlar finanzas personales (vista mensual/anual + histórico) con gráficas y tablas ordenables. Permite importar datos desde CSV o pegando texto. Todo se guarda en local en una base de datos SQLite.",
-          imageAlt: "Captura de la app Fintrack",
+            "Aplicación de escritorio para gestionar finanzas personales con datos locales, histórico mensual, importación/exportación y backups versionados. La versión 3.0.4 consolida SQLite, snapshots mensuales y cartera de inversión.",
+          highlights: [
+            "Control mensual/anual de ingresos, gastos, saldo e histórico.",
+            "Importación desde CSV o texto pegado, con exportación y backup JSON.",
+            "Almacenamiento local en SQLite y soporte para cartera de inversión.",
+          ],
           cta: {
             label: "Ver en GitHub",
             href: "https://github.com/marcorm91/fintrack-app",
           },
           tags: ["React", "Vite", "TypeScript", "Tailwind", "Tauri", "SQLite", "Chart.js"],
-          imageSrc: "/assets/images/fintrack-app.png",
         },
       },
     },
