@@ -1,4 +1,4 @@
-export default {
+const nextConfig = {
   async redirects() {
     return [
       {
@@ -9,3 +9,5 @@ export default {
     ];
   },
 };
+
+export default nextConfig;

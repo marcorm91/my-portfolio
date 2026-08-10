@@ -1,13 +1,10 @@
 import "@testing-library/jest-dom";
+import React from "react";
 
 // Basic mocks for Next.js components/hooks
 jest.mock("next/image", () => {
-  return function NextImageMock(props: any) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return require("react").createElement("img", {
-      ...props,
-      alt: props?.alt || "",
-    });
+  return function NextImageMock(props: React.ComponentProps<"img">) {
+    return React.createElement("img", { ...props, alt: props.alt || "" });
   };
 });
 

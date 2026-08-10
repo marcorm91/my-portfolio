@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@source "../../content/**/*.{md,mdx}";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -81,11 +80,6 @@ body {
 
 .typing-effect {
   @apply inline-block overflow-hidden whitespace-nowrap border-r-3 border-white dark:border-black animate-[typing_2s_steps(22),blink_0.5s_step-end_infinite_alternate] text-left;
-}
-
-/* Prose spacing */
-.prose > div > * {
-  @apply mb-6;
 }
 
 .skeleton-block {

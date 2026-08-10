@@ -14,10 +14,8 @@ const NavMenu: React.FC<NavMenuProps> = ({ pathname, closeMenu }) => {
   const buildLocalizedPath = (path: string) =>
     path === "/" ? `/${currentLocale}` : `/${currentLocale}${path}`;
 
-  // Lista de enlaces
   const navItems = [
     { path: "/", label: t.header.home },
-    { path: "/blog", label: t.header.articles },
     { path: "/about", label: t.header.about },
   ];
 

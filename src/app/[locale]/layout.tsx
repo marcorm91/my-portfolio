@@ -12,7 +12,7 @@ import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Marco Romero - Desarrollador Web",
-  description: "Portafolio personal y blog de desarrollo front-end y accesibilidad.",
+  description: "Portafolio personal de desarrollo front-end, UI y accesibilidad.",
   other: {
     "google-site-verification": "OAUcRQJVTgB7GenU6ok0VIK3XmOTilkiCmuHHM4NbNY",
   },
