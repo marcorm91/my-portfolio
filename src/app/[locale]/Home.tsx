@@ -11,16 +11,7 @@ export default function HomeClient() {
   const currentLocale = params?.locale === "en" ? "en" : "es";
   const cvHref = currentLocale === "en" ? "/cv/english_cv.pdf" : "/cv/spanish_cv.pdf";
 
-  const featuredId = t.home.projects.featuredId;
-  const featured =
-    featuredId === "pomodoro"
-      ? t.home.projects.items.pomodoro
-      : t.home.projects.items.fintrack;
-
-  const secondary =
-    featuredId === "pomodoro"
-      ? t.home.projects.items.fintrack
-      : t.home.projects.items.pomodoro;
+  const projects = [t.home.projects.items.fintrack, t.home.projects.items.pomodoro];
 
   return (
     <>
@@ -95,94 +86,53 @@ export default function HomeClient() {
           <h3 className="text-xl md:text-2xl font-semibold">{t.home.projects.title}</h3>
         </div>
         
-        <article className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col md:flex-row gap-5 md:gap-8">
-          <div className="flex-1 space-y-3">
-            <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-              {featured.category}
-            </p>
-            <h4 className="text-2xl font-bold">{featured.title}</h4>
-            <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
-              {featured.description}
-            </p>
-
-            <div className="flex flex-wrap gap-2 text-[11px] md:text-xs text-gray-700 dark:text-gray-200">
-              {featured.tags.map((tag: string) => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 rounded bg-black text-white dark:bg-white/10 dark:text-white/90"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 min-w-[240px]">
-            <div className="relative overflow-hidden rounded-xl border border-black/10 dark:border-white/10 bg-slate-100 dark:bg-slate-800 shadow-sm aspect-[4/3]">
-              <Image
-                src={featured.imageSrc}
-                alt={featured.imageAlt}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 320px, 100vw"
-                priority
-              />
-            </div>
-
-            <a
-              className="btn-custom px-3 py-2 text-sm md:text-base flex items-center justify-center"
-              href={featured.cta.href}
-              target="_blank"
-              rel="noopener noreferrer"
+        <div className="grid gap-5 md:grid-cols-2">
+          {projects.map((project) => (
+            <article
+              key={project.title}
+              className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col gap-4"
             >
-              {featured.cta.label}
-            </a>
-          </div>
-        </article>
+              <div className="space-y-3">
+                <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  {project.category}
+                </p>
+                <h4 className="text-2xl font-bold">{project.title}</h4>
+                <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
+                  {project.description}
+                </p>
+              </div>
 
-        <article className="mt-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col md:flex-row gap-5 md:gap-8">
-          <div className="flex-1 space-y-3">
-            <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-              {secondary.category}
-            </p>
-            <h4 className="text-2xl font-bold">{secondary.title}</h4>
-            <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
-              {secondary.description}
-            </p>
+              <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-200">
+                {project.highlights.map((highlight: string) => (
+                  <li key={highlight} className="flex gap-2">
+                    <span aria-hidden="true" className="text-blue-500">•</span>
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
 
-            <div className="flex flex-wrap gap-2 text-[11px] md:text-xs text-gray-700 dark:text-gray-200">
-              {secondary.tags.map((tag: string) => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 rounded bg-black text-white dark:bg-white/10 dark:text-white/90"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+              <div className="flex flex-wrap gap-2 text-[11px] md:text-xs text-gray-700 dark:text-gray-200">
+                {project.tags.map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-1 rounded bg-black text-white dark:bg-white/10 dark:text-white/90"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
 
-          <div className="flex flex-col gap-3 min-w-[240px]">
-            <div className="relative overflow-hidden rounded-xl border border-black/10 dark:border-white/10 bg-white z-10 dark:bg-slate-800 shadow-sm aspect-[4/3]">
-              <Image
-                src={secondary.imageSrc}
-                alt={secondary.imageAlt}
-                fill
-                className="object-cover rounded-2xl p-1"
-                sizes="(min-width: 1024px) 320px, 100vw"
-              />
-            </div>
-
-            <a
-              className="btn-custom px-3 py-2 text-sm md:text-base flex items-center justify-center"
-              href={secondary.cta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {secondary.cta.label}
-            </a>
-          </div>
-        </article>
+              <a
+                className="btn-custom mt-auto px-3 py-2 text-sm md:text-base flex items-center justify-center"
+                href={project.cta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {project.cta.label}
+              </a>
+            </article>
+          ))}
+        </div>
       </section>
 
       <FloatingOrbs />
