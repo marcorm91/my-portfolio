@@ -60,10 +60,10 @@ const es = {
           category: "Productividad",
           title: "Focus Mode - Pomodoro",
           description:
-            "Pomodoro básico y gratuito para trabajar por bloques de foco sin registros, cuentas ni base de datos. Una herramienta ligera para iniciar sesiones, descansar y volver al trabajo sin fricción.",
+            "Aplicación Pomodoro para organizar proyectos y tareas en bloques de concentración y descanso. Permite sincronizar sesiones entre dispositivos, consultar rachas y estadísticas de progreso y mantener el foco en un entorno privado, gratuito y sin anuncios.",
           highlights: [
             "Sesiones de foco y descanso con una experiencia simple.",
-            "Sin login, sin datos en servidor y sin configuración compleja.",
+            "Cuenta personal para sincronizar sesiones y progreso entre dispositivos.",
             "Pensada como utilidad directa para productividad personal.",
           ],
           cta: {
@@ -77,7 +77,7 @@ const es = {
           category: "App de escritorio",
           title: "Fintrack",
           description:
-            "Aplicación de escritorio para gestionar finanzas personales con datos locales, histórico mensual, importación/exportación y backups versionados. La versión 3.0.4 consolida SQLite, snapshots mensuales y cartera de inversión.",
+            "Aplicación multiplataforma para gestionar las finanzas personales de forma clara y privada. Permite controlar ingresos, gastos, ahorro e inversiones, consultar comparativas mensuales y anuales, e importar, exportar y respaldar los datos.",
           highlights: [
             "Control mensual/anual de ingresos, gastos, saldo e histórico.",
             "Importación desde CSV o texto pegado, con exportación y backup JSON.",
