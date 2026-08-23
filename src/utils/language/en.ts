@@ -60,10 +60,10 @@ const en = {
           category: "Productivity",
           title: "Focus Mode - Pomodoro",
           description:
-            "A free, basic Pomodoro tool for working in focused blocks without sign-ups, accounts, or a database. Lightweight sessions, breaks, and a direct flow with no extra friction.",
+            "A Pomodoro app for organizing projects and tasks into focus and break intervals. It syncs sessions across devices, tracks streaks and progress statistics, and helps users stay focused in a private, free, ad-free environment.",
           highlights: [
             "Focus and break sessions with a simple experience.",
-            "No login, no server-side data, and no complex setup.",
+            "A personal account for syncing sessions and progress across devices.",
             "Built as a direct utility for personal productivity.",
           ],
           cta: {
@@ -77,7 +77,7 @@ const en = {
           category: "Desktop app",
           title: "Fintrack",
           description:
-            "Desktop app for managing personal finances with local data, monthly history, import/export, and versioned backups. Version 3.0.4 consolidates SQLite, monthly snapshots, and investment portfolio tracking.",
+            "A cross-platform app for managing personal finances clearly and privately. It lets users track income, expenses, savings, and investments; review monthly and yearly comparisons; and import, export, and back up their data.",
           highlights: [
             "Monthly/yearly tracking for income, expenses, balance, and history.",
             "CSV or pasted-text import, plus JSON export and backups.",
