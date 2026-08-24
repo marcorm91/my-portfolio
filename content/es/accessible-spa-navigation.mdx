@@ -1,0 +1,251 @@
+---
+slug: accessible-spa-navigation
+title: "Cuando una SPA cambia de página sin avisar"
+excerpt: "Me ocurrió trabajando con Liferay 7.4 y su opción SPA activada, pero el problema puede aparecer en cualquier aplicación con navegación cliente: la vista cambia, aunque no todas las personas reciben el nuevo contexto."
+date: "2026-08-24"
+minutes: 8
+tags:
+  - Accesibilidad
+  - Frontend
+  - SPA
+  - Arquitectura
+  - UX
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-slate-950 via-blue-800 to-cyan-500"
+coverAlt: "Cambio de vista en una SPA manteniendo el contexto accesible"
+locale: es
+---
+
+Me encontré con este problema trabajando en un entorno **Liferay 7.4 con la opción SPA activada**.
+
+Al navegar entre páginas, todo parecía funcionar. La URL cambiaba, el contenido nuevo aparecía y la transición era rápida. Visualmente no había nada que llamara especialmente la atención.
+
+El problema apareció al probar la navegación con teclado y lector de pantalla.
+
+La vista había cambiado, pero el foco podía quedarse en el enlace que acababa de activar. El lector no siempre comunicaba el nuevo destino y, al continuar con `Tab`, el usuario podía encontrarse en un punto que ya no tenía relación con lo que estaba viendo.
+
+Aunque yo lo detecté en Liferay, **no es un problema específico de Liferay**. Puede ocurrir en cualquier aplicación o framework que utilice navegación SPA: React, Angular, Vue, Next.js o una solución propia.
+
+La tecnología cambia. El problema de fondo es el mismo.
+
+---
+
+### Qué hace el navegador cuando navegamos de forma tradicional
+
+En una navegación tradicional, al activar un enlace se carga un documento nuevo.
+
+El navegador se encarga de varias cosas que normalmente damos por hechas:
+
+\- Construye un DOM nuevo.  
+\- Actualiza el título del documento.  
+\- Sitúa al usuario en un contexto nuevo.  
+\- Permite que las tecnologías de asistencia detecten el cambio de página.  
+\- Mantiene la navegación dentro del historial.
+
+No tenemos que programar ese comportamiento. Forma parte de la plataforma web.
+
+Por eso una navegación tradicional suele ser bastante predecible: el navegador sabe que hemos salido de una página y hemos entrado en otra.
+
+---
+
+### Qué cambia en una SPA
+
+En una SPA no siempre se carga un documento nuevo.
+
+JavaScript intercepta la navegación, actualiza la URL y sustituye una parte del contenido. Para quien está mirando la pantalla, el resultado se parece mucho a un cambio de página.
+
+Para el navegador, sin embargo, seguimos dentro del mismo documento.
+
+Y ahí aparece la diferencia.
+
+Si no hacemos nada más, pueden ocurrir situaciones como estas:
+
+\- El foco permanece en un elemento que ya no existe o ha cambiado.  
+\- El título no representa la vista actual.  
+\- El lector de pantalla no anuncia el nuevo destino.  
+\- El siguiente `Tab` comienza desde una posición inesperada.  
+\- El usuario sabe que ha activado algo, pero no sabe si la navegación ha terminado.
+
+La aplicación ha cambiado visualmente, pero no ha comunicado ese cambio de forma accesible.
+
+---
+
+### No es un error aislado de foco
+
+Al principio es fácil tratarlo como un pequeño fallo: “movemos el foco y listo”.
+
+Pero el foco solo es una parte del problema.
+
+Una navegación accesible necesita que varias señales estén coordinadas:
+
+\- La URL debe representar el destino actual.  
+\- El `<title>` debe identificar la nueva vista.  
+\- El contenido principal debe tener una estructura clara.  
+\- El `h1` debe describir dónde hemos llegado.  
+\- El foco debe colocarse en un punto lógico.  
+\- Si existe un anuncio, debe aportar información sin duplicar mensajes.
+
+Esto requiere algo más que añadir un atributo ARIA. Requiere **solvencia técnica en accesibilidad** para entender qué información ha dejado de proporcionar el navegador y cómo recuperarla sin generar problemas nuevos.
+
+---
+
+### La solución no debería depender del framework
+
+Cada framework tiene su propio router, eventos y ciclo de renderizado. Si construimos la solución alrededor de una API concreta, será difícil trasladarla a otro proyecto.
+
+Prefiero pensar en un contrato común:
+
+1. Detectar cuándo ha terminado realmente el cambio de ruta.  
+2. Esperar a que la nueva vista esté renderizada.  
+3. Actualizar el título del documento.  
+4. Encontrar el encabezado principal o el contenido principal.  
+5. Restaurar el foco en ese punto.  
+6. Anunciar el cambio solo cuando sea necesario.
+
+El router nos dice **cuándo** actuar. La lógica accesible decide **qué debe ocurrir después**.
+
+Ese reparto permite utilizar la misma estrategia en cualquier SPA, aunque cambie la forma de detectar el final de la navegación.
+
+---
+
+### Restaurar el contexto después de cambiar de ruta
+
+La función principal puede ser completamente independiente del framework:
+
+```js
+function restoreNavigationContext() {
+  const main = document.querySelector('main');
+  const heading = main?.querySelector('h1');
+  const destination = heading || main;
+
+  if (!destination) {
+    return;
+  }
+
+  destination.setAttribute('tabindex', '-1');
+  destination.focus({ preventScroll: true });
+  destination.scrollIntoView({ block: 'start' });
+}
+```
+
+Después, cada aplicación debe ejecutar esta función cuando su router confirme que la vista nueva ya está disponible.
+
+Mi primera opción es colocar el foco en el `h1`. De esta manera, el usuario recibe directamente el nombre del destino. Si no existe, utilizo el `main` como alternativa.
+
+El `tabindex="-1"` permite enfocar estos elementos desde JavaScript sin introducirlos en el recorrido normal de tabulación.
+
+No aplicaría esta lógica durante la carga inicial. En ese momento el navegador ya está gestionando una navegación completa. Solo necesitamos intervenir en los cambios de ruta realizados dentro del mismo documento.
+
+---
+
+### El título también forma parte de la accesibilidad
+
+El `<title>` no sirve únicamente para SEO o para mostrar un texto en la pestaña del navegador.
+
+También ayuda a confirmar dónde estamos.
+
+En una SPA debemos asegurarnos de que el título cambia junto con la vista. Mantener siempre el nombre genérico de la aplicación hace que páginas diferentes resulten difíciles de distinguir para quien depende de esa información.
+
+La regla que intento mantener es sencilla:
+
+> URL, `<title>` y `h1` deben describir el mismo destino.
+
+No tienen que repetir exactamente el mismo texto, pero sí contar la misma historia.
+
+---
+
+### `aria-live` no debería ser la primera respuesta
+
+Otra solución habitual es crear una región `aria-live` y anunciar “Página cargada” cada vez que cambia la ruta.
+
+Puede funcionar, pero no siempre es la mejor opción.
+
+Si movemos el foco a un `h1` descriptivo, el lector de pantalla ya comunica el destino. Añadir al mismo tiempo otro anuncio puede hacer que la información se repita o que la experiencia resulte demasiado ruidosa.
+
+Utilizaría una región viva cuando las pruebas demuestren que el cambio sigue sin quedar claro, o cuando el contenido se actualice dentro de la misma vista y mover el foco no tenga sentido.
+
+La pregunta no es “¿puedo anunciarlo?”, sino “¿qué necesita saber el usuario en este momento?”.
+
+---
+
+### Tampoco movería el foco siempre al mismo sitio
+
+Mandar el foco al inicio de la página después de cualquier cambio puede parecer una solución segura, pero también puede romper la experiencia.
+
+No todos los cambios dentro de una SPA son una navegación completa.
+
+Por ejemplo:
+
+\- Al abrir un modal, el foco debe entrar en el modal.  
+\- Al cerrarlo, debe volver al elemento que lo abrió.  
+\- Tras enviar un formulario con errores, debería dirigirse al resumen o al primer error relevante.  
+\- Al aplicar un filtro, quizá baste con anunciar el número de resultados.  
+\- Al cambiar realmente de ruta, sí tiene sentido llevarlo al encabezado de la nueva vista.
+
+La solución técnica empieza por distinguir esos escenarios. Si tratamos cualquier actualización como una página nueva, terminaremos moviendo el foco sin criterio.
+
+---
+
+### Una responsabilidad transversal
+
+En aplicaciones grandes, repartir esta lógica entre páginas y componentes suele acabar mal.
+
+Un equipo mueve el foco al `main`, otro utiliza `aria-live`, otro actualiza el título y otro confía en que el framework lo resuelva automáticamente.
+
+El resultado es una experiencia diferente según la zona de la aplicación.
+
+La navegación debería resolverse desde una capa común, cerca del router o del contenedor principal. Los componentes seguirán gestionando sus interacciones internas, pero el cambio global de vista tendrá un único comportamiento.
+
+Esto también facilita las pruebas y evita anuncios duplicados, listeners repetidos o movimientos de foco que compiten entre sí.
+
+---
+
+### Cómo compruebo que realmente funciona
+
+No considero resuelto el problema porque el foco aparezca correctamente en DevTools.
+
+Lo pruebo como lo utilizaría una persona:
+
+1. Entro en la aplicación mediante una carga completa.  
+2. Navego únicamente con teclado.  
+3. Activo un enlace gestionado por el router.  
+4. Compruebo qué anuncia el lector de pantalla.  
+5. Pulso `Tab` y reviso desde dónde continúa el recorrido.  
+6. Utilizo los botones atrás y adelante del navegador.  
+7. Repito el flujo en vistas con estructuras diferentes.  
+8. Verifico que no haya mensajes o movimientos de foco duplicados.
+
+Las herramientas automáticas pueden detectar parte de la semántica, pero no explican si el cambio de contexto se entiende. Para eso hay que recorrer el flujo completo.
+
+---
+
+### Mi criterio para resolverlo
+
+Después de encontrarme con este problema, aplicaría este orden:
+
+1. Aprovechar el comportamiento nativo cuando exista navegación tradicional.  
+2. En una SPA, definir una estrategia común para los cambios de ruta.  
+3. Mantener sincronizados URL, título y encabezado principal.  
+4. Restaurar el foco únicamente cuando exista un cambio real de vista.  
+5. Utilizar `aria-live` cuando aporte contexto, no por defecto.  
+6. Probar el resultado con teclado y lector de pantalla.  
+7. Documentar el comportamiento para que todo el equipo lo aplique igual.
+
+No se trata de rechazar las SPA. Se trata de asumir que, al sustituir la navegación tradicional, también estamos sustituyendo parte del comportamiento accesible que el navegador proporcionaba gratuitamente.
+
+---
+
+### Conclusión
+
+Yo detecté este problema trabajando con Liferay 7.4, pero podría haberme ocurrido en cualquier aplicación con navegación SPA.
+
+La vista cambia, la URL cambia y todo parece más rápido. Aun así, si el usuario no recibe el nuevo título, el foco permanece en el contexto anterior o el cambio no se anuncia correctamente, la navegación está incompleta.
+
+Resolverlo bien requiere conocer el router, el ciclo de renderizado y, sobre todo, entender cómo se orientan las personas que utilizan teclado o tecnologías de asistencia.
+
+No es un parche de ARIA.
+
+Es una decisión de arquitectura frontend con impacto directo en accesibilidad.

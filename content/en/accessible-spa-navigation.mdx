@@ -1,0 +1,251 @@
+---
+slug: accessible-spa-navigation
+title: "When an SPA changes pages without telling you"
+excerpt: "I ran into this while working with Liferay 7.4 and its SPA option enabled, but the issue can appear in any application with client-side navigation: the view changes, while not everyone receives the new context."
+date: "2026-08-24"
+minutes: 8
+tags:
+  - Accessibility
+  - Frontend
+  - SPA
+  - Architecture
+  - UX
+collaborator:
+  name: "Marco Romero"
+  linkedin: "https://www.linkedin.com/in/marcorm91/"
+  avatar: "/assets/images/profile.png"
+coverGradient: "from-slate-950 via-blue-800 to-cyan-500"
+coverAlt: "A view changing in an SPA while preserving accessible context"
+locale: en
+---
+
+I came across this problem while working in a **Liferay 7.4 environment with the SPA option enabled**.
+
+Everything seemed to work when moving between pages. The URL changed, the new content appeared and the transition was quick. Visually, there was nothing particularly unusual.
+
+The problem became clear when I tested the navigation with a keyboard and a screen reader.
+
+The view had changed, but focus could remain on the link that had just been activated. The screen reader did not always communicate the new destination and, when the user continued with `Tab`, they could end up somewhere that no longer had anything to do with what was now on screen.
+
+Although I found it in Liferay, **this is not a Liferay-specific problem**. It can happen in any application or framework that uses SPA navigation: React, Angular, Vue, Next.js or a custom solution.
+
+The technology changes. The underlying problem is the same.
+
+---
+
+### What the browser does during traditional navigation
+
+With traditional navigation, activating a link loads a new document.
+
+The browser takes care of several things we normally take for granted:
+
+\- It builds a new DOM.  
+\- It updates the document title.  
+\- It places the user in a new context.  
+\- It allows assistive technologies to detect the page change.  
+\- It keeps the navigation in the browser history.
+
+We do not have to program this behaviour. It is part of the web platform.
+
+That is why traditional navigation is usually quite predictable: the browser knows that we have left one page and entered another.
+
+---
+
+### What changes in an SPA
+
+An SPA does not always load a new document.
+
+JavaScript intercepts the navigation, updates the URL and replaces part of the content. For someone looking at the screen, the result feels very much like a page change.
+
+For the browser, however, we are still inside the same document.
+
+That is where the difference appears.
+
+If we do nothing else, situations like these can occur:
+
+\- Focus remains on an element that no longer exists or has changed.  
+\- The title no longer represents the current view.  
+\- The screen reader does not announce the new destination.  
+\- The next `Tab` starts from an unexpected position.  
+\- The user knows they activated something, but not whether the navigation has finished.
+
+The application has changed visually, but it has not communicated that change accessibly.
+
+---
+
+### It is not just a focus bug
+
+At first, it is easy to treat this as a small issue: “move focus and we are done.”
+
+But focus is only one part of the problem.
+
+Accessible navigation requires several signals to work together:
+
+\- The URL must represent the current destination.  
+\- The `<title>` must identify the new view.  
+\- The main content needs a clear structure.  
+\- The `h1` must describe where the user has arrived.  
+\- Focus must move to a logical place.  
+\- If there is an announcement, it must provide information without repeating messages.
+
+This takes more than adding an ARIA attribute. It requires **strong technical accessibility knowledge** to understand what information the browser has stopped providing and how to restore it without introducing new problems.
+
+---
+
+### The solution should not depend on the framework
+
+Every framework has its own router, events and rendering lifecycle. If we build the solution around one specific API, moving it to another project becomes difficult.
+
+I prefer to think in terms of a shared contract:
+
+1. Detect when the route change has actually finished.  
+2. Wait until the new view has rendered.  
+3. Update the document title.  
+4. Find the main heading or main content.  
+5. Restore focus to that point.  
+6. Announce the change only when necessary.
+
+The router tells us **when** to act. The accessibility logic decides **what should happen next**.
+
+This separation lets us use the same strategy in any SPA, even when the way we detect the end of navigation changes.
+
+---
+
+### Restoring context after a route change
+
+The main function can be completely independent of the framework:
+
+```js
+function restoreNavigationContext() {
+  const main = document.querySelector('main');
+  const heading = main?.querySelector('h1');
+  const destination = heading || main;
+
+  if (!destination) {
+    return;
+  }
+
+  destination.setAttribute('tabindex', '-1');
+  destination.focus({ preventScroll: true });
+  destination.scrollIntoView({ block: 'start' });
+}
+```
+
+Each application should then run this function when its router confirms that the new view is available.
+
+My first choice is to place focus on the `h1`. This gives the user the name of the destination immediately. If there is no heading, I use `main` as a fallback.
+
+The `tabindex="-1"` allows these elements to receive focus programmatically without adding them to the normal tab order.
+
+I would not apply this logic during the initial load. At that point, the browser is already handling a full navigation. We only need to intervene in route changes made within the same document.
+
+---
+
+### The title is part of accessibility too
+
+The `<title>` is not only for SEO or for displaying text in the browser tab.
+
+It also helps confirm where we are.
+
+In an SPA, we need to make sure the title changes with the view. Keeping the generic application name everywhere makes different pages harder to distinguish for anyone who relies on that information.
+
+The rule I try to follow is simple:
+
+> The URL, `<title>` and `h1` should describe the same destination.
+
+They do not have to use exactly the same words, but they should tell the same story.
+
+---
+
+### `aria-live` should not be the first answer
+
+Another common solution is to create an `aria-live` region and announce “Page loaded” every time the route changes.
+
+It can work, but it is not always the best option.
+
+If we move focus to a descriptive `h1`, the screen reader already communicates the destination. Adding another announcement at the same time can repeat the information or make the experience unnecessarily noisy.
+
+I would use a live region when testing shows that the change is still unclear, or when content updates within the same view and moving focus would not make sense.
+
+The question is not “can I announce this?” but “what does the user need to know right now?”
+
+---
+
+### I would not always move focus to the same place either
+
+Sending focus to the start of the page after every change may seem safe, but it can also break the experience.
+
+Not every change inside an SPA is a full navigation.
+
+For example:
+
+\- When a modal opens, focus should move into the modal.  
+\- When it closes, focus should return to the element that opened it.  
+\- After submitting a form with errors, focus should move to the summary or the first relevant error.  
+\- When applying a filter, announcing the number of results may be enough.  
+\- When the route actually changes, moving focus to the heading of the new view does make sense.
+
+The technical solution starts by distinguishing these scenarios. If we treat every update as a new page, we will end up moving focus without a clear reason.
+
+---
+
+### A cross-cutting responsibility
+
+In large applications, spreading this logic across pages and components usually ends badly.
+
+One team moves focus to `main`, another uses `aria-live`, another updates the title and another trusts the framework to handle everything automatically.
+
+The result is a different experience depending on where the user is in the application.
+
+Navigation should be handled from a shared layer close to the router or the main application shell. Components remain responsible for their internal interactions, but a global view change follows one consistent behaviour.
+
+This also makes testing easier and prevents duplicated announcements, repeated listeners or competing focus changes.
+
+---
+
+### How I check that it actually works
+
+I do not consider the problem solved just because focus looks correct in DevTools.
+
+I test it as a person would actually use it:
+
+1. Enter the application through a full page load.  
+2. Navigate using only the keyboard.  
+3. Activate a link handled by the router.  
+4. Check what the screen reader announces.  
+5. Press `Tab` and review where the navigation continues.  
+6. Use the browser's back and forward buttons.  
+7. Repeat the flow in views with different structures.  
+8. Make sure there are no duplicated messages or focus movements.
+
+Automated tools can detect some semantic problems, but they cannot tell us whether the change of context makes sense. For that, we need to go through the complete flow.
+
+---
+
+### My approach to solving it
+
+After running into this problem, this is the order I would follow:
+
+1. Use native browser behaviour whenever traditional navigation is already available.  
+2. In an SPA, define one shared strategy for route changes.  
+3. Keep the URL, title and main heading in sync.  
+4. Restore focus only when there is a genuine view change.  
+5. Use `aria-live` when it adds context, not by default.  
+6. Test the result with a keyboard and screen reader.  
+7. Document the behaviour so that the whole team applies it consistently.
+
+This is not about rejecting SPAs. It is about understanding that, when we replace traditional navigation, we also replace some of the accessible behaviour that the browser previously gave us for free.
+
+---
+
+### Conclusion
+
+I found this problem while working with Liferay 7.4, but I could have come across it in any application with SPA navigation.
+
+The view changes, the URL changes and everything feels faster. Even so, if the user does not receive the new title, focus remains in the previous context or the change is not communicated properly, the navigation is incomplete.
+
+Solving it well requires understanding the router, the rendering lifecycle and, above all, how people who use a keyboard or assistive technology orient themselves.
+
+It is not an ARIA patch.
+
+It is a frontend architecture decision with a direct impact on accessibility.
