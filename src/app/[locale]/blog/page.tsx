@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Articles from "../articles/Articles";
 import translations from "@/utils/language";
 import { getAllArticles } from "@/lib/mdxArticles";
+import { localizedAlternates } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -14,6 +15,7 @@ export async function generateMetadata({
   return {
     title: t.general.titles.articles,
     description: t.general.descriptions.articles,
+    alternates: localizedAlternates(locale, "/blog"),
   };
 }
 

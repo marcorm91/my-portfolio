@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Home from "./Home";
 import translations from "@/utils/language";
+import { localizedAlternates } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -13,6 +14,7 @@ export async function generateMetadata({
   return {
     title: t.general.titles.home,
     description: t.general.descriptions.home,
+    alternates: localizedAlternates(locale),
   };
 }
 
