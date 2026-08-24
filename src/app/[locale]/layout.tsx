@@ -10,13 +10,29 @@ import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/next';
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://marcorm.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Marco Romero - Desarrollador Web",
   description: "Portafolio personal y blog de desarrollo front-end y accesibilidad.",
   other: {
     "google-site-verification": "OAUcRQJVTgB7GenU6ok0VIK3XmOTilkiCmuHHM4NbNY",
   },
 };
+
+const themeInitializer = `
+  try {
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme =
+      storedTheme === "dark" || (!storedTheme && prefersDark) ? "dark" : "light";
+  } catch {
+    document.documentElement.dataset.theme = "light";
+  }
+`;
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
@@ -42,6 +58,9 @@ export default async function RootLayout({
 
   return (
     <html lang={validLocale} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitializer }} />
+      </head>
       <body className={`${ibmPlexMono.variable} ${ibmPlexSans.variable} dark:bg-gray-900 bg-white dark:text-white text-gray-800 transition-all duration-200`}>
         <TranslationsProvider locale={validLocale}>
           <ThemeProvider>
