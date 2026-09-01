@@ -56,6 +56,23 @@ const es = {
     projects: {
       title: "Proyectos",
       items: {
+        focustrace: {
+          category: "Accesibilidad · Herramienta para desarrollo",
+          title: "FocusTrace",
+          description:
+            "Extensión de navegador local-first para auditar accesibilidad web y depurar el comportamiento del foco en interfaces reales. Combina comprobaciones orientadas a WCAG 2.2 con trazado en tiempo de ejecución de navegación por teclado, transiciones SPA, diálogos y cambios dinámicos de UI.",
+          highlights: [
+            "Análisis de páginas completas y componentes con referencias a WCAG 2.2.",
+            "Runtime Trace para navegación por teclado, movimiento del foco y comportamiento dinámico de la interfaz.",
+            "Arquitectura local-first con historial local opcional y sin pipeline de analítica.",
+          ],
+          cta: {
+            label: "Ver en GitHub",
+            href: "https://github.com/marcorm91/focus-trace",
+          },
+          tags: ["React", "TypeScript", "WXT", "WCAG 2.2"],
+          badge: "Open source",
+        },
         pomodoro: {
           category: "Productividad",
           title: "Focus Mode - Pomodoro",
