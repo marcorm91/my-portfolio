@@ -60,7 +60,7 @@ const en = {
           category: "Accessibility · Developer tool",
           title: "FocusTrace",
           description:
-            "A local-first browser extension for auditing web accessibility and debugging focus behavior in real interfaces. It combines WCAG 2.2-oriented checks with runtime tracing for keyboard navigation, SPA transitions, dialogs and dynamic UI changes.",
+            "FocusTrace started with a very specific problem: understanding what happens to focus when an interface gets complicated. I use it to review accessibility, follow keyboard navigation and spot issues in SPAs, dialogs or dynamic updates without sending data outside the browser.",
           highlights: [
             "Full-page and component accessibility analysis with WCAG 2.2 references.",
             "Runtime Trace for keyboard navigation, focus movement and dynamic interface behavior.",
@@ -77,7 +77,7 @@ const en = {
           category: "Productivity",
           title: "Focus Mode - Pomodoro",
           description:
-            "A Pomodoro app for organizing projects and tasks into focus and break intervals. It syncs sessions across devices, tracks streaks and progress statistics, and helps users stay focused in a private, free, ad-free environment.",
+            "Focus Mode is a simple Pomodoro for sitting down, starting a session and getting on with the task at hand. You can organize projects and tasks, keep track of streaks and pick up from another device without ads or unnecessary distractions.",
           highlights: [
             "Focus and break sessions with a simple experience.",
             "A personal account for syncing sessions and progress across devices.",
@@ -94,7 +94,7 @@ const en = {
           category: "Desktop app",
           title: "Fintrack",
           description:
-            "A cross-platform app for managing personal finances clearly and privately. It lets users track income, expenses, savings, and investments; review monthly and yearly comparisons; and import, export, and back up their data.",
+            "Fintrack is built to keep personal finances in one place and make it easy to see how each month is going. It covers income, expenses, savings and investments, lets you compare periods and keeps your data easy to export or back up whenever you need it.",
           highlights: [
             "Monthly/yearly tracking for income, expenses, balance, and history.",
             "CSV or pasted-text import, plus JSON export and backups.",
