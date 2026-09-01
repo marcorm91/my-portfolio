@@ -44,7 +44,7 @@ export default function HomeClient() {
             className="bg-black dark:bg-white py-2 px-4 rounded-sm shadow-lg motion-safe:animate-fade-in-delay motion-reduce:animate-none mb-6 min-w-72 md:min-w-96 flex justify-start text-xs md:text-base"
             aria-hidden="true"
           >
-            <span className="text-white dark:text-black pr-2">C:\Users\marco&gt;</span>
+            <span className="text-white dark:text-black pr-2">C:\\Users\\marco&gt;</span>
             <span className="sr-only">Command: make directory my-portfolio</span>
             <span className="typing-effect text-white dark:text-black w-[135px] md:w-[185px]">
               mkdir my-portfolio
@@ -89,12 +89,14 @@ export default function HomeClient() {
         <div className="flex items-center justify-between gap-3 mb-4">
           <h3 className="text-xl md:text-2xl font-semibold">{t.home.projects.title}</h3>
         </div>
-        
+
         <div className="grid gap-5 md:grid-cols-2">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <article
               key={project.title}
-              className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col gap-4"
+              className={`rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col gap-4 ${
+                index === 0 ? "md:col-span-2" : ""
+              }`}
             >
               <div className="space-y-3">
                 <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
