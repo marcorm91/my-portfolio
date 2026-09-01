@@ -11,7 +11,11 @@ export default function HomeClient() {
   const currentLocale = params?.locale === "en" ? "en" : "es";
   const cvHref = currentLocale === "en" ? "/cv/english_cv.pdf" : "/cv/spanish_cv.pdf";
 
-  const projects = [t.home.projects.items.fintrack, t.home.projects.items.pomodoro];
+  const projects = [
+    t.home.projects.items.focustrace,
+    t.home.projects.items.fintrack,
+    t.home.projects.items.pomodoro,
+  ];
 
   return (
     <>
