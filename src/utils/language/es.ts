@@ -60,7 +60,7 @@ const es = {
           category: "Accesibilidad · Herramienta para desarrollo",
           title: "FocusTrace",
           description:
-            "Extensión de navegador local-first para auditar accesibilidad web y depurar el comportamiento del foco en interfaces reales. Combina comprobaciones orientadas a WCAG 2.2 con trazado en tiempo de ejecución de navegación por teclado, transiciones SPA, diálogos y cambios dinámicos de UI.",
+            "FocusTrace nació de un problema muy concreto: entender qué pasa con el foco cuando una interfaz empieza a complicarse. Con ella puedo revisar accesibilidad, seguir la navegación con teclado y detectar problemas en SPAs, diálogos o cambios dinámicos sin sacar datos del navegador.",
           highlights: [
             "Análisis de páginas completas y componentes con referencias a WCAG 2.2.",
             "Runtime Trace para navegación por teclado, movimiento del foco y comportamiento dinámico de la interfaz.",
@@ -77,7 +77,7 @@ const es = {
           category: "Productividad",
           title: "Focus Mode - Pomodoro",
           description:
-            "Aplicación Pomodoro para organizar proyectos y tareas en bloques de concentración y descanso. Permite sincronizar sesiones entre dispositivos, consultar rachas y estadísticas de progreso y mantener el foco en un entorno privado, gratuito y sin anuncios.",
+            "Focus Mode es un Pomodoro sencillo para sentarte, empezar una sesión y centrarte en lo que toca. Puedes organizar proyectos y tareas, llevar tus rachas y continuar desde distintos dispositivos sin anuncios ni ruido innecesario.",
           highlights: [
             "Sesiones de foco y descanso con una experiencia simple.",
             "Cuenta personal para sincronizar sesiones y progreso entre dispositivos.",
@@ -94,7 +94,7 @@ const es = {
           category: "App de escritorio",
           title: "Fintrack",
           description:
-            "Aplicación multiplataforma para gestionar las finanzas personales de forma clara y privada. Permite controlar ingresos, gastos, ahorro e inversiones, consultar comparativas mensuales y anuales, e importar, exportar y respaldar los datos.",
+            "Fintrack está pensada para tener las finanzas personales en un único sitio y entender de un vistazo cómo va cada mes. Permite llevar ingresos, gastos, ahorro e inversiones, comparar periodos y guardar o mover tus datos cuando lo necesites.",
           highlights: [
             "Control mensual/anual de ingresos, gastos, saldo e histórico.",
             "Importación desde CSV o texto pegado, con exportación y backup JSON.",
