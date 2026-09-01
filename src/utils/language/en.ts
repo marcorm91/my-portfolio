@@ -56,6 +56,23 @@ const en = {
     projects: {
       title: "Projects",
       items: {
+        focustrace: {
+          category: "Accessibility · Developer tool",
+          title: "FocusTrace",
+          description:
+            "A local-first browser extension for auditing web accessibility and debugging focus behavior in real interfaces. It combines WCAG 2.2-oriented checks with runtime tracing for keyboard navigation, SPA transitions, dialogs and dynamic UI changes.",
+          highlights: [
+            "Full-page and component accessibility analysis with WCAG 2.2 references.",
+            "Runtime Trace for keyboard navigation, focus movement and dynamic interface behavior.",
+            "Local-first architecture with optional local history and no analytics pipeline.",
+          ],
+          cta: {
+            label: "View on GitHub",
+            href: "https://github.com/marcorm91/focus-trace",
+          },
+          tags: ["React", "TypeScript", "WXT", "WCAG 2.2"],
+          badge: "Open source",
+        },
         pomodoro: {
           category: "Productivity",
           title: "Focus Mode - Pomodoro",
