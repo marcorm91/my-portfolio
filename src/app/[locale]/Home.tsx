@@ -85,18 +85,16 @@ export default function HomeClient() {
         </article>
       </section>
 
-      <section className="w-full max-w-5xl mx-auto mt-6 md:mt-12 px-4">
+      <section className="w-full max-w-7xl mx-auto mt-6 md:mt-12 px-4">
         <div className="flex items-center justify-between gap-3 mb-4">
           <h3 className="text-xl md:text-2xl font-semibold">{t.home.projects.title}</h3>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          {projects.map((project, index) => (
+        <div className="grid gap-5 lg:grid-cols-3">
+          {projects.map((project) => (
             <article
               key={project.title}
-              className={`rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col gap-4 ${
-                index === 0 ? "md:col-span-2" : ""
-              }`}
+              className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm p-5 md:p-6 flex flex-col gap-4"
             >
               <div className="space-y-3">
                 <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
