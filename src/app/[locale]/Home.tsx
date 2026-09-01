@@ -101,7 +101,7 @@ export default function HomeClient() {
                   {project.category}
                 </p>
                 <h4 className="text-2xl font-bold">{project.title}</h4>
-                <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
+                <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
                   {project.description}
                 </p>
               </div>
