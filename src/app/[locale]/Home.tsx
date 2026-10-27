@@ -14,7 +14,6 @@ export default function HomeClient() {
   const projects = [
     t.home.projects.items.focustrace,
     t.home.projects.items.fintrack,
-    t.home.projects.items.pomodoro,
   ];
 
   return (
@@ -90,7 +89,7 @@ export default function HomeClient() {
           <h3 className="text-xl md:text-2xl font-semibold">{t.home.projects.title}</h3>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-5 lg:grid-cols-2">
           {projects.map((project) => (
             <article
               key={project.title}
